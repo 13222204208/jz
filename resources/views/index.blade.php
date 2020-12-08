@@ -136,20 +136,32 @@
 
           <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu" lay-filter="layadmin-system-side-menu">
 
-            {{-- <li data-name="home" class="layui-nav-item ">
-              <a href="javascript:;" lay-tips="数据统计" lay-direction="2">
-                <i class="layui-icon layui-icon-home"></i>
-                <cite>数据统计</cite>
+            <li data-name="user" class="layui-nav-item">
+              <a href="javascript:;" lay-tips="用户管理" lay-direction="2">
+                <i class="layui-icon layui-icon-user"></i>
+                <cite>用户管理</cite>
               </a>
-
               <dl class="layui-nav-child">
-
-                <dd data-name="console">
-                  <a lay-href="home/homepage">数据统计</a>
+                <dd>
+                  <a lay-href="user/user-list">用户列表</a>
                 </dd>
+                <dd>
+                  <a lay-href="user/account-operation">账号操作</a>
+                </dd>
+          
               </dl>
-              
-            </li> --}}
+            </li>
+
+            <li data-name="template" class="layui-nav-item">
+              <a href="javascript:;" lay-tips="产品管理" lay-direction="2">
+                <i class="layui-icon layui-icon-app"></i>
+                <cite>产品管理</cite>
+              </a>
+              <dl class="layui-nav-child">
+                <dd><a lay-href="record/betting-records">产品库</a></dd>
+                <dd><a lay-href="record/login-record">套餐产品</a></dd>
+              </dl>
+            </li>
             
 
       
@@ -161,7 +173,8 @@
               </a>
               <dl class="layui-nav-child">
                 <dd><a lay-href="content/rotation-chart">轮播图</a></dd>
-            {{--      <dd><a lay-href="branch/list">部门列表</a></dd>  --}}
+                <dd><a lay-href="content/rotation">客户美图</a></dd>
+
               </dl>
             </li>
 

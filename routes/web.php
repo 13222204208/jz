@@ -21,6 +21,10 @@ Route::get('login', function () {//登陆
     return view('login.login');
 });
 
+Route::get('user/upassword', function () {
+    return view('user.upassword');
+});
+Route::post('user/set/mypass','Login\LoginController@setMypass');//修改登陆密码
 //后台退出
 Route::get('logout', function (Illuminate\Http\Request $request) {
     $request->session()->flush();

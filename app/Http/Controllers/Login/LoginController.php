@@ -56,11 +56,11 @@ class loginController extends Controller
     public function setMypass(Request $request)
     {
         if (session('id')) {
-            $user = User::find(session('id'));
-            if (!$user || decrypt($user->password) != $request->oldPassword) {
+            $user = User::find(session('id')); 
+            if (!$user || !Hash::check($request->oldPassword,$user->password) || $user->password  != $request->repassword) {
                 return response()->json(['status'=>403]);
             }
-            $user->password = encrypt($request->password);
+            $user->password = bcrypt($request->password);
             $state = $user->save();
             if ($state) {
                 return response()->json(['status'=>200]); 
