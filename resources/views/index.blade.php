@@ -158,8 +158,8 @@
                 <cite>产品管理</cite>
               </a>
               <dl class="layui-nav-child">
-                <dd><a lay-href="record/betting-records">产品库</a></dd>
-                <dd><a lay-href="record/login-record">套餐产品</a></dd>
+                <dd><a lay-href="goods/list">产品库</a></dd>
+                <dd><a lay-href="goods/group">套餐产品</a></dd>
               </dl>
             </li>
             

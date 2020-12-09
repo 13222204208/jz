@@ -46,21 +46,31 @@ Route::prefix('content')->group(function () {
     Route::get('query/rotation/list','Content\RotationChartController@queryRotationList');//轮播列表
     Route::post('del/rotation/chart','Content\RotationChartController@delRotationChart');//删除一个轮播图
     Route::post('update/rotation/chart','Content\RotationChartController@updateRotationChart');//更新一个轮播图
-
-    //跑马灯
-    Route::get('running-horse-lamp', function () {
-        return view('content.running-horse-lamp');
-    })->middleware('adminLogin');
-
-    Route::post('create/running/horse','Content\RunningHorseLampController@createRunHorse');//创建跑马灯
-    Route::get('query/running/horse','Content\RunningHorseLampController@queryRunHorse');//查看跑马灯列表
-
-    //赞助
-    Route::get('support', function () {
-        return view('content.support');
-    })->middleware('adminLogin');
-    Route::post('create/support','Content\SupportController@createSupport');//新建赞助
-    Route::get('query/support','Content\SupportController@querySupport');//查看赞助
-    Route::post('update/support','Content\SupportController@updateSupport');//更新赞助
-    Route::post('del/support','Content\SupportController@delSupport');//更新赞助
 });
+
+
+
+Route::prefix('goods')->group(function () {
+
+    Route::get('list', function () {
+        return view('goods.goods');//产品列表
+    });
+
+    Route::get('create', function () {
+        return view('goods.create-goods');//产品
+    });
+
+    Route::resource('goods', 'Goods\GoodsController');//产品
+
+    Route::post('upload/imgs','UploadController@uploadImgs');//上传图片
+    Route::post('content/img','UploadController@contentImg');//上传商品详情图片
+
+    Route::get('group', function () {
+        return view('goods.goods-group');//产品组合
+    });
+
+    Route::get('addgroup', function () {
+        return view('goods.addgroup');//产品组合
+    });
+});
+

@@ -32,4 +32,28 @@ class UploadController extends Controller
         }
 
     }
+
+    public function uploadImgs(Request  $request)
+    {
+        $namePath= $this->uploadImg($request->file('file'),'goodsImg');
+        
+        if ($namePath) {
+            $data['src'] = $namePath;
+            return response()->json([ 'code' => 0 ,'msg'=>'','data' =>$data]);
+        } else {
+            return response()->json([ 'code' => 403]);
+        }   
+    }
+
+    public function contentImg(Request  $request)
+    {
+        $namePath= $this->uploadImg($request->file('file'),'goods');
+        $d = pathinfo($namePath);
+        if ($namePath) {
+            $data['src'] = $d['basename'];
+            return response()->json([ 'code' => 0 ,'msg'=>'','data' =>$data]);
+        } else {
+            return response()->json([ 'code' => 403]);
+        }   
+    }
 }
