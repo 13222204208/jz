@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersTable extends Migration
+class PackageBetweenGoods extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {//后台用户表
+        Schema::create('package_between_goods', function (Blueprint $table) {//套餐和商品的中间表
             $table->id();
-            $table->string('username')->unique();
-            $table->string('password');
-            $table->string('role')->nullable();
-            $table->string('name')->nullable();
+            $table->unsignedInteger('goods_package_id')->comment('套餐id');
+            $table->unsignedInteger('goods_id')->comment('商品id');
+
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        //
     }
 }

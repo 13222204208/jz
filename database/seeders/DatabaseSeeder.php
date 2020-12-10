@@ -21,6 +21,13 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('12345678'),
             'created_at' => '2020-11-18 16:19:51',
             'updated_at' => '2020-11-18 18:19:51'
+        ]);   
+
+        DB::table('userinfo')->insert([
+            'username'=>'yangpanda',
+            'password' => bcrypt('123456'),
+            'wx_id' => '13222204209',
+            'phone' => '13222204209'
         ]);    
     }
 }

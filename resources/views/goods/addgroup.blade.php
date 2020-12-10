@@ -13,24 +13,45 @@
 </head>
 
 <body>
-
-    <div class="demoTable" style="margin: 20px">
-        套餐名称：
+    <div style="margin: 20px">
+          <button class="layui-btn" id="admin-management" data-type="reload">选择产品</button>
+    <form class="layui-form layui-from-pane" required lay-verify="required" >
+    <div class="demoTable" >
+        <br>
         <div class="layui-inline">
-          <input class="layui-input" name="id" id="demoReload" autocomplete="off">
+          <input type="text" class="layui-input" placeholder="套餐名称" name="title"  lay-verify="required"  autocomplete="off">
         </div>
 
-        &nbsp; &nbsp;  &nbsp; &nbsp;     <button class="layui-btn" id="admin-management" data-type="reload">选择产品</button>
+     <input type="hidden" name="goods_id" lay-verify="required" value="" id="goodsId">
       </div>
 
+     <br>      
+      <div class="layui-form-item">
+        <input type="hidden" name="cover" lay-verify="required"  class="image" >
+          <div class="layui-upload" >
+          <button type="button" class="layui-btn" id="test-upload-normal">套餐封面图片上传</button>
+                    <div class="layui-upload-list">
+                      <img class="layui-upload-img" src="" id="test-upload-normal-img" style="width:150px" alt="图片预览">
+                    </div>
+            </div>   
+       </div>
+
+       <table class="layui-hide" id="LAY_table" lay-filter="group"></table>
+       <div class="layui-form-item ">
+        <div class="layui-input-block">
+            <div class="layui-footer" style="left: 0;">
+                <button class="layui-btn" lay-submit="" lay-filter="create">点击保存套餐</button>
+            </div>
+        </div>
+    </div>
+    </form>
+    </div>
 
 
 
-
-    <table class="layui-hide" id="LAY_table" lay-filter="group"></table>
-    <script type="text/html" id="barDemo">
+{{--      <script type="text/html" id="barDemo">
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-      </script>
+      </script>  --}}
 
       <div class="layui-row" id="popUpdateTest" style="display:none;">
         
@@ -53,6 +74,51 @@
             var form = layui.form;
             upload = layui.upload;
            
+                 
+                  //套餐封面图片上传
+      var uploadInst = upload.render({
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        elem: '#test-upload-normal',
+        accept:'images',
+        size:3000,
+        url: 'content/img',
+        before: function(obj) {      
+          //预读本地文件示例，不支持ie8
+          obj.preview(function(index, file, result) {
+            $('#test-upload-normal-img').attr('src', result); //图片链接（base64）
+          });
+        },
+        done: function(res) {
+          if (res.code == 0) { 
+            var img_url=res.data.src;
+            $(" input[ name='cover' ] ").val(img_url);
+            return layer.msg('图片上传成功',{
+                offset: '15px',
+                icon: 1,
+                time: 2000
+              });            
+          }
+          //如果上传失败
+          if (res.code == 403) {
+            return layer.msg('上传失败',{
+                offset: '15px',
+                icon: 2,
+                time: 2000
+              });
+          }
+          //上传成功
+        },
+        error: function(error) {
+          console.log(error);
+          //演示失败状态，并实现重传
+          var demoText = $('#test-upload-demoText');
+          demoText.html('<span style="color: #FF5722;">图片上传失败</span> <a class="layui-btn layui-btn-mini demo-reload">重试</a>');
+          demoText.find('.demo-reload').on('click', function() {
+            uploadInst.upload();
+          });
+        }
+      });
+
 
 
             $(document).on('click', '#admin-management', function () {
@@ -68,8 +134,8 @@
                     url: "goods" //数据接口
                         ,
                     toolbar: '#toolbarDemo',
-                    page: true //开启分页
-                        ,
+                    page: true, //开启分页
+                        
                     elem: '#LAY_table_user',
                     cols: [
                         [
@@ -129,10 +195,17 @@
                    // layer.alert(JSON.stringify(data));
                 break;
                 };
+
+                var gid ="";
+                for (let i=0; i<data.length; i++){
+                    gid += data[i]['id']+",";
+                }
+                
+                $("#goodsId").val(gid);
                 layer.closeAll(); 
                 table.render({
-                    page: true //开启分页
-                        ,
+                    //page: true, //开启分页
+                        
                     elem: '#LAY_table',
                     cols: [
                         [
@@ -163,19 +236,14 @@
                                 title: '单价',
                                 width:150
                           
-                            },{
-                                fixed: 'right',
-                                title: "操作",
-                                align: 'center',
-                                toolbar: '#barDemo'
                             }
                         ]
                     ],
                     data:data,
                     skin: 'line' //表格风格
                     ,even: true
-                    ,page: true //是否显示分页
-                  ,limit: 10 //每页默认显示的数量
+                   // ,page: true //是否显示分页
+                  //,limit: 10 //每页默认显示的数量
     
                 });
     
@@ -183,17 +251,17 @@
 
             //监听提交
             form.on('submit(create)', function (data) {
-                //console.log(data.field);
+                console.log(data.field);
                 $.ajax({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    url: "goods",
+                    url: "group",
                     method: 'POST',
                     data: data.field,
                     dataType: 'json',
                     success: function (res) {
-                        console.log(res); return false;
+                    console.log(res);
                         if (res.status == 200) {
                             layer.msg('创建成功', {
                                 offset: '15px',
@@ -201,7 +269,7 @@
                                 time: 1000
                             }, function () {
                                 $(".layui-laypage-btn").click();
-                                window.location.href = "";
+                                window.location.href = "grouplist";
                                 layer.closeAll();
                              
                   
@@ -221,24 +289,22 @@
             });
 
            
-
+/*
             table.on('tool(group)', function (obj) {
                 var data = obj.data;
-               // console.log(data);return false;
                 if (obj.event === 'del') {
 
                     layer.confirm('真的删除么', function (index) {
                         obj.del();
-                        //关闭弹框
+                  
                         layer.msg("删除成功", {
                             icon: 6
                         });
                         return false;
                     });
                 } 
-
-            });
-
+            });  
+*/
 
 
         })

@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Goods;
 
-use App\Models\Good;
+use App\Models\GoodsPackage;
 use Illuminate\Http\Request;
+use App\Models\PackageBetweenGoods;
 use App\Http\Controllers\Controller;
 
-class GoodsController extends Controller
+class GroupController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +16,11 @@ class GoodsController extends Controller
      */
     public function index(Request $request)
     {
-        $limit= $request->get('limit');
-        $data= Good::paginate($limit);
-        return $data;
+        if($request->ajax()){
+           $limit = $request->get('limit');
+           $data= GoodsPackage::paginate($limit);
+           return $data;
+        }
     }
 
     /**
@@ -27,8 +30,7 @@ class GoodsController extends Controller
      */
     public function create()
     {
-
-        
+        //
     }
 
     /**
@@ -37,28 +39,33 @@ class GoodsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)//保存产品
+    public function store(Request $request)//保存套餐及套餐和产品中间表
     {
-        if($request->ajax()){ 
-            
-            $good = new Good;
-            $good ->title =$request->title;
-            $good->description = $request->description;
-            $good->photo = $request->photo;
-            $good->number = $request->number;
-            $good->price = $request->price;
-            $good->content = $request->content;
-            $good->cover = $request->content;
-            $state= $good->save(); 
+        if($request->ajax()){
+            $goodsPackage = new GoodsPackage;
+            $goodsPackage->title = $request->title;
+            $goodsPackage->cover = $request->cover;
 
+            if($goodsPackage->save()){ 
+                $goodsId= array_filter(explode(',',$request->goods_id));
+                
+                foreach($goodsId as $gid ){
+                    $state = PackageBetweenGoods::create([
+                        'goods_id' => $gid,
+                        'goods_package_id' => $goodsPackage->id
+                    ]);
+                }
+
+                
             if ($state) {
-                 return response()->json([ 'status' => 200]);
- 
-             } else {
- 
-                 return response()->json([ 'status' => 403]);
-             }   
-         }
+                return response()->json([ 'status' => 200]);
+
+            } else {
+
+                return response()->json([ 'status' => 403]);
+            }   
+            }
+        }
     }
 
     /**
@@ -67,9 +74,11 @@ class GoodsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        //
+        $limit = $request->get('limit');
+        $gp = GoodsPackage::find($id)->goods()->paginate($limit);
+        return $gp;
     }
 
     /**
@@ -103,7 +112,7 @@ class GoodsController extends Controller
      */
     public function destroy($id)
     {
-        $state= Good::destroy($id);
+        $state= GoodsPackage::destroy($id);
 
         if ($state) {
             return response()->json([ 'status' => 200]);

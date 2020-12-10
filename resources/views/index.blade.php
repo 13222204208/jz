@@ -143,10 +143,30 @@
               </a>
               <dl class="layui-nav-child">
                 <dd>
-                  <a lay-href="user/user-list">用户列表</a>
+                  <a lay-href="user/userlist">用户列表</a>
                 </dd>
                 <dd>
                   <a lay-href="user/account-operation">账号操作</a>
+                </dd>
+          
+              </dl>
+            </li>
+
+            <li data-name="user" class="layui-nav-item">
+              <a href="javascript:;" lay-tips="后台帐号管理" lay-direction="2">
+                <i class="layui-icon layui-icon-user"></i>
+                <cite>后台帐号管理</cite>
+              </a>
+              <dl class="layui-nav-child">
+                <dd>
+                  <a lay-href="admin/account">后台帐号</a>
+                </dd>
+                <dd>
+                  <a lay-href="admin/role">角色管理</a>
+                </dd>
+
+                <dd>
+                  <a lay-href="admin/power">权限管理</a>
                 </dd>
           
               </dl>
@@ -159,7 +179,7 @@
               </a>
               <dl class="layui-nav-child">
                 <dd><a lay-href="goods/list">产品库</a></dd>
-                <dd><a lay-href="goods/group">套餐产品</a></dd>
+                <dd><a lay-href="goods/grouplist">套餐产品</a></dd>
               </dl>
             </li>
             

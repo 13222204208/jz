@@ -48,6 +48,54 @@ Route::prefix('content')->group(function () {
     Route::post('update/rotation/chart','Content\RotationChartController@updateRotationChart');//更新一个轮播图
 });
 
+Route::prefix('admin')->group(function () {//经纪人管理
+
+    Route::get('account', function () {
+        return view('admin.account');//帐号管理
+    })->name('account');
+
+    Route::post('add/account','Admin\AdminController@addAccount');//添加后台帐号
+    Route::post('have/branch','Admin\AdminController@haveBranch');//选择部门
+
+    Route::post('del/account','Admin\AdminController@delAccount');//删除一个帐号
+    Route::post('update/account','Admin\AdminController@updateAccount');//更新帐号
+
+    Route::get('query/account','Admin\AdminController@queryAccount');//获取所有后台帐号
+    Route::post('add/role','Admin\AdminController@addRole');//添加角色
+    Route::get('query/role','Admin\AdminController@queryRole');//查看所有角色
+
+    Route::get('query/permission','Admin\AdminController@queryPermission');//查看所有权限
+    Route::get('gain/admin/permission/{id}','Admin\AdminController@gainPermission');//查看子权限
+    Route::post('del/permission','Admin\AdminController@delPermission');//删除一个权限
+    Route::post('update/pname','Admin\AdminController@updatePname');//更新权限的名称
+
+
+    Route::post('del/role','Admin\AdminController@delRole');//删除一个角色
+    Route::get('gain/role','Admin\AdminController@gainRole');//获取所有角色
+
+    //Route::post('all/role','Admin\AdminController@addRoleScope');//获取所有角色
+
+    Route::post('have/role','Admin\AdminController@haveRole');//获取当前用户的角色名称
+    Route::post('update/role','Admin\AdminController@updateRole');//更新用户的角色
+
+
+    Route::post('update/permission','Admin\AdminController@updatePermission');//更新角色的权限
+    Route::post('add/power','Admin\AdminController@addPower');//添加权限
+    Route::get('all/permission','Admin\AdminController@allPermission');//获取所有权限名称
+    Route::post('have/permission','Admin\AdminController@havePermission');//获取当前角色的权限名称
+
+    
+    Route::get('power', function () {
+        return view('admin.power');//权限管理
+    })->name('power');
+
+
+
+    Route::get('role', function () {
+        return view('admin.role');//角色管理
+    })->name('role');
+});
+
 
 
 Route::prefix('goods')->group(function () {
@@ -65,12 +113,14 @@ Route::prefix('goods')->group(function () {
     Route::post('upload/imgs','UploadController@uploadImgs');//上传图片
     Route::post('content/img','UploadController@contentImg');//上传商品详情图片
 
-    Route::get('group', function () {
-        return view('goods.goods-group');//产品组合
+    Route::get('grouplist', function () {
+        return view('goods.goods-group');//套餐列表
     });
 
     Route::get('addgroup', function () {
-        return view('goods.addgroup');//产品组合
+        return view('goods.addgroup');//添加套餐
     });
+
+    Route::resource('group', 'Goods\GroupController');//套餐
 });
 

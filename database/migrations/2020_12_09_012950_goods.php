@@ -13,7 +13,7 @@ class Goods extends Migration
      */
     public function up()
     {
-        Schema::create('goods', function (Blueprint $table) {//应用轮播图
+        Schema::create('goods', function (Blueprint $table) {//产品表
             $table->increments('id');
             $table->string('title',200)->default('')->comment('产品名');
             $table->string('description',200)->default('')->comment('描述');
@@ -24,7 +24,7 @@ class Goods extends Migration
             $table->decimal('package_price',11,2)->default(0)->comment('套餐单价');
             $table->integer('sales_volume')->default(0)->comment('真实销售数量（前台展示销量 需要加上虚拟销量');
             $table->integer('fake_sales_volume')->default(1)->comment('虚拟销售数量');
-            $table->text('content')->comment('详情介绍');
+            $table->text('content')->nullable()->comment('详情介绍');
             $table->integer('status')->default(1)->comment('状态  1：上架  2：下架');
             $table->string('delete_time')->default('')->comment('删除时间');
             $table->timestamps();

@@ -20,21 +20,32 @@
 
             <div class="layui-form-item">
                
-                    <input type="text" name="title" required lay-verify="type_name" autocomplete="off"
+                    <input type="text" name="title" lay-verify="required"  autocomplete="off"
                         placeholder="产品名称" value="" class="layui-input">
                
             </div>
 
             <div class="layui-form-item">
-                <input type="text" name="description" required lay-verify="type_name" autocomplete="off"
+                <input type="text" name="description" lay-verify="required"  autocomplete="off"
                     placeholder="产品描述" value="" class="layui-input">
             </div>
 
+           
             <div class="layui-form-item">
-                <input type="hidden" name="photo" class="upload_image_url" >
+            <input type="hidden" name="cover" lay-verify="required"  class="image" >
+              <div class="layui-upload" >
+              <button type="button" class="layui-btn" id="test-upload-normal">产品封面图片上传</button>
+                        <div class="layui-upload-list">
+                          <img class="layui-upload-img" src="" id="test-upload-normal-img" style="width:150px" alt="图片预览">
+                        </div>
+                </div>   
+           </div>
+
+            <div class="layui-form-item">
+                <input type="hidden" name="photo"  lay-verify="required"  class="upload_image_url" >
 
                 <div class="layui-upload">
-                    <button type="button" class="layui-btn" id="test2">产品图片上传</button> 
+                    <button type="button" class="layui-btn" id="test2">产品轮播图片上传</button> 
                     <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
                     预览图：
                     <div class="layui-upload-list" id="demo2"></div>
@@ -43,18 +54,18 @@
             </div>
             
             <div class="layui-form-item">
-                <input type="number" name="number" required lay-verify="type_name" autocomplete="off"
+                <input type="number" name="number" lay-verify="required"  autocomplete="off"
                     placeholder="库存" value="" class="layui-input">
             </div>
 
                         
             <div class="layui-form-item">
-                <input type="number" name="price" required lay-verify="type_name" autocomplete="off"
+                <input type="number" name="price" lay-verify="required"  autocomplete="off"
                     placeholder="单价" value="" class="layui-input">
             </div>
 
             <div class="layui-form-item">   
-              <textarea class="layui-textarea" name="content"   id="LAY_demo1" style="display: none">  
+              <textarea class="layui-textarea" name="content"  lay-verify="required"   id="LAY_demo1" style="display: none">  
                 产品详情介绍
               </textarea>
             </div>  
@@ -71,30 +82,7 @@
         </form>
     </div>
 
-    <div class="layui-row" id="popUpdateTest" style="display:none;">
-        <form class="layui-form layui-from-pane" required lay-verify="required" lay-filter="formUpdate"
-            style="margin:20px">
-
-            <div class="layui-form-item">
-                <label class="layui-form-label">分类名称</label>
-                <div class="layui-input-block">
-                    <input type="text" name="type_name" required lay-verify="type_name" autocomplete="off"
-                        placeholder="请输入分类名称" value="" class="layui-input">
-                </div>
-            </div>
-
-
-
-<br>
-            <div class="layui-form-item ">
-                <div class="layui-input-block">
-                    <div class="layui-footer" style="left: 0;">
-                        <button class="layui-btn" lay-submit="" lay-filter="editAccount">保存</button>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
+  
 
     <table class="layui-hide" id="LAY_table_user" lay-filter="user"></table>
     <script type="text/html" id="barDemo">
@@ -126,6 +114,50 @@
             layedit.build('LAY_demo1'); //建立编辑器
 
          
+                  //产品封面图片上传
+      var uploadInst = upload.render({
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        elem: '#test-upload-normal',
+        accept:'images',
+        size:3000,
+        url: 'upload/imgs',
+        before: function(obj) {      
+          //预读本地文件示例，不支持ie8
+          obj.preview(function(index, file, result) {
+            $('#test-upload-normal-img').attr('src', result); //图片链接（base64）
+          });
+        },
+        done: function(res) {
+          if (res.code == 0) { 
+            var img_url=res.data.src;
+            $(" input[ name='cover' ] ").val(img_url);
+            return layer.msg('图片上传成功',{
+                offset: '15px',
+                icon: 1,
+                time: 2000
+              });            
+          }
+          //如果上传失败
+          if (res.code == 403) {
+            return layer.msg('上传失败',{
+                offset: '15px',
+                icon: 2,
+                time: 2000
+              });
+          }
+          //上传成功
+        },
+        error: function(error) {
+          console.log(error);
+          //演示失败状态，并实现重传
+          var demoText = $('#test-upload-demoText');
+          demoText.html('<span style="color: #FF5722;">图片上传失败</span> <a class="layui-btn layui-btn-mini demo-reload">重试</a>');
+          demoText.find('.demo-reload').on('click', function() {
+            uploadInst.upload();
+          });
+        }
+      });
+
 
               //多图片上传
             upload.render({

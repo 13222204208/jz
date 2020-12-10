@@ -13,7 +13,7 @@ class BgRotationChart extends Migration
      */
     public function up()
     {
-        Schema::create('bg_rotation_chart', function (Blueprint $table) {//应用轮播图
+        Schema::create('bg_rotation_chart', function (Blueprint $table) {//前端banner图
             $table->increments('id');
             $table->string('img_url',200)->default('')->comment('图片链接及路径');
             $table->string('jump_url',200)->default('')->comment('跳转的链接');
