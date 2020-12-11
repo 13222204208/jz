@@ -47,6 +47,7 @@ class GoodsController extends Controller
             $good->photo = $request->photo;
             $good->number = $request->number;
             $good->price = $request->price;
+            $good->package_price = $request->package_price;//套餐单价
             $good->content = $request->content;
             $good->cover = $request->content;
             $state= $good->save(); 

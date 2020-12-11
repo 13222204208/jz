@@ -45,6 +45,7 @@ class GroupController extends Controller
             $goodsPackage = new GoodsPackage;
             $goodsPackage->title = $request->title;
             $goodsPackage->cover = $request->cover;
+            $goodsPackage->package_price = $request->package_price;
 
             if($goodsPackage->save()){ 
                 $goodsId= array_filter(explode(',',$request->goods_id));
@@ -75,10 +76,17 @@ class GroupController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, $id)
-    {
-        $limit = $request->get('limit');
-        $gp = GoodsPackage::find($id)->goods()->paginate($limit);
-        return $gp;
+    { 
+   
+        $gp = GoodsPackage::find($id)->goods()->get();
+                        
+        if ($gp) {
+            return response()->json([ 'status' => 200,'data'=> $gp]);
+
+        } else {
+
+            return response()->json([ 'status' => 403]);
+        }   
     }
 
     /**

@@ -37,15 +37,15 @@
 
     <script src="/layuiadmin/layui/layui.js"></script>
     <script>
-        var layedit;
+       
         layui.use(['table', 'layer','laydate', 'upload','jquery', 'form'], function () {
           
 
          
-            var table = layui.table;
-            var laydate = layui.laydate;
-            var $ = layui.jquery;
-            var form = layui.form;
+             table = layui.table;
+             laydate = layui.laydate;
+             $ = layui.jquery;
+             form = layui.form;
         
 
 
@@ -70,6 +70,10 @@
                         }, {
                             field: 'title',
                             title: '套餐名称',
+                            width:150
+                        },{
+                            field: 'package_price',
+                            title: '套餐价格',
                             width:150
                         }, {
                             field: 'created_at',
@@ -105,70 +109,71 @@
                 console.log(data);
 
                 if (event === 'show') {
-
-                          
+                    $.ajax({
+                        headers: {
+                          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        url: "group"+'/'+id ,
+                        type: 'get',
+                        success: function(msg) {
+                          console.log(msg);
+                          if (msg.status == 200) {
+                            table.render({
+                                elem: '#LAY_tables',
+                                data:msg.data,
+                                cols: [
+                                    [
+                
+                                        {
+                                            field: 'id',
+                                            title: 'ID',
+                                            width: 80,
+                                            sort: true
+                                        }, {
+                                            field: 'title',
+                                            title: '产品名称',
+                                            width:150
+                                        },{
+                                            field: 'description',
+                                            title: '产品描述',
+                                            width:150
+                                        }, {
+                                            field: 'content',
+                                            title: '产品详情',
+                                      
+                                        },{
+                                            field: 'number',
+                                            title: '库存',
+                                            width:150
+                                      
+                                        },{
+                                            field: 'price',
+                                            title: '单价',
+                                            width:150
+                                      
+                                        }
+                                    ]
+                                ]
+                                ,even: true
+                                ,page: true //是否显示分页
+                                //,limits: [5, 7, 10]
+                                ,limit: 10 //每页默认显示的数量   
+                        }); 
+                          } else {
+                            layer.msg("修改失败", {
+                              icon: 5
+                            });
+                          }
+                        }
+                      })
                   layer.open({
                     //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
                     type: 1,
-                    title: "修改名称",
+                    title: "套餐详情",
                     area: ['800px', '600px'],
                         content: $("#showTest") //引用的弹出层的页面层的方式加载修改界面表单
                     });
-
-                    table.render({
-                      url: "group"+'/'+id //数据接口
-                          ,
-                      page: true //开启分页
-                          ,
-                          type:'get',
-                          elem: '#LAY_tables',
-                          cols: [
-                              [
-          
-                                  {
-                                      field: 'id',
-                                      title: 'ID',
-                                      width: 80,
-                                      sort: true
-                                  }, {
-                                      field: 'title',
-                                      title: '产品名称',
-                                      width:150
-                                  },{
-                                      field: 'description',
-                                      title: '产品描述',
-                                      width:150
-                                  }, {
-                                      field: 'content',
-                                      title: '产品详情',
-                                
-                                  },{
-                                      field: 'number',
-                                      title: '库存',
-                                      width:150
-                                
-                                  },{
-                                      field: 'price',
-                                      title: '单价',
-                                      width:150
-                                
-                                  }
-                              ]
-                          ],
-                      parseData: function (res) { //res 即为原始返回的数据
-                          console.log(res);
-                          return {
-                              "code": '0', //解析接口状态
-                              "msg": res.message, //解析提示文本
-                              "count": res.total, //解析数据长度
-                              "data": res.data //解析数据列表
-                          }
-                      },
-                      id: 'testReload',
-                      title: '后台用户',
-                      totalRow: true
-      
-                  });
+         
 
                   } 
         

@@ -18,8 +18,14 @@
     <form class="layui-form layui-from-pane" required lay-verify="required" >
     <div class="demoTable" >
         <br>
-        <div class="layui-inline">
-          <input type="text" class="layui-input" placeholder="套餐名称" name="title"  lay-verify="required"  autocomplete="off">
+
+        <div class="layui-form-item">
+            <input type="text" class="layui-input" placeholder="套餐名称" name="title"  lay-verify="required"  autocomplete="off">
+        </div>
+
+        <div class="layui-form-item">
+            <input type="number" name="package_price" lay-verify="required"  autocomplete="off"
+                placeholder="套餐价" value="" class="layui-input">
         </div>
 
      <input type="hidden" name="goods_id" lay-verify="required" value="" id="goodsId">

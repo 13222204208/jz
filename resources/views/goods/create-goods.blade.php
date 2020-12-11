@@ -64,8 +64,13 @@
                     placeholder="单价" value="" class="layui-input">
             </div>
 
+            <div class="layui-form-item">
+                <input type="number" name="package_price" lay-verify="required"  autocomplete="off"
+                    placeholder="套餐单价" value="" class="layui-input">
+            </div>
+
             <div class="layui-form-item">   
-              <textarea class="layui-textarea" name="content"  lay-verify="required"   id="LAY_demo1" style="display: none">  
+              <textarea class="layui-textarea" name="content"  lay-verify="content"   id="LAY_demo1" style="display: none">  
                 产品详情介绍
               </textarea>
             </div>  
@@ -96,7 +101,7 @@
     
         layui.use(['table', 'layer','laydate', 'upload','jquery', 'form','layedit'], function () {
           
-            var layedit = layui.layedit;
+             layedit = layui.layedit;
             var table = layui.table;
             var laydate = layui.laydate;
             var $ = layui.jquery;
@@ -110,8 +115,6 @@
                   ,type: 'post' //默认post
                 }
               });
-
-            layedit.build('LAY_demo1'); //建立编辑器
 
          
                   //产品封面图片上传
@@ -204,10 +207,17 @@
 
 
 
-
+            index=  layedit.build('LAY_demo1'); //建立编辑器
+         
+            form.verify({
+              content: function(value) { 
+                   return layedit.sync(index);
+                  }
+          });
+   
             //监听提交
             form.on('submit(create)', function (data) {
-                //console.log(data.field);
+                console.log(data.field);
                 $.ajax({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

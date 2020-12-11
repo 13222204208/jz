@@ -356,7 +356,7 @@
                         return false;
                     });
                 } else if (obj.event === 'edit') {
-                    //location.href="details/"+data.id;
+                    $(".layui-laypage-btn").click();
                     layer.open({
                         //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
                         type: 1,
@@ -369,17 +369,16 @@
                     str = data.photo;
                     var arr= str.split(",");
                    
-                    photo ="";
                     for (var i=0;i<arr.length;i++) {
-                      
-                         photo += '<div id="" class="file-iteme">' +
-                            '<div class="handle"><i class="layui-icon layui-icon-delete" onclick=delFile(this,"'+arr[i]+'")></i></div>' +
+                        $('#uploader-list').append(
+                            '<div id="" class="file-iteme">' +
+                            '<div class="handle"><i class="layui-icon layui-icon-delete"></i></div>' +
                             '<img style="width: 150px;height: 150px;" class="layui-upload-img" src='+ url+arr[i] +'>' +
                             '<div class="info">'  + '</div>' +
-                            '</div>'        
+                            '</div>'
+                        );
                     }
-
-                    $("#uploader-list").html(photo);
+                
 
                     $(document).on("mouseenter mouseleave", ".file-iteme", function(event){
                         if(event.type === "mouseenter"){
@@ -392,35 +391,61 @@
                          $(this).children(".handle").hide();
                         }
                        });
-
-                       function delFile(obj,file){
-          
-                        //获取全部文件路径
-                        var files = $("#pic_src").val();
-                        console.log(files);return false;
-                        //分割
-                        var fileArray = files.split(",");
-                        //得到要删除文件路径在全部文件路径中的定位
-                        var index = fileArray.indexOf(file);
-                        if (index > -1) {
-                            //分割字符串
-                            fileArray.splice(index, 1);
-                        }
-                        
-                        $("#pic_src").val(fileArray);
-                        
-              
-                    }
         
                          // 删除图片
                         $(document).on("click", ".file-iteme .handle", function(event){
                             $(this).parent().remove(); 
-                            console.log(event.view);
                         });
 
                     form.val("formUpdate", data);
                     setFormValue(obj, data);
-                    form.render();
+                } else if (obj.event === 'show') {
+                    console.log(data.type_name);
+               
+                   var id= data.id
+                   tableIns= table.render({
+                      url: "gain/demand/type"+'/'+id //数据接口
+                          ,
+                      page: true //开启分页
+                          ,
+                      elem: '#LAY_table_user',
+                      cols: [
+                          [
+      
+                              {
+                                  field: 'id',
+                                  title: 'ID',
+                                  width: 80,
+                                  sort: true
+                              }, {
+                                  field: 'type_name',
+                                  title: '分类名称',
+                              }, {
+                                  field: 'parent_id',
+                                  title: '父类ID',
+                                  width: 100
+                              }, {
+                                  fixed: 'right',
+                                  title: "操作",
+                                  align: 'center',
+                                  toolbar: '#barDemo'
+                              }
+                          ]
+                      ],
+                      parseData: function (res) { //res 即为原始返回的数据
+                          console.log(res);
+                          return {
+                              "code": '0', //解析接口状态
+                              "msg": res.message, //解析提示文本
+                              "count": res.total, //解析数据长度
+                              "data": res.data //解析数据列表
+                          }
+                      },
+                      id: 'testReload',
+                      title: '后台用户',
+                      totalRow: true
+      
+                  });
                 }
 
             });
