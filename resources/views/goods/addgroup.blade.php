@@ -87,7 +87,7 @@
         elem: '#test-upload-normal',
         accept:'images',
         size:3000,
-        url: 'content/img',
+        url: 'upload/imgs',
         before: function(obj) {      
           //预读本地文件示例，不支持ie8
           obj.preview(function(index, file, result) {

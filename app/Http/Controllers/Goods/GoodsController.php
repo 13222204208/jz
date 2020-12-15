@@ -49,7 +49,7 @@ class GoodsController extends Controller
             $good->price = $request->price;
             $good->package_price = $request->package_price;//套餐单价
             $good->content = $request->content;
-            $good->cover = $request->content;
+            $good->cover = $request->cover;
             $state= $good->save(); 
 
             if ($state) {
@@ -93,7 +93,17 @@ class GoodsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = json_decode(json_encode($request->except('file')), true);
+        
+        $state= Good::where('id',$id)->update($data);
+
+        if ($state) {
+            return response()->json([ 'status' => 200]);
+
+        } else {
+
+            return response()->json([ 'status' => 403]);
+        }   
     }
 
     /**

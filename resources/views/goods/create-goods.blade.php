@@ -169,23 +169,65 @@
                 ,url: 'upload/imgs' //改成您自己的上传接口
                 ,size:3000
                 ,multiple: true
-                ,before: function(obj){
-                //预读本地文件示例，不支持ie8
+            /*    ,before: function(obj){
                 obj.preview(function(index, file, result){
                     $('#demo2').append('<img src="'+ result +'" style="width:150px" alt="'+ file.name +'" class="layui-upload-img">')
                 });
-                }
+                } */
                 ,done: function(res){
                     console.log(res); 
                     if (res.code == 0) { 
-                        var last_url = $(".upload_image_url").val();
+
+                        var fileurl = res.data.src;;
+					//原内容
+					var old_url = $(".upload_image_url").val();
+					//判断是否有原内容
+					if(old_url.length>0){
+			   			$(".upload_image_url").val( old_url + "," + fileurl);
+			   		}else{
+			   			$(".upload_image_url").val(fileurl);
+			   		}
+                    $("#demo2").empty();
+                    url = window.location.protocol+"//"+window.location.host+"/";
+					//获取input中存入的地址
+					var type_pic_url = $(".upload_image_url").val();
+			   		var strs = new Array();
+			   		strs = type_pic_url.split(",");
+					//图片回显
+			   		var html = "";
+			   		for(var i=0;i<strs.length;i++){
+			   			html += "<div style='float:left;margin-right:10px;'><img alt='图片不存在' class='layui-upload-img'  height='100' src='"+url+strs[i]+"'><span style='color:blue' onclick=delFile(this,'"+strs[i]+"')>删除</span></div>";
+			   		}
+                       $("#demo2").html(html);
+
+                       delFile= function(obj,file){
+                        //obj为当前对象，file为该文件路径
+                       
+                        $(obj).siblings().remove();
+                        $(obj).remove();
+                        //获取全部文件路径
+                        var files = $(".upload_image_url").val();
+                        //分割
+                        var fileArray = files.split(",");
+                        //得到要删除文件路径在全部文件路径中的定位
+                        var index = fileArray.indexOf(file);
+                        if (index > -1) {
+                            //分割字符串
+                            fileArray.splice(index, 1);
+                        }
+                        
+                        $(".upload_image_url").val(fileArray);
+                     
+                    }
+                       
+                     /*   var last_url = $(".upload_image_url").val();
                         var upload_image_url = "";
                         if(last_url){
                             upload_image_url = last_url+","+res.data.src;
                         }else {
                             upload_image_url = res.data.src;
                         }
-                        $(".upload_image_url").val(upload_image_url);
+                        $(".upload_image_url").val(upload_image_url); */
                         return layer.msg('图片上传成功',{
                             offset: '15px',
                             icon: 1,

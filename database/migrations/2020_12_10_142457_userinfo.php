@@ -22,7 +22,7 @@ class Userinfo extends Migration
             $table->string('nikename')->default('')->comment('用户昵称');
             $table->tinyInteger('sex')->default(0)->comment('性别 0代表女，1代表男');
             $table->string('address')->default('')->comment('地址');
-            $table->string('role')->default('')->comment('角色 业务 商家 工程师');
+            $table->string('role')->default('')->comment('角色 业主 商家 工程师');
             $table->string('cover')->default('')->comment('头像');
             $table->string('company')->default('')->comment('公司');
             $table->string('truename')->default('')->comment('真实姓名');

@@ -6,6 +6,7 @@ use App\Models\GoodsPackage;
 use Illuminate\Http\Request;
 use App\Models\PackageBetweenGoods;
 use App\Http\Controllers\Controller;
+use Facade\Ignition\Support\Packagist\Package;
 
 class GroupController extends Controller
 {
@@ -109,7 +110,17 @@ class GroupController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $state= GoodsPackage::where('id',$id)->update([
+            'status' => $request->status
+        ]);
+
+        if ($state) {
+            return response()->json([ 'status' => 200]);
+
+        } else {
+
+            return response()->json([ 'status' => 403]);
+        }   
     }
 
     /**

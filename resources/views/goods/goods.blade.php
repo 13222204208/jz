@@ -11,54 +11,6 @@
         content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
 </head>
-
-<style type="text/css">
-    .uploader-list {
-     margin-left: -15px;
-    }
-   
-    .uploader-list .info {
-     position: relative;
-     margin-top: -25px;
-     background-color: black;
-     color: white;
-     filter: alpha(Opacity=80);
-     -moz-opacity: 0.5;
-     opacity: 0.5;
-     width: 100px;
-     height: 25px;
-     text-align: center;
-     display: none;
-    }
-   
-    .uploader-list .handle {
-     position: relative;
-     background-color: black;
-     color: white;
-     filter: alpha(Opacity=80);
-     -moz-opacity: 0.5;
-     opacity: 0.5;
-     width: 100px;
-     text-align: right;
-     height: 18px;
-     margin-bottom: -18px;
-     display: none;
-    }
-   
-    .uploader-list .handle span {
-     margin-right: 5px;
-    }
-   
-    .uploader-list .handle span:hover {
-     cursor: pointer;
-    }
-   
-    .uploader-list .file-iteme {
-     margin: 12px 0 0 15px;
-     padding: 1px;
-     float: left;
-    }
-   </style>
 <body>
 
     <div class="demoTable" style="margin:30px;">
@@ -120,6 +72,11 @@
                 placeholder="单价" value="" class="layui-input">
         </div>
 
+        <div class="layui-form-item">
+            <input type="number" name="package_price" lay-verify="required"  autocomplete="off"
+                placeholder="套餐单价" value="" class="layui-input">
+        </div>
+
         <div class="layui-form-item">   
           <textarea class="layui-textarea" name="content"  lay-verify="required"   id="LAY_demo1" style="display: none">  
             产品详情介绍
@@ -149,8 +106,8 @@
 
     <script src="/layuiadmin/layui/layui.js"></script>
     <script>
-        var layedit;
-        layui.use(['table', 'layer','laydate', 'upload','jquery', 'form'], function () {
+     
+        layui.use(['table', 'layer','laydate', 'layedit','upload','jquery', 'form'], function () {
           
 
          
@@ -159,6 +116,52 @@
             var $ = layui.jquery;
             var form = layui.form;
             upload = layui.upload;
+            layedit = layui.layedit;
+
+                              //产品封面图片上传
+      var uploadInst = upload.render({
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        elem: '#test-upload-normal',
+        accept:'images',
+        size:3000,
+        url: 'upload/imgs',
+        before: function(obj) {      
+          //预读本地文件示例，不支持ie8
+          obj.preview(function(index, file, result) {
+            $('#test-upload-normal-img').attr('src', result); //图片链接（base64）
+          });
+        },
+        done: function(res) {
+          if (res.code == 0) { 
+            var img_url=res.data.src;
+            $(" input[ name='cover' ] ").val(img_url);
+            return layer.msg('图片上传成功',{
+                offset: '15px',
+                icon: 1,
+                time: 2000
+              });            
+          }
+          //如果上传失败
+          if (res.code == 403) {
+            return layer.msg('上传失败',{
+                offset: '15px',
+                icon: 2,
+                time: 2000
+              });
+          }
+          //上传成功
+        },
+        error: function(error) {
+          console.log(error);
+          //演示失败状态，并实现重传
+          var demoText = $('#test-upload-demoText');
+          demoText.html('<span style="color: #FF5722;">图片上传失败</span> <a class="layui-btn layui-btn-mini demo-reload">重试</a>');
+          demoText.find('.demo-reload').on('click', function() {
+            uploadInst.upload();
+          });
+        }
+      });
+
               //多图片上传
             upload.render({
                 elem: '#test2'
@@ -172,11 +175,7 @@
                    // $('#uploader-list').append('<img src="'+ result +'" style="width:150px" alt="'+ file.name +'" class="layui-upload-img">')
 
                    $('#uploader-list').append(
-                    '<div id="" class="file-iteme">' +
-                    '<div class="handle"><i class="layui-icon layui-icon-delete"></i></div>' +
-                    '<img style="width: 100px;height: 100px;" class="layui-upload-img" src='+ result +'>' +
-                    '<div class="info">' + '</div>' +
-                    '</div>'
+                    "<div style='float:left;margin-right:10px;'><img alt='图片不存在' class='layui-upload-img'  height='100' src='"+result+"'><span style='color:blue' onclick=delFile(this,'"+result+"')>删除</span></div>"
                 );
                 });
                 }
@@ -273,15 +272,11 @@
                         }, {
                             field: 'title',
                             title: '产品名称',
-                            width:150
+                            width:200
                         },{
                             field: 'description',
                             title: '产品描述',
-                            width:150
-                        }, {
-                            field: 'content',
-                            title: '产品详情',
-                      
+                            width:250
                         },{
                             field: 'number',
                             title: '库存',
@@ -297,7 +292,12 @@
                             title: '套餐单价',
                             width:150
                       
-                        }, {
+                        },{
+                            field: 'created_at',
+                            title: '创建时间',
+                            width:180
+                      
+                        },  {
                             fixed: 'right',
                             title: "操作",
                             align: 'center',
@@ -361,85 +361,79 @@
                         //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
                         type: 1,
                         title: "编辑产品",
-                        area: ['600px', '600px'],
+                        area: ['700px', '600px'],
                         content: $("#popUpdateTest") //引用的弹出层的页面层的方式加载修改界面表单
                     });
-                    
-                    url = "http://jz.com/";
+                   
+                    url = window.location.protocol+"//"+window.location.host+"/";
                     str = data.photo;
+                    $('#test-upload-normal-img').attr('src', url+data.cover); 
                     var arr= str.split(",");
                    
                     photo ="";
                     for (var i=0;i<arr.length;i++) {
                       
-                         photo += '<div id="" class="file-iteme">' +
-                            '<div class="handle"><i class="layui-icon layui-icon-delete" onclick=delFile(this,"'+arr[i]+'")></i></div>' +
-                            '<img style="width: 150px;height: 150px;" class="layui-upload-img" src='+ url+arr[i] +'>' +
-                            '<div class="info">'  + '</div>' +
-                            '</div>'        
+                        photo += "<div style='float:left;margin-right:10px;'><img alt='图片不存在' class='layui-upload-img'  height='100' src='"+url+arr[i]+"'><span style='color:blue' onclick=delFile(this,'"+arr[i]+"')>删除</span></div>";    
                     }
-
+                    console.log(photo); //return photo;
                     $("#uploader-list").html(photo);
 
-                    $(document).on("mouseenter mouseleave", ".file-iteme", function(event){
-                        if(event.type === "mouseenter"){
-                         //鼠标悬浮
-                         $(this).children(".info").fadeIn("fast");
-                         $(this).children(".handle").fadeIn("fast");
-                        }else if(event.type === "mouseleave") {
-                         //鼠标离开
-                         $(this).children(".info").hide();
-                         $(this).children(".handle").hide();
-                        }
-                       });
-
-                       function delFile(obj,file){
-          
+                    delFile= function(obj,file){
+                        //obj为当前对象，file为该文件路径
+                       
+                        $(obj).siblings().remove();
+                        $(obj).remove();
                         //获取全部文件路径
-                        var files = $("#pic_src").val();
-                        console.log(files);return false;
+                        var files = $(".upload_image_url").val();
                         //分割
                         var fileArray = files.split(",");
                         //得到要删除文件路径在全部文件路径中的定位
-                        var index = fileArray.indexOf(file);
+                        
+                        var index = fileArray.indexOf(file); 
                         if (index > -1) {
                             //分割字符串
                             fileArray.splice(index, 1);
                         }
-                        
-                        $("#pic_src").val(fileArray);
-                        
-              
-                    }
-        
-                         // 删除图片
-                        $(document).on("click", ".file-iteme .handle", function(event){
-                            $(this).parent().remove(); 
-                            console.log(event.view);
-                        });
 
+                        $(".upload_image_url").val(fileArray.toString());
+                       // data['photo'] = fileArray.toString();
+                    }
+
+                    index= layedit.build('LAY_demo1');
+                    layedit.setContent(index, data.content);
+                   
+              
+                  
                     form.val("formUpdate", data);
                     setFormValue(obj, data);
-                    form.render();
                 }
 
             });
 
+            layedit.set({
+                uploadImage: {
+                 
+                 url: 'content/img' //接口url
+                  ,type: 'post' //默认post
+                }
+              });
+
             function setFormValue(obj, data) {
                 form.on('submit(editAccount)', function (massage) {
+                    
                     massage = massage.field;
-                    console.log(data);
+                    layedit.sync(index);
+                    content= $('#LAY_demo1').val();
+                    massage['content'] = content;
+
 
                     $.ajax({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
-                        url: "update/name",
-                        type: 'post',
-                        data: {
-                            id: data.id,
-                            type_name: massage.type_name,
-                        },
+                        url: "goods/"+data.id,
+                        type: 'patch',
+                        data: massage,
                         success: function (msg) {
                             console.log(msg);
                             if (msg.status == 200) {
@@ -451,7 +445,11 @@
                                 setTimeout(function () {
 
                                     obj.update({
-                                        type_name: massage.type_name,
+                                        title: massage.title,
+                                        description: massage.description,
+                                        number: massage.number,
+                                        price: massage.price,
+                                        package_price: massage.package_price
                                     }); //修改成功修改表格数据不进行跳转 
 
 

@@ -179,7 +179,7 @@
               </a>
               <dl class="layui-nav-child">
                 <dd><a lay-href="goods/list">产品库</a></dd>
-                <dd><a lay-href="goods/grouplist">套餐产品</a></dd>
+                <dd><a lay-href="goods/grouplist">套餐管理</a></dd>
               </dl>
             </li>
             

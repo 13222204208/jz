@@ -87,6 +87,7 @@ class RotationChartController extends Controller
             $chart = RotationChart::find($request->id);
             $chart->img_sort = intval($request->img_sort);
             $chart->state = $state;
+            $chart->img_url = $request->img_url;
             $chart->title = $request->title;
             $chart->jump_url = $request->jump_url;
             $state = $chart->save();

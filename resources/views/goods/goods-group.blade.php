@@ -79,6 +79,23 @@
                             field: 'created_at',
                             title: '创建时间',
                         },{
+                            field: 'status',
+                            title: '状态',
+                            //width:150,
+                            templet: function(d) {
+                                if (d.status == 1) {
+                                  return '<div class="layui-input-block">'+
+                                    '<input type="checkbox" class="switch_checked" lay-filter="switchGoodsID"'+ 'switch_goods_id="'+ d.id+
+                                     '" lay-skin="switch" checked '+ 'lay-text="上架|下架">'+
+                                  '</div>';
+                                }else{
+                                    return '<div class="layui-input-block">'+
+                                        '<input type="checkbox" class="switch_checked" lay-filter="switchGoodsID"'+ 'switch_goods_id="'+ d.id+
+                                         '" lay-skin="switch" lay-text="上架|下架">'+
+                                      '</div>';
+                                }
+                              }
+                        },{
                             fixed: 'right',
                             title: "操作",
                             align: 'center',
@@ -100,6 +117,51 @@
                 totalRow: true
 
             });
+
+            form.on('switch(switchGoodsID)',function (data) {
+                
+                //开关是否开启，true或者false
+                var checked = data.elem.checked;
+
+                if(checked === false){
+                    checked = 2;
+                }else{
+                    checked = 1;
+                }
+
+                //获取所需属性值
+                var switch_goods_id = data.elem.attributes['switch_goods_id'].nodeValue;
+                console.log(checked);
+                console.log(switch_goods_id);
+                $.ajax({
+                    headers: {
+                      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: "group"+'/'+switch_goods_id ,
+                    type: 'patch',
+                    data: {
+                        status:checked
+                    },
+                    success: function(msg) {
+                      console.log(msg);
+                      if (msg.status == 200) {
+
+            
+                        form.render();
+
+                        layer.msg("修改成功", {
+                            icon: 1
+                          });
+                      } else {
+                        layer.msg("修改失败", {
+                          icon: 5
+                        });
+                      }
+                    }
+                  });
+
+
+               });
 
 
             table.on('tool(myuser)', function (obj) {

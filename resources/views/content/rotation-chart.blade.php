@@ -96,16 +96,16 @@
   <div class="layui-row" id="popUpdateTask" style="display:none;">
     <form class="layui-form layui-from-pane" required lay-verify="required" lay-filter="formUpdate"  style="margin:20px">
 
-<!-- 
+
     <input type="hidden" name="img_url" class="image" >
       <div class="layui-form-item">
         <div class="layui-upload" style="margin-left: 20%;">
-        <button type="button" class="layui-btn" id="test-upload-normal">上传图片</button>
+        <button type="button" class="layui-btn" id="upload-normal">上传图片</button>
                   <div class="layui-upload-list">
-                    <img class="layui-upload-img" src="" id="test-upload-normal-img" style="width:150px" alt="图片预览">
+                    <img class="layui-upload-img" src="" id="upload-normal-img" style="width:150px" alt="图片预览">
                   </div>
           </div>   
-     </div> -->
+     </div> 
      <div class="layui-form-item">
         <label class="layui-form-label">跳转链接</label>
         <div class="layui-input-block">
@@ -216,6 +216,49 @@
         }
       });
 
+      var uploadInstedit = upload.render({
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        elem: '#upload-normal',
+        accept:'images',
+        size:3000,
+        url: 'upload/rotation/img',
+        before: function(obj) {      
+          //预读本地文件示例，不支持ie8
+          obj.preview(function(index, file, result) {
+            $('#upload-normal-img').attr('src', result); //图片链接（base64）
+          });
+        },
+        done: function(res) {
+          if (res.status == 200) { 
+            var img_url=res.path;
+            $(" input[ name='img_url' ] ").val(img_url);
+            return layer.msg('图片上传成功',{
+                offset: '15px',
+                icon: 1,
+                time: 2000
+              });            
+          }
+          //如果上传失败
+          if (res.status == 403) {
+            return layer.msg('上传失败',{
+                offset: '15px',
+                icon: 2,
+                time: 2000
+              });
+          }
+          //上传成功
+        },
+        error: function(error) {
+          console.log(error);
+          //演示失败状态，并实现重传
+          var demoText = $('#test-upload-demoText');
+          demoText.html('<span style="color: #FF5722;">图片上传失败</span> <a class="layui-btn layui-btn-mini demo-reload">重试</a>');
+          demoText.find('.demo-reload').on('click', function() {
+            uploadInstedit.upload();
+          });
+        }
+      });
+
       form.on('submit(createTask)', function(data) {//新建轮播图
 				var data = data.field;
 				console.log(data);
@@ -263,12 +306,6 @@ location.href="rotation-chart";
               field: 'id',
               title: 'ID',
               width: 80,
-              align: 'center',
-              sort: true
-            },{
-              field: 'img_url',
-              title: '链接',
-              width: 280,
               align: 'center',
               sort: true
             },{
@@ -376,7 +413,10 @@ location.href="rotation-chart";
             area: ['620px', '350px'],
             content: $("#popUpdateTask") //引用的弹出层的页面层的方式加载修改界面表单
           });
-           //console.log(data);return false;
+
+          url = window.location.protocol+"//"+window.location.host+"/"+ data.img_url;
+          $('#upload-normal-img').attr('src',url);
+          // console.log(data);return false;
           form.val("formUpdate", data);
           setFormValue(obj, data);
 
@@ -397,6 +437,7 @@ location.href="rotation-chart";
             type: 'post',
             data: {
               id: data.id,
+              img_url: massage.img_url,
               img_sort:massage.img_sort,
               jump_url:massage.jump_url,
               title:massage.title,

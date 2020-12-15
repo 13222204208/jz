@@ -108,10 +108,6 @@ Route::prefix('goods')->group(function () {
         return view('goods.create-goods');//产品
     });
 
-    Route::get('details/{id}', function () {
-        return view('goods.goods-details');//产品详情
-    });
-
     Route::resource('goods', 'Goods\GoodsController');//产品
 
     Route::post('upload/imgs','UploadController@uploadImgs');//上传图片
