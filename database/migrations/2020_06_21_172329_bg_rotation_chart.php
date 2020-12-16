@@ -25,6 +25,7 @@ class BgRotationChart extends Migration
             $table->text('content')->nullable()->comment('内链接的内容');
             $table->integer('url_type')->default(1)->comment('默认为广告类型');
             $table->timestamps();
+            $table->comment="首页轮播图";
         });
     }
 

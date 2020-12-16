@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('role')->nullable();
             $table->string('name')->nullable();
             $table->timestamps();
+            $table->comment="后台登陆用户表";
         });
     }
 

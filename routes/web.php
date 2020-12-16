@@ -46,6 +46,25 @@ Route::prefix('content')->group(function () {
     Route::get('query/rotation/list','Content\RotationChartController@queryRotationList');//轮播列表
     Route::post('del/rotation/chart','Content\RotationChartController@delRotationChart');//删除一个轮播图
     Route::post('update/rotation/chart','Content\RotationChartController@updateRotationChart');//更新一个轮播图
+
+    Route::get('case-tag', function () {//案例的标签
+        return view('content.case-tag');
+    });
+    Route::resource('casetag', 'Content\CaseTagController');//案例标签
+
+    Route::get('create-case-info', function () {//创建案例和资讯
+        return view('content.create-case-info');
+    });
+
+    Route::post('upload/imgs','UploadController@uploadImgs');//上传图片
+    Route::post('caseinfo/img','UploadController@caseInfoImg');//上传详情图片
+
+    Route::get('case-info-list', function () {//案例和资讯列表
+        return view('content.case-info-list');
+    });
+
+    Route::resource('caseinfo', 'Content\CaseInfoController');//案例和资讯    
+
 });
 
 Route::prefix('admin')->group(function () {//经纪人管理

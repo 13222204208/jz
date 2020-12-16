@@ -12,7 +12,7 @@ class GoodsPackage extends Model
     protected $table ="goods_package";
     protected $guarded = [];
 
-    public function goods()
+    public function children()//商品
     {
         return $this->belongsToMany('App\Models\Good', 'package_between_goods', 'goods_package_id', 'goods_id');
     }

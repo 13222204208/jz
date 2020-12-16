@@ -48,7 +48,19 @@ class UploadController extends Controller
     public function contentImg(Request  $request)
     {
         $namePath= $this->uploadImg($request->file('file'),'goods');
-        $d = pathinfo($namePath);
+        $d = pathinfo($namePath); return $d;
+        if ($namePath) {
+            $data['src'] = $d['basename'];
+            return response()->json([ 'code' => 0 ,'msg'=>'','data' =>$data]);
+        } else {
+            return response()->json([ 'code' => 403]);
+        }   
+    }
+
+    public function caseInfoImg(Request  $request)
+    {
+        $namePath= $this->uploadImg($request->file('file'),'content');
+        $d = pathinfo($namePath); 
         if ($namePath) {
             $data['src'] = $d['basename'];
             return response()->json([ 'code' => 0 ,'msg'=>'','data' =>$data]);

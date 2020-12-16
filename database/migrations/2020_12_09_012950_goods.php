@@ -28,6 +28,7 @@ class Goods extends Migration
             $table->integer('status')->default(1)->comment('状态  1：上架  2：下架');
             $table->string('delete_time')->default('')->comment('删除时间');
             $table->timestamps();
+            $table->comment="产品表";
         });
     }
 

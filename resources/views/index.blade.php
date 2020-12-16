@@ -193,7 +193,8 @@
               </a>
               <dl class="layui-nav-child">
                 <dd><a lay-href="content/rotation-chart">轮播图</a></dd>
-                <dd><a lay-href="content/rotation">客户美图</a></dd>
+                <dd><a lay-href="content/case-info-list">案例和资讯</a></dd>
+                <dd><a lay-href="content/case-tag">案例标签</a></dd>
 
               </dl>
             </li>

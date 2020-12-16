@@ -79,7 +79,7 @@ class GroupController extends Controller
     public function show(Request $request, $id)
     { 
    
-        $gp = GoodsPackage::find($id)->goods()->get();
+        $gp = GoodsPackage::find($id)->children()->get();
                         
         if ($gp) {
             return response()->json([ 'status' => 200,'data'=> $gp]);

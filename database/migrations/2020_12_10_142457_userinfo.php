@@ -13,13 +13,13 @@ class Userinfo extends Migration
      */
     public function up()
     {
-        Schema::create('userinfo', function (Blueprint $table) {//套餐和商品的中间表
+        Schema::create('userinfo', function (Blueprint $table) {
             $table->id();
             $table->string('username')->default('')->comment('用户名');
             $table->string('password')->default('')->comment('密码');
             $table->string('wx_id')->unique()->comment('微信号');
             $table->string('phone',11)->unique()->comment('用户名');
-            $table->string('nikename')->default('')->comment('用户昵称');
+            $table->string('nickname')->default('')->comment('用户昵称');
             $table->tinyInteger('sex')->default(0)->comment('性别 0代表女，1代表男');
             $table->string('address')->default('')->comment('地址');
             $table->string('role')->default('')->comment('角色 业主 商家 工程师');
@@ -31,6 +31,8 @@ class Userinfo extends Migration
             $table->string('id_the_back')->default('')->comment('身份反面');
             $table->string('id_in_hand')->default('')->comment('手持身份证');
             $table->timestamps();
+
+            $table->comment="小程序登陆的用户表";
         });
     }
 

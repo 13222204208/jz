@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class PackageBetweenGoods extends Migration
+class CaseTags extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,12 @@ class PackageBetweenGoods extends Migration
      */
     public function up()
     {
-        Schema::create('package_between_goods', function (Blueprint $table) {//套餐和商品的中间表
+        Schema::create('case_tags', function (Blueprint $table) {//报修和售后表
             $table->id();
-            $table->unsignedInteger('goods_package_id')->comment('套餐id');
-            $table->unsignedInteger('goods_id')->comment('商品id');
-
+            $table->string('name')->default('')->comment('标签名称');
             $table->timestamps();
-
-            $table->comment="套餐和商品的中间表";
+            
+            $table->comment="案例的标签";
         });
     }
 
