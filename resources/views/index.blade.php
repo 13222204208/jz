@@ -195,6 +195,18 @@
                 <dd><a lay-href="content/rotation-chart">轮播图</a></dd>
                 <dd><a lay-href="content/case-info-list">案例和资讯</a></dd>
                 <dd><a lay-href="content/case-tag">案例标签</a></dd>
+                <dd><a lay-href="content/contract">合同列表</a></dd>
+
+              </dl>
+            </li>
+
+            <li data-name="template" class="layui-nav-item">
+              <a href="javascript:;" lay-tips="工程管理" lay-direction="2">
+                <i class="layui-icon layui-icon-template"></i>
+                <cite>工程管理</cite>
+              </a>
+              <dl class="layui-nav-child">
+                <dd><a lay-href="build/list">工程订单</a></dd>
 
               </dl>
             </li>

@@ -65,6 +65,10 @@ Route::prefix('content')->group(function () {
 
     Route::resource('caseinfo', 'Content\CaseInfoController');//案例和资讯    
 
+    Route::get('contract', function () {//合同列表
+        return view('content.contract');
+    });
+
 });
 
 Route::prefix('admin')->group(function () {//经纪人管理
@@ -141,5 +145,15 @@ Route::prefix('goods')->group(function () {
     });
 
     Route::resource('group', 'Goods\GroupController');//套餐
+});
+
+Route::prefix('build')->group(function () {
+
+    Route::get('list', function () {
+        return view('build.order-list');//工程订单列表
+    });
+  
+    Route::resource('build', 'Build\BuildOrderController');//工程订单
+    
 });
 

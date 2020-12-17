@@ -9,6 +9,8 @@ Route::prefix('user')->group(function (){
     Route::post('upload_img','Api\User\UserinfoController@uploadImg');//图片上传
     Route::post('edit','Api\User\UserinfoController@edit');//用户编辑资料
 
+    Route::post('truename','Api\User\UserinfoController@truename');//工程师编辑资料用于提交身份证资料实名认证
+
     Route::post('dynamic','Api\User\UserDynamicController@dynamic');//用户美图发布
 
     Route::group(['middleware' => 'auth.jwt'], function () {
@@ -49,5 +51,11 @@ Route::prefix('aftersale')->group(function (){//报修和售后
 Route::prefix('caseinfo')->group(function (){//案例和资讯
 
     Route::get('list','Api\CaseInfo\CaseInfoController@list');//查询案例和资讯
+
+});
+
+Route::prefix('order')->group(function (){//商家端工程订单
+
+    Route::post('create','Api\Order\BuildOrderController@create');//商家端添加工程订单
 
 });
