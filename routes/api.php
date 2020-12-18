@@ -57,5 +57,21 @@ Route::prefix('caseinfo')->group(function (){//案例和资讯
 Route::prefix('order')->group(function (){//商家端工程订单
 
     Route::post('create','Api\Order\BuildOrderController@create');//商家端添加工程订单
+    Route::get('list','Api\Order\BuildOrderController@list');//商家端工程订单列表
 
+});
+
+Route::prefix('engineer')->group(function (){//商家端工程订单
+
+    Route::get('list','Api\Engineer\EngineerController@list');//安装端显示的订单列表
+
+    Route::post('before','Api\Engineer\EngineerController@before');//工程订单施工前
+    Route::post('under','Api\Engineer\EngineerController@under');//工程订单施工中
+    Route::post('done','Api\Engineer\EngineerController@done');//工程订单施工完成
+
+});
+
+Route::fallback(function(){
+    return response()->json([
+        'message' => '页面没有找到，可能请求地址错误'], 404);
 });

@@ -18,7 +18,7 @@ class Userinfo extends Migration
             $table->string('username')->default('')->comment('用户名');
             $table->string('password')->default('')->comment('密码');
             $table->string('wx_id')->unique()->comment('微信号');
-            $table->string('phone',11)->unique()->comment('用户名');
+            $table->string('phone',11)->unique()->comment('手机号');
             $table->string('nickname')->default('')->comment('用户昵称');
             $table->tinyInteger('sex')->default(0)->comment('性别 0代表女，1代表男');
             $table->string('address')->default('')->comment('地址');

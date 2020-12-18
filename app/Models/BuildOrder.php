@@ -3,12 +3,14 @@
 namespace App\Models;
 
 use App\Models\Contract;
+use App\Models\Userinfo;
 use App\Models\Traits\Timestamp;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class BuildOrder extends Model
 {
-    use Timestamp;
+    use Timestamp,HasFactory;
 
     protected $guarded = [];
 
@@ -37,4 +39,12 @@ class BuildOrder extends Model
         $title= Contract::find($value,['title']);
         return $title->title;
     }
+
+    public function getEngineerIdAttribute($value)
+    {
+        if($value != 0){
+            $info= Userinfo::find($value,['truename','phone']);
+            return $info->truename.','.$info->phone;
+        }
+    } 
 }

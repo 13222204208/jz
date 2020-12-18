@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>添加产品 </title>
+    <title>工程订单 </title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -16,22 +16,16 @@
 
 
     <div class="layui-row" id="popUpdateTest" style="display:none;">
-        <form class="layui-form layui-from-pane" required lay-verify="required" >
             <table class="layui-hide" id="LAY_table" lay-filter="user"></table>
-        <div class="layui-form-item ">
-            <div class="layui-input-block">
-                <div class="layui-footer" style="left: 0;">
-                    <button class="layui-btn" lay-submit="" lay-filter="create">点击保存套餐</button>
-                </div>
-            </div>
-        </div>
-        </form>
+            <script type="text/html" id="toolbarDemo">
+                <div  style="text-align: center">  <button class="layui-btn layui-btn-sm" lay-event="getCheckData">确定选择</button></div>
+              </script>       
     </div>
 
     <table class="layui-hide" id="LAY_table_user" lay-filter="user"></table>
     <script type="text/html" id="barDemo">
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="edit">分配工程师</a>
-        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+     <!--   <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a> -->
 
     </script>
 
@@ -48,47 +42,7 @@
             var form = layui.form;
             upload = layui.upload;
             layedit = layui.layedit;
-
-    
-
-            //监听提交
-            form.on('submit(create)', function (data) {
-                //console.log(data.field);
-                $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    url: "goods",
-                    method: 'POST',
-                    data: data.field,
-                    dataType: 'json',
-                    success: function (res) {
-                        console.log(res); return false;
-                        if (res.status == 200) {
-                            layer.msg('创建成功', {
-                                offset: '15px',
-                                icon: 1,
-                                time: 1000
-                            }, function () {
-                                $(".layui-laypage-btn").click();
-                                window.location.href = "";
-                                layer.closeAll();
-                             
-                  
-                            })
-                        } else if (res.status == 403) {
-                            layer.msg('填写错误或重复', {
-                                offset: '15px',
-                                icon: 2,
-                                time: 3000
-                            }, function () {
-                                location.href = 'created';
-                            })
-                        }
-                    }
-                });
-                return false;
-            });
+              
 
             table.render({
                 url: "build" //数据接口
@@ -120,18 +74,18 @@
                         },{
                             field: 'functionary',
                             title: '负责人',
-                            width:150
+                            width:120
                       
                         },{
                             field: 'functionary_phone',
                             title: '负责人手机号',
-                            width:150
+                            width:120
                       
                         },
                         {
-                            field: 'time',
-                            title: '时间',
-                            width:150
+                            field: 'engineer_id',
+                            title: '施工人员信息',
+                            width:280
                       
                         },{
                             field: 'agreement_id',
@@ -146,7 +100,7 @@
                         }, {
                             field: 'status',
                             title: '状态',
-                            width:150
+                            width:100
                       
                         },{
                             fixed: 'right',
@@ -176,8 +130,8 @@
 
 
             table.on('tool(user)', function (obj) {
-                var data = obj.data;
-                console.log(data);
+                 data = obj.data;
+             
                 if (obj.event === 'del') {
 
                     layer.confirm('真的删除此分类么', function (index) {
@@ -212,7 +166,7 @@
                     layer.open({
                         //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
                         type: 1,
-                        title: "编辑产品",
+                        title: "分配订单给安装人员",
                         area: ['700px', '600px'],
                         content: $("#popUpdateTest") //引用的弹出层的页面层的方式加载修改界面表单
                     });
@@ -234,25 +188,15 @@
                                     sort: true
                                 }, {
                                     field: 'truename',
-                                    title: '产品名称',
+                                    title: '姓名',
                                     width:150
                                 },{
-                                    field: 'description',
-                                    title: '产品描述',
+                                    field: 'phone',
+                                    title: '手机号',
                                     width:150
                                 }, {
-                                    field: 'content',
-                                    title: '产品详情',
-                              
-                                },{
-                                    field: 'number',
-                                    title: '库存',
-                                    width:150
-                              
-                                },{
-                                    field: 'price',
-                                    title: '单价',
-                                    width:150
+                                    field: 'id_number',
+                                    title: '身份证号',
                               
                                 }
                             ]
@@ -271,55 +215,44 @@
                         totalRow: true
         
                     });
-                   
-                    
-                }
+                    dataId = data.id;
+                    setFormId(obj,dataId);
+                    function setFormId(obj,dataId){
+                        table.on('toolbar(user)', function(obj){
+                            var checkStatus = table.checkStatus(obj.config.id);
+                        
+                            switch(obj.event){
+                            case 'getCheckData':
+                                var data = checkStatus.data;
+                               // layer.alert(JSON.stringify(data));
+                            break;
+                            };
+    
+                            if(data.length >1 ){
+                                layer.msg("只能选择一个人员", {
+                                    icon: 5
+                                });
+                            }
+            
+                            id = data[0]['id'];
 
-            });
-
-            layedit.set({
-                uploadImage: {
-                 
-                 url: 'content/img' //接口url
-                  ,type: 'post' //默认post
-                }
-              });
-
-            function setFormValue(obj, data) {
-                form.on('submit(editAccount)', function (massage) {
-                    
-                    massage = massage.field;
-                    layedit.sync(index);
-                    content= $('#LAY_demo1').val();
-                    massage['content'] = content;
-
-
+                            
                     $.ajax({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
-                        url: "goods/"+data.id,
+                        url: "build/"+dataId,
                         type: 'patch',
-                        data: massage,
+                        data: {engineer_id:id},//工程师id
                         success: function (msg) {
-                            console.log(msg);
                             if (msg.status == 200) {
                                 layer.closeAll('loading');
                                 layer.load(2);
-                                layer.msg("修改成功", {
+                                layer.msg("分配成功", {
                                     icon: 6
                                 });
                                 setTimeout(function () {
-
-                                    obj.update({
-                                        title: massage.title,
-                                        description: massage.description,
-                                        number: massage.number,
-                                        price: massage.price,
-                                        package_price: massage.package_price
-                                    }); //修改成功修改表格数据不进行跳转 
-
-
+                                    window.location.reload()
                                     layer.closeAll(); //关闭所有的弹出层
                                     //window.location.href = "/edit/horse-info";
 
@@ -333,8 +266,14 @@
                         }
                     })
                     return false;
-                })
-            }
+
+                        });
+                    }
+
+                  
+                }
+
+            });
 
         })
 

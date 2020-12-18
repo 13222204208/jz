@@ -74,8 +74,17 @@ class BuildOrderController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        //
+    { 
+        $state= BuildOrder::where('id',intval($id))->update([
+            'engineer_id' => $request->engineer_id,
+            'status' => 2
+        ]);
+
+        if($state){
+            return response()->json([ 'status' => 200 ,'msg'=>'成功']);
+        } else {
+            return response()->json([ 'status' => 403]);
+        }  
     }
 
     /**

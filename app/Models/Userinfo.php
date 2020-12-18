@@ -1,13 +1,15 @@
 <?php
 namespace App\Models;
 
+use App\Models\Traits\Timestamp;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Userinfo extends Authenticatable implements JWTSubject {
 
-    use Notifiable;
+    use Notifiable,HasFactory,Timestamp;
 
     protected $table = 'userinfo';
     protected $guarded = [];
