@@ -13,7 +13,7 @@ class CaseTags extends Migration
      */
     public function up()
     {
-        Schema::create('case_tags', function (Blueprint $table) {//报修和售后表
+        Schema::create('case_tags', function (Blueprint $table) {
             $table->id();
             $table->string('name')->default('')->comment('标签名称');
             $table->timestamps();

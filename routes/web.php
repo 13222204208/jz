@@ -157,3 +157,20 @@ Route::prefix('build')->group(function () {
     
 });
 
+Route::prefix('user')->group(function () {
+
+    Route::get('after-sale-list', function () {
+        return view('user.after-sale-list');//报修售后列表
+    });
+    
+    Route::resource('after', 'User\AfterSaleController');//报修和售后
+
+    Route::get('dynamic-list', function () {
+        return view('user.dynamic-list');//用户美图
+    });
+    
+    Route::resource('dynamic', 'User\DynamicController');//用户美图
+    
+    
+});
+

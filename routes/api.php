@@ -25,6 +25,9 @@ Route::prefix('homepage')->group(function (){
 
     Route::get('menu','Api\Homepage\MenuController@menu');//获取首页套餐显示
 
+    Route::get('dynamic','Api\Homepage\DynamicController@dynamic');//获取首页客户美图
+    Route::post('like','Api\Homepage\DynamicController@like');//点赞客户美图
+
 });
 
 Route::prefix('goods')->group(function (){
@@ -65,9 +68,11 @@ Route::prefix('engineer')->group(function (){//商家端工程订单
 
     Route::get('list','Api\Engineer\EngineerController@list');//安装端显示的订单列表
 
-    Route::post('before','Api\Engineer\EngineerController@before');//工程订单施工前
-    Route::post('under','Api\Engineer\EngineerController@under');//工程订单施工中
-    Route::post('done','Api\Engineer\EngineerController@done');//工程订单施工完成
+    Route::post('schedule','Api\Engineer\EngineerController@schedule');//添加工程订单施工进度
+
+    Route::get('show','Api\Engineer\EngineerController@show');//展示施工进度
+
+    Route::get('after','Api\Engineer\EngineerController@after');//售后处理列表
 
 });
 

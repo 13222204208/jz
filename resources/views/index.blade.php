@@ -148,6 +148,12 @@
                 <dd>
                   <a lay-href="user/account-operation">账号操作</a>
                 </dd>
+                <dd>
+                  <a lay-href="user/after-sale-list">报修售后列表</a>
+                </dd>
+                <dd>
+                  <a lay-href="user/dynamic-list">用户美图</a>
+                </dd>
           
               </dl>
             </li>

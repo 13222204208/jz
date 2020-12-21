@@ -1,6 +1,7 @@
 <?php
 namespace App\Models;
 
+use Jcc\LaravelVote\Vote;
 use App\Models\Traits\Timestamp;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
@@ -9,7 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Userinfo extends Authenticatable implements JWTSubject {
 
-    use Notifiable,HasFactory,Timestamp;
+    use Notifiable,HasFactory,Timestamp,Vote;
 
     protected $table = 'userinfo';
     protected $guarded = [];

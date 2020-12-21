@@ -23,7 +23,7 @@ class UserDynamicController extends Controller
             return response()->json([ 'code' => 0 ,'msg'=>$validator->errors()]);
         }
         
-        $data['user_id'] = 1;
+        $data['user_id'] = 12;
         $state = UserDynamic::create($data);
 
         if ($state) {

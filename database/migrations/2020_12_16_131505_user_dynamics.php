@@ -13,7 +13,7 @@ class UserDynamics extends Migration
      */
     public function up()
     {
-        Schema::create('user_dynamics', function (Blueprint $table) {//报修和售后表
+        Schema::create('user_dynamics', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('user_id')->comment('业主id');
             $table->string('title')->default('')->comment('标题');

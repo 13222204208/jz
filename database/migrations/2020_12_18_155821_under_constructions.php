@@ -15,7 +15,7 @@ class UnderConstructions extends Migration
     {
         Schema::create('under_constructions', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('order_num')->comment('工程订单号');
+            $table->string('order_num')->comment('工程订单号');
             $table->string('photo')->comment('施工前图片');
             $table->string('comments')->default('')->comment('备注');
             $table->timestamps();
