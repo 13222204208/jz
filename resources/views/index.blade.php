@@ -143,10 +143,7 @@
               </a>
               <dl class="layui-nav-child">
                 <dd>
-                  <a lay-href="user/userlist">用户列表</a>
-                </dd>
-                <dd>
-                  <a lay-href="user/account-operation">账号操作</a>
+                  <a lay-href="user/list">用户列表</a>
                 </dd>
                 <dd>
                   <a lay-href="user/after-sale-list">报修售后列表</a>
@@ -213,6 +210,18 @@
               </a>
               <dl class="layui-nav-child">
                 <dd><a lay-href="build/list">工程订单</a></dd>
+                <dd><a lay-href="build/design-list">智能设计</a></dd>
+              </dl>
+            </li>
+
+            <li data-name="template" class="layui-nav-item">
+              <a href="javascript:;" lay-tips="表单管理" lay-direction="2">
+                <i class="layui-icon layui-icon-template"></i>
+                <cite>表单管理</cite>
+              </a>
+              <dl class="layui-nav-child">
+                <dd><a lay-href="form/house-type">户型列表</a></dd>
+                <dd><a lay-href="form/goods-type">类型列表</a></dd>
 
               </dl>
             </li>

@@ -12,6 +12,12 @@ Route::prefix('user')->group(function (){
     Route::post('truename','Api\User\UserinfoController@truename');//工程师编辑资料用于提交身份证资料实名认证
 
     Route::post('dynamic','Api\User\UserDynamicController@dynamic');//用户美图发布
+    Route::get('my_dynamic','Api\User\UserDynamicController@myDynamic');//用户我的美图
+
+    Route::get('form_type','Api\User\DesignController@formType');//表单类型数据
+    Route::post('design','Api\User\DesignController@design');//提交智能设计数据
+
+    Route::get('rate','Api\User\ConstructController@rate');//订单进度显示
 
     Route::group(['middleware' => 'auth.jwt'], function () {
         Route::post('logout', 'Api\UserinfoController@logout');//退出登录

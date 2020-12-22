@@ -14,6 +14,14 @@ class BuildOrder extends Model
 
     protected $guarded = [];
 
+    protected $appends = ['engineer_name','engineer_phone'];
+
+    public function userinfo()
+    {
+        $user = Userinfo::find($this->attributes['engineer_id']);
+        return $user;
+    }
+
     public function getStatusAttribute($value)
     {
         switch ($value)
@@ -46,5 +54,15 @@ class BuildOrder extends Model
             $info= Userinfo::find($value,['truename','phone']);
             return $info->truename.','.$info->phone;
         }
-    } 
+    }
+    
+    public function getEngineerNameAttribute()
+    {
+        return $this->userinfo()->truename;
+    }
+
+    public function getEngineerPhoneAttribute()
+    {
+        return $this->userinfo()->phone;
+    }
 }

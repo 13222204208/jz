@@ -154,10 +154,24 @@ Route::prefix('build')->group(function () {
     });
   
     Route::resource('build', 'Build\BuildOrderController');//工程订单
+
+    Route::get('design-list', function () {
+        return view('build.design-list');//智能设计列表
+    });
+    
+    Route::resource('design', 'Build\DesignController');//智能设计
+    
     
 });
 
 Route::prefix('user')->group(function () {
+
+    Route::get('list', function () {
+        return view('user.list');//用户列表
+    });
+    
+    Route::resource('userinfo', 'User\UserInfoController');
+    
 
     Route::get('after-sale-list', function () {
         return view('user.after-sale-list');//报修售后列表
@@ -170,6 +184,23 @@ Route::prefix('user')->group(function () {
     });
     
     Route::resource('dynamic', 'User\DynamicController');//用户美图
+    
+    
+});
+
+Route::prefix('form')->group(function () {
+
+    Route::get('house-type', function () {
+        return view('form.house-type');//户型
+    });
+    
+    Route::resource('housetype', 'Form\HouseTypeController');//户型
+
+    Route::get('goods-type', function () {
+        return view('form.goods-type');//类型
+    });
+    
+    Route::resource('goodstype', 'Form\GoodsTypeController');//表单类型
     
     
 });

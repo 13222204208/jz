@@ -37,13 +37,29 @@ class UserDynamicController extends Controller
             if ($state) {
                 return response()->json([ 'code' => 1 ,'msg'=>'成功','data' =>$data]);
             } else {
-                return response()->json([ 'code' => 0 , 'msg' => '上传失败']);
+                return response()->json([ 'code' => 0 , 'msg' => '失败']);
             }  
             
         } catch (\Throwable $th) {
             $err = $th->getMessage();
             return response()->json([ 'code' => 0 ,'msg'=>$err]);
         } 
+
+    }
+
+    public function myDynamic()
+    {
+        try {
+            $data= UserDynamic::where('user_id',13)->get(['title','photo','created_at','user_id','id']);
+            if ($data) {
+                return response()->json([ 'code' => 1 ,'msg'=>'成功','data' =>$data]);
+            } else {
+                return response()->json([ 'code' => 0 , 'msg' => '失败']);
+            } 
+        } catch (\Throwable $th) {
+            $err = $th->getMessage();
+            return response()->json([ 'code' => 0 ,'msg'=>$err]);
+        }
 
     }
 }

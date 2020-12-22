@@ -30,6 +30,7 @@ class BuildOrders extends Migration
             $table->string('owner_demand')->default('')->comment('业主要求');
             $table->decimal('total_money',2)->default(0)->comment('订单金额');
             $table->string('order_num')->unqiue()->comment('订单号');
+            $table->string('order_name')->default('')->comment('订单名称');
             $table->string('start_work_time')->default('')->comment('开工的时间');
             $table->string('signature_pic')->default('')->comment('当定施工订单完成时，工程师会上传一张合同签字完工的图片');
             $table->tinyInteger('status')->default(1)->comment(' 1：待施工  2：施工中  3：已完成    4：已取消');
