@@ -78,5 +78,6 @@ Route::prefix('engineer')->group(function (){//商家端工程订单
 
 Route::fallback(function(){
     return response()->json([
-        'message' => '页面没有找到，可能请求地址错误'], 404);
+        'code' =>0,
+        'msg' => '页面没有找到，可能请求地址错误'], 404);
 });

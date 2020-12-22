@@ -11,27 +11,43 @@ class AfterSaleController extends Controller
 {
     public function create(Request $request)//提交报修和售后表
     {
-        $data = $request->all();
-        $validator = Validator::make(//验证数据字段
-            $data,
-            [
-                'goods_name' => 'required|max:100',
-                'hitch_content' => 'required|max:200',
-            ]        
-        );
-
-        if ($validator->fails()) {
-            return response()->json([ 'code' => 0 ,'msg'=>$validator->errors()]);
+        try {
+            $data = $request->all();
+            $validator = Validator::make(//验证数据字段
+                $data,
+                [
+                    'goods_name' => 'required|max:100',
+                    'hitch_content' => 'required|max:200',
+                ],
+                [
+                    'required' => ':attribute不能为空',
+                    'max' => ':attribute最长:max字符'
+                ],
+                [
+                    'goods_name' => '产品名称',
+                    'hitch_content' => '故障描述'
+                ]        
+            );
+    
+            if ($validator->fails()) {
+                $messages = $validator->errors()->first();
+                return response()->json([ 'code' => 0 ,'msg'=>$messages]);
+            }
+            
+            $data['user_id'] = 1;//默认为用户1，后续更改
+            $data['order_num'] = 'GZ'.time().rand(1000,9999);
+            $state= AfterSale::create($data);
+    
+            if($state){
+                return response()->json([ 'code' => 1 ,'msg'=>'成功']);
+            } else {
+                return response()->json([ 'code' => 0]);
+            }  
+            
+        } catch (\Throwable $th) {
+            $err = $th->getMessage();
+            return response()->json([ 'code' => 0 ,'msg'=>$err]);
         }
-        
-        $data['user_id'] = 1;//默认为用户1，后续更改
-        $state= AfterSale::create($data);
-
-        if($state){
-            return response()->json([ 'code' => 1 ,'msg'=>'成功']);
-        } else {
-            return response()->json([ 'code' => 0]);
-        }  
      
     }
 }

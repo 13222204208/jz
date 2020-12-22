@@ -27,6 +27,10 @@ class DynamicController extends Controller
         try {
             $user = Userinfo::find(14);
             $dynamic = UserDynamic::find($request->id);
+            if($user->hasVoted($dynamic)){
+                return response()->json([ 'code' => 0 ,'msg'=>'你已经点过赞了']);
+            }
+            
             $state= $user->upVote($dynamic);
 
             if(count(array_filter($state))){

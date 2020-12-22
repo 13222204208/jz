@@ -70,7 +70,8 @@ class EngineerController extends Controller
             }
             return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$arr]);
         } catch (\Throwable $th) {
-            return response()->json([ 'code' => 0 ,'msg'=>$th]);
+            $err = $th->getMessage();
+            return response()->json([ 'code' => 0 ,'msg'=>$err]);
         }
     }
 

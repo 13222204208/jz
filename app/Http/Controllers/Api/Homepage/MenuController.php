@@ -10,12 +10,18 @@ class MenuController extends Controller
 {
     public function menu()
     {
-        $data= GoodsPackage::where('status',1)->get(['id','title','cover']);
+        try {
+            $data= GoodsPackage::where('status',1)->get(['id','title','cover']);
   
-        if($data){
-            return response()->json([ 'code' => 1 ,'msg'=>'成功','data' =>$data]);
-        } else {
-            return response()->json([ 'code' => 0]);
-        }  
+            if($data){
+                return response()->json([ 'code' => 1 ,'msg'=>'成功','data' =>$data]);
+            } else {
+                return response()->json([ 'code' => 0]);
+            }  
+        } catch (\Throwable $th) {
+            $err = $th->getMessage();
+            return response()->json([ 'code' => 0 ,'msg'=>$err]);
+        }
+
     }
 }
