@@ -76,12 +76,12 @@
                                 if (d.status == 1) {
                                   return '<div class="layui-input-block">'+
                                     '<input type="checkbox" class="switch_checked" lay-filter="switchGoodsID"'+ 'switch_goods_id="'+ d.id+
-                                     '" lay-skin="switch" lay-text="已推荐|不推荐">'+
+                                     '" lay-skin="switch" lay-text="已审核|未审核">'+
                                   '</div>';
                                 }else{
                                     return '<div class="layui-input-block">'+
                                         '<input type="checkbox" class="switch_checked" lay-filter="switchGoodsID"'+ 'switch_goods_id="'+ d.id+
-                                         '" lay-skin="switch" checked '+ 'lay-text="已推荐|不推荐">'+
+                                         '" lay-skin="switch" checked '+ 'lay-text="已审核|未审核">'+
                                       '</div>';
                                 }
                               }

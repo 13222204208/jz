@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 
 class DesignController extends Controller
 {
-    public function formType()
+    public function formType()//表单类型
     {
         try {
            $houseType_name= HouseType::get(['name','id']);

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class DoneConstructions extends Migration
+class FinishConstructions extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class DoneConstructions extends Migration
      */
     public function up()
     {
-        Schema::create('done_constructions', function (Blueprint $table) {
+        Schema::create('finish_constructions', function (Blueprint $table) {
             $table->increments('id');
             $table->string('order_num')->unique()->comment('工程订单号');
-            $table->string('owner_sign_photo')->comment('业主签字图片');
-            $table->string('engineer_sign_photo')->comment('工程师签字图片');
+            $table->string('photo')->comment('施工完成图片');
+            $table->string('comments')->default('')->comment('备注');
             $table->timestamps();
-            $table->comment="订单施工结束签字 ";
+            $table->comment="订单施工完成";
         });
     }
 

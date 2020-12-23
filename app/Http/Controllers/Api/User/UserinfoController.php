@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Api\User;
 
+use EasyWeChat\Factory;
 use App\Models\Userinfo;
 use Illuminate\Http\Request;
+
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -11,20 +13,57 @@ use App\Http\Controllers\UploadController;
 
 class UserinfoController extends Controller
 {
-    public function login(Request $request)
-    {
-        $credentials = request(['username', 'password']);
+    protected $user;
 
-        if (! $token = JWTAuth::attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+    public function __construct()
+    {
+        $this->middleware('jwt.auth', ['except' => ['login']]);
+
+        try {
+            $this->user = JWTAuth::parseToken()->authenticate();
+        } catch (\Throwable $th) {
+            
+            return response()->json([ 'code' => 0 , 'msg' =>$th->getMessage()]);
+        }
+    }
+    
+    public function login(Request $request)
+    {/*  $token = JWTAuth::getToken();
+        $apy = JWTAuth::authenticate($token)->toArray(); */
+        try {
+            $code = $request->code;
+            // 根据 code 获取微信 openid 和 session_key
+            $miniProgram = \EasyWeChat::miniProgram();
+            $data = $miniProgram->auth->session($code);
+            
+            if (isset($data['errcode'])) {
+                return response()->json([ 'code' => 0 , 'msg' => 'code 已过期或不正确']);
+            }
+    
+            $state = Userinfo::where('wx_id',$data['openid'])->first();
+            if(!$state){
+                $user= Userinfo::create([
+                    'nickname' => $request->nickname,
+                    'cover' => $request->cover,
+                    'wx_id' => $data['openid'],
+                    'wx_session_key' => $data['session_key']
+                ]);
+                $token = JWTAuth::fromUser($user);
+                $userData['nickname'] = $request->nickname;
+                $userData['token'] = $token;
+                $userData['cover'] = $request->cover;
+             return response()->json([ 'code' => 1 ,'msg'=>'成功','data' =>$userData]);
+            }
+            $token = JWTAuth::fromUser($state);
+            $userinfo['token'] = $token;
+            $userinfo['nickname'] = $state->nickname;
+            $userinfo['cover'] = $state->cover;
+            return response()->json([ 'code' => 1 ,'msg'=>'成功','data' =>$userinfo]);
+        } catch (\Throwable $th) {
+            $err = $th->getMessage();
+            return response()->json([ 'code' => 0 ,'msg'=>$err]);
         }
 
-        $data['token'] = $token;
-        return response()->json([
-            'code' => 1,
-            'msg' =>"成功",
-            'data' => $data
-        ],200);
     }
 
     public function uploadImg(Request $request)
@@ -58,6 +97,7 @@ class UserinfoController extends Controller
                 $data,
                 [
                     'phone' => 'required|regex:/^1[345789][0-9]{9}$/',
+                    'token' => 'required'
                 ],
                 [
                     'required' => ':attribute不能为空',
@@ -67,13 +107,13 @@ class UserinfoController extends Controller
                     'phone' => '手机号'
                 ]        
             );
-    
+            unset($data['token']);
             if ($validator->fails()) {
                 $messages = $validator->errors()->first();
                 return response()->json([ 'code' => 0 ,'msg'=>$messages]);
             }
         
-            $state = Userinfo::where('id',1)->update($data);//编辑用户资料，暂时为1
+            $state = Userinfo::where('id',$this->user->id)->update($data);//编辑用户资料，暂时为1
     
             if ($state) {
                 return response()->json([ 'code' => 1 ,'msg'=>'成功','data' =>$data]);
@@ -101,6 +141,7 @@ class UserinfoController extends Controller
                     'id_front' => 'required',
                     'id_the_back' => 'required',
                     'id_in_hand' => 'required',
+                    'token' =>'required'
                 ],
                 [
                     'required' => ':attribute不能为空',
@@ -116,7 +157,7 @@ class UserinfoController extends Controller
                     'id_in_hand' => '手持身份证',
                 ]        
             );
-    
+            unset($data['token']);
             
             if ($validator->fails()) {
                 $messages = $validator->errors()->first();
@@ -129,7 +170,7 @@ class UserinfoController extends Controller
                 return response()->json([ 'code' => 0 ,'msg'=>'你的身份证号码不正确']);
             }
     
-            $state = Userinfo::where('id',1)->update($data);//编辑用户资料，暂时为1
+            $state = Userinfo::where('id',$this->user->id)->update($data);//编辑用户资料，暂时为1
     
             if ($state) {
                 return response()->json([ 'code' => 1 ,'msg'=>'成功','data' =>$data]);

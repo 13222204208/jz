@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('user')->group(function (){
 
-    Route::post('login','Api\User\UserinfoController@login');//登录
+    Route::get('login','Api\User\UserinfoController@login');//登录
     Route::post('upload_img','Api\User\UserinfoController@uploadImg');//图片上传
     Route::post('edit','Api\User\UserinfoController@edit');//用户编辑资料
 
@@ -16,6 +16,10 @@ Route::prefix('user')->group(function (){
 
     Route::get('form_type','Api\User\DesignController@formType');//表单类型数据
     Route::post('design','Api\User\DesignController@design');//提交智能设计数据
+
+    Route::post('collect','Api\User\CollectController@collect');//收藏产品
+    Route::get('collect_list','Api\User\CollectController@collectList');//产品收藏列表
+    Route::post('defined','Api\User\CollectController@defined');//保存方案
 
     Route::get('rate','Api\User\ConstructController@rate');//订单进度显示
 
@@ -75,6 +79,7 @@ Route::prefix('engineer')->group(function (){//商家端工程订单
     Route::get('list','Api\Engineer\EngineerController@list');//安装端显示的订单列表
 
     Route::post('schedule','Api\Engineer\EngineerController@schedule');//添加工程订单施工进度
+    Route::post('done','Api\Engineer\EngineerController@done');//竣工
 
     Route::get('show','Api\Engineer\EngineerController@show');//展示施工进度
 

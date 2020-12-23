@@ -10,6 +10,7 @@ use App\Models\DoneConstruction;
 use App\Models\BuildBetweenGoods;
 use App\Models\UnderConstruction;
 use App\Models\BeforeConstruction;
+use App\Models\FinishConstruction;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
@@ -17,7 +18,7 @@ class EngineerController extends Controller
 {
     protected $msg =[
         'required' => ':attribute不能为空',
-        'unique' => ':attribute唯一',
+        'unique' => ':attribute不唯一',
         'max' => ':attribute最长:max字符'
     ];
 
@@ -101,7 +102,8 @@ class EngineerController extends Controller
 
             }
 
-            if($data['type'] == 'before'){//施工中
+
+            if($data['type'] == 'under'){//施工中
                 unset($data['type']);
                 $role =[
                     'order_num' => 'required|max:30',
@@ -122,7 +124,7 @@ class EngineerController extends Controller
 
             }
 
-            if($data['type'] == 'under'){//施工中
+            if($data['type'] == 'finish'){//施工完成
                 unset($data['type']);
                 $role =[
                     'order_num' => 'required|max:30',
@@ -138,7 +140,7 @@ class EngineerController extends Controller
                     return response()->json([ 'code' => 0 ,'msg'=>$messages]);
                 }
 
-                UnderConstruction::create($data);
+                FinishConstruction::create($data);
                 return response()->json([ 'code' => 1 ,'msg'=>'成功']);
 
             }
@@ -178,6 +180,43 @@ class EngineerController extends Controller
         }
     }
 
+    public function done(Request $request)//竣工
+    {
+        try {
+                $data = $request->all();
+          
+                $role =[
+                    'order_num' => 'required|max:30',
+                    'owner_sign_photo' => 'required',
+                    'engineer_sign_photo' => 'required',
+                ];
+
+                $validator = Validator::make(//验证数据字段
+                    $data,$role,$this->msg,$this->custom      
+                );
+    
+                if ($validator->fails()) {
+                    $messages = $validator->errors()->first();
+                    return response()->json([ 'code' => 0 ,'msg'=>$messages]);
+                }
+
+                DoneConstruction::create($data);
+                $state = BuildOrder::where('order_num',$data['order_num'])->update([
+                    'status' =>3
+                ]);
+
+                if($state){
+                    return response()->json([ 'code' => 1 ,'msg'=>'成功']);
+                }else{
+                    return response()->json([ 'code' => 0 ,'msg'=>'参数类型错误']);
+                }
+
+        } catch (\Throwable $th) {
+            $err = $th->getMessage();
+            return response()->json([ 'code' => 0 ,'msg'=>$err]);
+        }
+    }
+
     public function show(Request $request)//订单进度表
     {
         try {
@@ -189,11 +228,15 @@ class EngineerController extends Controller
 
             $before = BeforeConstruction::where('order_num',$order_num)->get(['photo','comments','created_at'])->first();
             $under = UnderConstruction::where('order_num',$order_num)->get(['photo','comments','created_at']);
-            $done = DoneConstruction::where('order_num',$order_num)->get(['owner_sign_photo','engineer_sign_photo','created_at'])->first();
+            $finish = FinishConstruction::where('order_num',$order_num)->get(['photo','comments','created_at'])->first();
+
+            $id = BuildOrder::where('order_num',$order_num)->pluck('id')->first();
 
             $data['before'] = $before;
             $data['under'] = $under;
-            $data['done'] = $done;
+            $data['finish'] = $finish;
+            $data['order_num'] = $order_num;
+            $data['id'] = $id;
             return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=> $data]);
 
         } catch (\Throwable $th) {
