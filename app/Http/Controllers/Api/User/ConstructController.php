@@ -9,10 +9,24 @@ use App\Models\DoneConstruction;
 use App\Models\BuildBetweenGoods;
 use App\Models\UnderConstruction;
 use App\Models\BeforeConstruction;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
 
 class ConstructController extends Controller
 {
+    protected $user;
+
+    public function __construct()
+    {
+
+        try {
+            $this->user = JWTAuth::parseToken()->authenticate();
+        } catch (\Throwable $th) {
+            
+            return response()->json([ 'code' => 0 , 'msg' =>$th->getMessage()]);
+        }
+    }
+    
     public function rate(Request $request)//业主显示的施工进度
     {
         try {
@@ -33,7 +47,7 @@ class ConstructController extends Controller
                 return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$data]);
             }
 
-            $data = BuildOrder::where('owner_phone','15568992117')->get(['id','engineer_id','order_name','status','created_at']);
+            $data = BuildOrder::where('owner_phone',$this->user->phone)->get(['id','engineer_id','order_name','status','created_at']);
             return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$data]);
             
         } catch (\Throwable $th) {

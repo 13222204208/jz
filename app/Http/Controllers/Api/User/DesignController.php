@@ -6,11 +6,25 @@ use App\Models\Design;
 use App\Models\GoodsType;
 use App\Models\HouseType;
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
 class DesignController extends Controller
 {
+    protected $user;
+
+    public function __construct()
+    {
+
+        try {
+            $this->user = JWTAuth::parseToken()->authenticate();
+        } catch (\Throwable $th) {
+            
+            return response()->json([ 'code' => 0 , 'msg' =>$th->getMessage()]);
+        }
+    }
+    
     public function formType()//表单类型
     {
         try {
@@ -53,7 +67,8 @@ class DesignController extends Controller
                 $messages = $validator->errors()->first();
                 return response()->json([ 'code' => 0 ,'msg'=>$messages]);
             }
-
+            unset($data['token']);
+            $data['user_id'] = $this->user->id;
             $state = Design::create($data);
             if($state){
                 return response()->json([ 'code' => 1 ,'msg'=>'成功']);

@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Build;
 use App\Models\Userinfo;
 use App\Models\BuildOrder;
 use Illuminate\Http\Request;
+use App\Models\UnderConstruction;
+use App\Models\BeforeConstruction;
+use App\Models\FinishConstruction;
 use App\Http\Controllers\Controller;
 
 class BuildOrderController extends Controller
@@ -39,7 +42,16 @@ class BuildOrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $order_num = $request->order_num;
+        $before = BeforeConstruction::where('order_num',$order_num)->get(['photo','comments','created_at'])->first();
+        $under = UnderConstruction::where('order_num',$order_num)->get(['photo','comments','created_at']);
+        $finish = FinishConstruction::where('order_num',$order_num)->get(['photo','comments','created_at'])->first();
+
+        $data['before'] = $before;
+        $data['under'] = $under;
+        $data['finish'] = $finish;
+ 
+        return response()->json([ 'status' => 200 ,'msg'=>'成功','data'=> $data]);
     }
 
     /**

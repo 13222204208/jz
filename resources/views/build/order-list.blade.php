@@ -13,6 +13,9 @@
 </head>
 <body>
 
+    <div class="layui-row" id="orderRate" style="display:none;">
+        工程进度
+    </div>
 
 
     <div class="layui-row" id="popUpdateTest" style="display:none;">
@@ -25,7 +28,7 @@
     <table class="layui-hide" id="LAY_table_user" lay-filter="user"></table>
     <script type="text/html" id="barDemo">
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="edit">分配工程师</a>
-     <!--   <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a> -->
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="show">查看工程进度</a> 
 
     </script>
 
@@ -132,35 +135,93 @@
             table.on('tool(user)', function (obj) {
                  data = obj.data;
              
-                if (obj.event === 'del') {
+                if (obj.event === 'show') {
 
-                    layer.confirm('真的删除此分类么', function (index) {
-                        $.ajax({
-                            url: "goods/"+data.id,
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                                    'content')
-                            },
-                            type: "delete",
-                            success: function (msg) {
-                                console.log(msg); 
-                                if (msg.status == 200) {
-                                    //删除这一行
-                                    obj.del();
-                                    //关闭弹框
-                                    layer.close(index);
-                                    layer.msg("删除成功", {
-                                        icon: 6
-                                    });
-                                } else {
-                                    layer.msg("删除失败", {
-                                        icon: 5
-                                    });
-                                }
-                            }
-                        });
-                        return false;
+                    layer.open({
+                        //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                        type: 1,
+                        title: "施工进度",
+                        area: ['700px', '600px'],
+                        content: $("#orderRate") //引用的弹出层的页面层的方式加载修改界面表单
                     });
+
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        url: "build",
+                        type: 'post',
+                        data:{
+                            order_num:data.order_num
+                        },
+                        success: function (msg) {
+                           data = msg.data;
+                            if (msg.status == 200) {
+                                if(data.before.created_at){
+                                    time = '施工前 '+data.before.created_at;
+                                    photo =data.before.comments +'<br> <img width="500px" src="'+ data.before.photo + '" >';
+                                 
+                                }else{
+                                    time = '还没有施工';
+                                    photo = '';
+                                }
+                                
+                                under= '';
+                                if(data.under.length == 0){
+                                    under = '';
+                                }else{
+                                    for(i=0; i<data.under.length; i++){
+                                        utime = '施工中 '+ data.under[i].created_at;
+                                        uphoto =data.under[i].comments +'<br> <img width="500px" src="'+ data.under[i].photo + '" >';
+                                        under +=      '<li class="layui-timeline-item">'+
+                                            '<i class="layui-icon layui-timeline-axis"></i>'+
+                                            '<div class="layui-timeline-content layui-text">'+
+                                              '<h3 class="layui-timeline-title">'+utime+'</h3>'+
+                                            '  <p>'+ uphoto+
+                                             
+                                              '</p>'+
+                                           ' </div>'+
+                                          '</li>';
+                                    }
+                                }
+
+                                finish = '';
+                                if(data.finish != null){
+                                    ftime = '施工完成 '+data.finish.created_at;
+                                    fphoto =data.finish.comments +'<br> <img width="500px" src="'+ data.finish.photo + '" >';
+
+                                    finish +=      '<li class="layui-timeline-item">'+
+                                        '<i class="layui-icon layui-timeline-axis"></i>'+
+                                        '<div class="layui-timeline-content layui-text">'+
+                                          '<h3 class="layui-timeline-title">'+ftime+'</h3>'+
+                                        '  <p>'+ fphoto+
+                                         
+                                          '</p>'+
+                                       ' </div>'+
+                                      '</li>';
+                                }
+
+                         
+                                html= 
+                                  '<br><ul class="layui-timeline">'+
+                                    '<li class="layui-timeline-item">'+
+                                      '<i class="layui-icon layui-timeline-axis"></i>'+
+                                      '<div class="layui-timeline-content layui-text">'+
+                                        '<h3 class="layui-timeline-title">'+time+'</h3>'+
+                                      '  <p>'+ photo+
+                                       
+                                        '</p>'+
+                                     ' </div>'+
+                                    '</li>'+under+  finish+
+                                    
+                                  '</ul>'  
+
+                                $('#orderRate').html(html);
+                            } 
+                        }
+                    });
+
+
                 } else if (obj.event === 'edit') {
                     //location.href="details/"+data.id;
                     layer.open({

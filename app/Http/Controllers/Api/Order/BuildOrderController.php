@@ -8,11 +8,25 @@ use App\Models\BuildOrder;
 use Illuminate\Http\Request;
 use App\Models\BuildBetweenGoods;
 use Illuminate\Support\Facades\DB;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
 class BuildOrderController extends Controller
 {
+    protected $user;
+
+    public function __construct()
+    {
+
+        try {
+            $this->user = JWTAuth::parseToken()->authenticate();
+        } catch (\Throwable $th) {
+            
+            return response()->json([ 'code' => 0 , 'msg' =>$th->getMessage()]);
+        }
+    }
+    
     public function create(Request $request)//添加工程订单
     {
         DB::beginTransaction();//开启事务
@@ -31,6 +45,7 @@ class BuildOrderController extends Controller
                     'agreement_id' => 'required',//合同id
                     //'merchant_id' => 'required',//商家id由后端获取
                     'goods_id' => 'required',//产品Id
+                    'order_name' => 'required'//项目名称
                 ],
                 [
                     'required' => ':attribute不能为空',
@@ -45,7 +60,8 @@ class BuildOrderController extends Controller
                     'functionary_phone' => '负责人联系方式',
                     'time' => '时间',
                     'agreement_id' => '合同',
-                    'goods_id' => '套内详单'
+                    'goods_id' => '套内详单',
+                    'order_name' => '项目名称'
                 ]        
             );
     
@@ -53,7 +69,8 @@ class BuildOrderController extends Controller
                 $messages = $validator->errors()->first();
                 return response()->json([ 'code' => 0 ,'msg'=>$messages]);
             }
-   
+            unset($data['token']);
+            $data['merchant_id'] = $this->user->id;
             $data['order_num'] = 'GC'.time().rand(1000,9999);
             unset($data['goods_id']);
             $id = BuildOrder::create($data)->id;

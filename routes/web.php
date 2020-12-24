@@ -65,9 +65,17 @@ Route::prefix('content')->group(function () {
 
     Route::resource('caseinfo', 'Content\CaseInfoController');//案例和资讯    
 
-    Route::get('contract', function () {//合同列表
-        return view('content.contract');
+    Route::get('contract-list', function () {//合同列表
+        return view('content.contract-list');
     });
+    Route::get('create-contract', function () {//合同列表
+        return view('content.create-contract');
+    });
+
+    Route::post('file','UploadFileController@file');//上传合同附件
+    
+    Route::resource('contract', 'Content\ContractController');//合同
+    
 
 });
 

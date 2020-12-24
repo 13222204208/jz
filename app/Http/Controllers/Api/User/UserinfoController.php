@@ -17,9 +17,9 @@ class UserinfoController extends Controller
 
     public function __construct()
     {
-        $this->middleware('jwt.auth', ['except' => ['login']]);
 
         try {
+            //$this->middleware('auth.jwt', ['except' => ['login']]);
             $this->user = JWTAuth::parseToken()->authenticate();
         } catch (\Throwable $th) {
             
@@ -28,9 +28,30 @@ class UserinfoController extends Controller
     }
     
     public function login(Request $request)
-    {/*  $token = JWTAuth::getToken();
-        $apy = JWTAuth::authenticate($token)->toArray(); */
+    {
         try {
+            $validator = Validator::make(//验证数据字段
+                $request->all(),
+                [
+                    'code' => 'required',
+                    'nickname' => 'required',
+                    'cover' => 'required'
+                ],
+                [
+                    'required' => ':attribute不能为空',
+                ],
+                [
+                    'code' => '微信code',
+                    'nickname' =>'昵称',
+                    'cover' => '头像'
+                ]        
+            );
+            
+            if ($validator->fails()) {
+                $messages = $validator->errors()->first();
+                return response()->json([ 'code' => 0 ,'msg'=>$messages]);
+            }
+
             $code = $request->code;
             // 根据 code 获取微信 openid 和 session_key
             $miniProgram = \EasyWeChat::miniProgram();
@@ -170,7 +191,7 @@ class UserinfoController extends Controller
                 return response()->json([ 'code' => 0 ,'msg'=>'你的身份证号码不正确']);
             }
     
-            $state = Userinfo::where('id',$this->user->id)->update($data);//编辑用户资料，暂时为1
+            $state = Userinfo::where('id',$this->user->id)->update($data);//编辑用户资料，
     
             if ($state) {
                 return response()->json([ 'code' => 1 ,'msg'=>'成功','data' =>$data]);

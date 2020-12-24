@@ -2,13 +2,27 @@
 
 namespace App\Http\Controllers\Api\User;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Models\UserDynamic;
+use Illuminate\Http\Request;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
 class UserDynamicController extends Controller
 {
+    protected $user;
+
+    public function __construct()
+    {
+
+        try {
+            $this->user = JWTAuth::parseToken()->authenticate();
+        } catch (\Throwable $th) {
+            
+            return response()->json([ 'code' => 0 , 'msg' =>$th->getMessage()]);
+        }
+    }
+
     public function dynamic(Request $request)//业主美图发布
     {
         try {
@@ -17,12 +31,14 @@ class UserDynamicController extends Controller
                 $data,
                 [
                     'photo' => 'required',
+                    'title' => 'required'
                 ],
                 [
                     'required' => ':attribute不能为空'
                 ],
                 [
-                    'photo' => '图片'
+                    'photo' => '图片',
+                    'title' => 'title'
                 ]        
             );
     
@@ -31,11 +47,12 @@ class UserDynamicController extends Controller
                 return response()->json([ 'code' => 0 ,'msg'=>$messages]);
             }
             
-            $data['user_id'] = 12;
+            $data['user_id'] = $this->user->id;
+            unset($data['token']);
             $state = UserDynamic::create($data);
     
             if ($state) {
-                return response()->json([ 'code' => 1 ,'msg'=>'成功','data' =>$data]);
+                return response()->json([ 'code' => 1 ,'msg'=>'成功']);
             } else {
                 return response()->json([ 'code' => 0 , 'msg' => '失败']);
             }  
@@ -50,7 +67,7 @@ class UserDynamicController extends Controller
     public function myDynamic()
     {
         try {
-            $data= UserDynamic::where('user_id',13)->get(['title','photo','created_at','user_id','id']);
+            $data= UserDynamic::where('user_id',$this->user->id)->get(['title','photo','created_at','user_id','id']);
             if ($data) {
                 return response()->json([ 'code' => 1 ,'msg'=>'成功','data' =>$data]);
             } else {

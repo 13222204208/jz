@@ -4,11 +4,26 @@ namespace App\Http\Controllers\Api\AfterSale;
 
 use App\Models\AfterSale;
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
 class AfterSaleController extends Controller
 {
+    protected $user;
+
+    public function __construct()
+    {
+
+        try {
+            //$this->middleware('auth.jwt', ['except' => ['login']]);
+            $this->user = JWTAuth::parseToken()->authenticate();
+        } catch (\Throwable $th) {
+            
+            return response()->json([ 'code' => 0 , 'msg' =>$th->getMessage()]);
+        }
+    }
+    
     public function create(Request $request)//提交报修和售后表
     {
         try {
@@ -33,8 +48,8 @@ class AfterSaleController extends Controller
                 $messages = $validator->errors()->first();
                 return response()->json([ 'code' => 0 ,'msg'=>$messages]);
             }
-            
-            $data['user_id'] = 1;//默认为用户1，后续更改
+            unset($data['token']);
+            $data['user_id'] = $this->user->id;//默认为用户1，后续更改
             $data['order_num'] = 'GZ'.time().rand(1000,9999);
             $state= AfterSale::create($data);
     

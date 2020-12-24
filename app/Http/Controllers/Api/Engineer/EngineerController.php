@@ -11,6 +11,7 @@ use App\Models\BuildBetweenGoods;
 use App\Models\UnderConstruction;
 use App\Models\BeforeConstruction;
 use App\Models\FinishConstruction;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
@@ -28,6 +29,19 @@ class EngineerController extends Controller
         'owner_sign_photo' => '业主签字图片',
         'engineer_sign_photo' => '工程师签字图片'
     ];
+
+    protected $user;
+
+    public function __construct()
+    {
+
+        try {
+            $this->user = JWTAuth::parseToken()->authenticate();
+        } catch (\Throwable $th) {
+            
+            return response()->json([ 'code' => 0 , 'msg' =>$th->getMessage()]);
+        }
+    }
 
     public function list(Request $request)//工程订单列表及详情
     {
@@ -59,7 +73,7 @@ class EngineerController extends Controller
                 $status = intval($request->get('status'));
             }
     
-            $data= BuildOrder::skip($page)->take($size)->where('engineer_id',20)->where('status',$status)->get(['id','owner_name','owner_phone','owner_address','owner_demand']);
+            $data= BuildOrder::skip($page)->take($size)->where('engineer_id',$this->user->id)->where('status',$status)->get(['id','owner_name','owner_phone','owner_address','owner_demand']);
             $arr = array();
             foreach($data as $d){ 
                 $goods_id = BuildBetweenGoods::where('build_order_id',$d['id'])->pluck('goods_id');
@@ -83,6 +97,7 @@ class EngineerController extends Controller
 
             if($data['type'] == 'before'){//施工前
                 unset($data['type']);
+                unset($data['token']);
                 $role =[
                     'order_num' => 'required|unique:before_constructions|max:30',
                     'photo' => 'required'
@@ -105,6 +120,7 @@ class EngineerController extends Controller
 
             if($data['type'] == 'under'){//施工中
                 unset($data['type']);
+                unset($data['token']);
                 $role =[
                     'order_num' => 'required|max:30',
                     'photo' => 'required'
@@ -126,6 +142,7 @@ class EngineerController extends Controller
 
             if($data['type'] == 'finish'){//施工完成
                 unset($data['type']);
+                unset($data['token']);
                 $role =[
                     'order_num' => 'required|max:30',
                     'photo' => 'required'
@@ -141,31 +158,6 @@ class EngineerController extends Controller
                 }
 
                 FinishConstruction::create($data);
-                return response()->json([ 'code' => 1 ,'msg'=>'成功']);
-
-            }
-
-            if($data['type'] == 'done'){//施工完成
-                unset($data['type']);
-                $role =[
-                    'order_num' => 'required|max:30',
-                    'owner_sign_photo' => 'required',
-                    'engineer_sign_photo' => 'required',
-                ];
-
-                $validator = Validator::make(//验证数据字段
-                    $data,$role,$this->msg,$this->custom      
-                );
-    
-                if ($validator->fails()) {
-                    $messages = $validator->errors()->first();
-                    return response()->json([ 'code' => 0 ,'msg'=>$messages]);
-                }
-
-                DoneConstruction::create($data);
-                BuildOrder::where('order_num',$data['order_num'])->update([
-                    'status' =>3
-                ]);
                 return response()->json([ 'code' => 1 ,'msg'=>'成功']);
 
             }

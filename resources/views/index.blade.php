@@ -198,7 +198,7 @@
                 <dd><a lay-href="content/rotation-chart">轮播图</a></dd>
                 <dd><a lay-href="content/case-info-list">案例和资讯</a></dd>
                 <dd><a lay-href="content/case-tag">案例标签</a></dd>
-                <dd><a lay-href="content/contract">合同列表</a></dd>
+                <dd><a lay-href="content/contract-list">合同列表</a></dd>
 
               </dl>
             </li>
