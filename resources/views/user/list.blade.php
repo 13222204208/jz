@@ -54,9 +54,9 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">复选框</label>
                 <div class="layui-input-block" id="search_checkbox" >
-                  <input type="checkbox" name="like[owner]" value="is_owner" title="业主">
-                  <input type="checkbox" name="like[seller]" value="is_seller" title="商家" checked="">
-                  <input type="checkbox" name="like[engineer]" value="is_engineer" title="工程师">
+                  <input type="checkbox"  name="like[owner]" value="is_owner" title="业主">
+                  <input type="checkbox"  name="like[seller]" value="is_seller" title="商家">
+                  <input type="checkbox"  name="like[engineer]" value="is_engineer" title="工程师">
                 </div>
               </div>
          
@@ -361,8 +361,26 @@
                         area: ['400px', '300px'],
                         content: $("#popUpdateTest") //引用的弹出层的页面层的方式加载修改界面表单
                     });
+                    console.log(data);
+                    html = '';
+                    if(data.is_owner == 1){
+                    html += '<input type="checkbox"  name="like[owner]" value="is_owner" title="业主" checked="">';
+                    }else{
+                        html += '<input type="checkbox"  name="like[owner]" value="is_owner" title="业主" >';
+                    }
+                    if(data.is_seller == 1){
+                    html +='<input type="checkbox"  name="like[seller]" value="is_seller" title="商家" checked="">';
+                    }else{
+                        html +='<input type="checkbox"  name="like[seller]" value="is_seller" title="商家" >';
+                    }
+                    if(data.is_engineer == 1){
+            html +='<input type="checkbox"  name="like[engineer]" value="is_engineer" title="工程师" checked="" >';
+                    }else{
+                        html +='<input type="checkbox"  name="like[engineer]" value="is_engineer" title="工程师" >';
+                    }
 
-              
+                    $('#search_checkbox').html(html);
+                    form.render();    //重新渲染
                     dataId = data.id;
                     setFormId(obj,dataId);
                     function setFormId(obj,dataId){

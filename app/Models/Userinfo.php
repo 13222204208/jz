@@ -36,18 +36,24 @@ class Userinfo extends Authenticatable implements JWTSubject {
 
     public function getRoleNameAttribute()
     {
-        $role_id = $this->attributes['role_id'];
-        if($role_id == 1){
-            return '业主';
+        $owner = $this->attributes['is_owner'];
+        $seller = $this->attributes['is_seller'];
+        $engineer = $this->attributes['is_engineer'];
+
+        $roleName = '';
+        if($owner== 1){
+            $roleName .= '业主'.',';
         }
 
-        if($role_id == 2){
-            return '商家';
+        if($seller == 1){
+            $roleName .= '商家'.',';
         }
 
-        if($role_id == 3){
-            return '工程师';
+        if($engineer == 1){
+            $roleName .= '工程师'.',';
         }
+
+        return rtrim($roleName,',');
     }
 
 }
