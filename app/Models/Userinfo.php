@@ -50,12 +50,4 @@ class Userinfo extends Authenticatable implements JWTSubject {
         }
     }
 
-    public function getSexAttribute($value)
-    {
-        if($value == 1){
-            return '男';
-        }else{
-            return '女';
-        }
-    }
 }

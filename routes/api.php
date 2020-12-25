@@ -15,6 +15,7 @@ Route::prefix('user')->group(function (){
     
         Route::post('dynamic','Api\User\UserDynamicController@dynamic');//用户美图发布
         Route::get('my_dynamic','Api\User\UserDynamicController@myDynamic');//用户我的美图
+        Route::post('comment','Api\User\UserDynamicController@comment');//用户对美图评论
     
         Route::get('form_type','Api\User\DesignController@formType');//表单类型数据
         Route::post('design','Api\User\DesignController@design');//提交智能设计数据
@@ -25,18 +26,18 @@ Route::prefix('user')->group(function (){
     
         Route::get('rate','Api\User\ConstructController@rate');//订单进度显示
 
+        Route::post('prot','Api\User\ProtController@prot');//订单进度显示
+
     });
 });
 
 Route::prefix('homepage')->group(function (){
 
+    Route::get('banner','Api\Homepage\BannerController@banner');//获取banner轮播图
+    Route::get('menu','Api\Homepage\MenuController@menu');//获取首页套餐显示
+    Route::get('dynamic','Api\Homepage\DynamicController@dynamic');//获取首页客户美图
+    Route::get('dynamic_detail','Api\Homepage\DynamicController@dynamicDetail');//获取美图详细信息
     Route::group(['middleware' => 'auth.jwt'], function () {
-
-        Route::get('banner','Api\Homepage\BannerController@banner');//获取banner轮播图
-
-        Route::get('menu','Api\Homepage\MenuController@menu');//获取首页套餐显示
-    
-        Route::get('dynamic','Api\Homepage\DynamicController@dynamic');//获取首页客户美图
         Route::post('like','Api\Homepage\DynamicController@like');//点赞客户美图
     });
 
@@ -44,11 +45,10 @@ Route::prefix('homepage')->group(function (){
 
 Route::prefix('goods')->group(function (){
 
+    Route::get('list','Api\Goods\GoodsListController@list');//获取产品列表 
     Route::group(['middleware' => 'auth.jwt'], function () {
         
-        Route::get('list','Api\Goods\GoodsListController@list');//获取产品列表 
-
-        Route::get('menu','Api\Homepage\MenuController@menu');//获取首页套餐显示
+      
     });
 
 
@@ -73,9 +73,10 @@ Route::prefix('aftersale')->group(function (){//报修和售后
 });
 
 Route::prefix('caseinfo')->group(function (){//案例和资讯
-
+    
+    Route::get('list','Api\CaseInfo\CaseInfoController@list');//查询案例和资讯 
     Route::group(['middleware' => 'auth.jwt'], function () {
-        Route::get('list','Api\CaseInfo\CaseInfoController@list');//查询案例和资讯 
+      
     });
 
 });

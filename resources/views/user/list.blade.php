@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>工程订单 </title>
+    <title>用户列表 </title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -13,21 +13,83 @@
 </head>
 <body>
 
+    <form class="layui-form" action="">
+        <br>
+        <div class="layui-form-item">
+           <label class="layui-form-label">  用户:</label>
+    
+        <div class="layui-inline">
+          <input class="layui-input" name="name" id="demoReload" autocomplete="off">
+        </div>
+        
+      </div>
+     
+    
+        <div class="layui-form-item">
+          <label class="layui-form-label">角色名称:</label>
+          <div class="layui-input-block">
+              <select name="role_id" id="isNo" lay-filter="stateIsNo">
+                  <option value=""></option>
+                  <option value="1">业主</option>
+                  <option value="2">商家</option>
+                  <option value="3">工程师</option>
+              </select>
+          </div>
+      </div>
+    
+    
+        <div class="layui-form-item ">
+          <div class="layui-input-block">
+              <div class="layui-footer" style="left: 0;">
+                  <button class="layui-btn" lay-submit="" lay-filter="create">查询</button>
+              </div>
+          </div>
+      </div>
+    </form>
 
 
     <div class="layui-row" id="popUpdateTest" style="display:none;">
-            <table class="layui-hide" id="LAY_table" lay-filter="user"></table>
-            <script type="text/html" id="toolbarDemo">
-                <div  style="text-align: center">  <button class="layui-btn layui-btn-sm" lay-event="getCheckData">确定选择</button></div>
-              </script>       
+        <form class="layui-form" action="">
+            <br>
+            <div class="layui-form-item">
+                <label class="layui-form-label">复选框</label>
+                <div class="layui-input-block" id="search_checkbox" >
+                  <input type="checkbox" name="like[owner]" value="is_owner" title="业主">
+                  <input type="checkbox" name="like[seller]" value="is_seller" title="商家" checked="">
+                  <input type="checkbox" name="like[engineer]" value="is_engineer" title="工程师">
+                </div>
+              </div>
+         
+        
+{{--              <div class="layui-form-item">
+              <label class="layui-form-label">角色名称:</label>
+              <div class="layui-input-block" >
+                  <select name="role_id" id="isNo" lay-filter="stateIsNo">
+                      <option value=""></option>
+                      <option value="1">业主</option>
+                      <option value="2">商家</option>
+                      <option value="3">工程师</option>
+                  </select>
+              </div>
+          </div>  --}}
+        
+        
+            <div class="layui-form-item ">
+              <div class="layui-input-block">
+                  <div class="layui-footer" style="left: 0;">
+                      <button class="layui-btn" lay-submit="" lay-filter="createRole">更换角色</button>
+                  </div>
+              </div>
+          </div>
+        </form>
     </div>
 
     <table class="layui-hide" id="LAY_table_user" lay-filter="user"></table>
-{{--      <script type="text/html" id="barDemo">
-        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="edit">分配工程师</a>
+     <script type="text/html" id="barDemo">
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="edit">分配角色</a>
    
 
-    </script>  --}}
+    </script>  
 
     <script src="/layuiadmin/layui/layui.js"></script>
     <script>
@@ -59,8 +121,8 @@
                             width: 80,
                             sort: true
                         }, {
-                            field: 'username',
-                            title: '用户名',
+                            field: 'nickname',
+                            title: '昵称',
                        
                         },{
                             field: 'phone',
@@ -83,22 +145,30 @@
                             title: '角色',
                                           
                         },{
+                            field: 'company',
+                            title: '公司名称',
+                                          
+                        },{
                             field: 'status',
                             title: '状态',
                             //width:150,
                             templet: function(d) {
                                 if (d.status == 1) {
-                                  return '<div class="layui-input-block">'+
-                                    '<input type="checkbox" class="switch_checked" lay-filter="switchGoodsID"'+ 'switch_goods_id="'+ d.id+
-                                     '" lay-skin="switch" lay-text="正常|已禁用">'+
-                                  '</div>';
+                                  return '<input type="checkbox" class="switch_checked" lay-filter="switchGoodsID"'+ 'switch_goods_id="'+ d.id+
+                                     '" lay-skin="switch" lay-text="正常|已禁用">';
+                                  
                                 }else{
-                                    return '<div class="layui-input-block">'+
-                                        '<input type="checkbox" class="switch_checked" lay-filter="switchGoodsID"'+ 'switch_goods_id="'+ d.id+
-                                         '" lay-skin="switch" checked '+ 'lay-text="正常|已禁用">'+
-                                      '</div>';
+                                return '<input type="checkbox" class="switch_checked" lay-filter="switchGoodsID"'+ 'switch_goods_id="'+ d.id+
+                                         '" lay-skin="switch" checked '+ 'lay-text="正常|已禁用">';
+                                   
                                 }
                               }
+                        },{
+                            fixed: 'right',
+                            title: "操作",
+                            width: 200,
+                            align: 'center',
+                            toolbar: '#barDemo'
                         }
                     ]
                 ],
@@ -163,6 +233,93 @@
 
                });
 
+               form.on('submit(create)', function (data) {
+                console.log(data.field); 
+                table.render({
+                    url: "search" //数据接口
+                        ,
+                    where:{
+                        info:data.field.name,
+                        role_id:data.field.role_id
+                    },
+                    page: true //开启分页
+                        ,
+                    elem: '#LAY_table_user',
+                    cols: [
+                        [
+    
+                            {
+                                field: 'id',
+                                title: 'ID',
+                                width: 80,
+                                sort: true
+                            },{
+                                field: 'phone',
+                                title: '手机号',
+                            
+                            },{
+                                field: 'truename',
+                                title: '真实姓名',
+                            
+                            },{
+                                field: 'address',
+                                title: '地址',
+                            
+                            },{
+                                field: 'sex',
+                                title: '姓别',
+                            
+                            },{
+                                field: 'role_name',
+                                title: '角色',
+                                              
+                            },{
+                                field: 'company',
+                                title: '公司名称',
+                                              
+                            },{
+                                field: 'status',
+                                title: '状态',
+                                //width:150,
+                                templet: function(d) {
+                                    if (d.status == 1) {
+                                      return '<input type="checkbox" class="switch_checked" lay-filter="switchGoodsID"'+ 'switch_goods_id="'+ d.id+
+                                         '" lay-skin="switch" lay-text="正常|已禁用">';
+                                    }else{
+                                        return '<input type="checkbox" class="switch_checked" lay-filter="switchGoodsID"'+ 'switch_goods_id="'+ d.id+
+                                             '" lay-skin="switch" checked '+ 'lay-text="正常|已禁用">';
+                                    }
+                                  }
+                            },{
+                                fixed: 'right',
+                                title: "操作",
+                                width: 200,
+                                align: 'center',
+                                toolbar: '#barDemo'
+                            }
+                        ]
+                    ],
+                    parseData: function (res) { //res 即为原始返回的数据
+                        console.log(res);
+                        return {
+                            "code": '0', //解析接口状态
+                            "msg": res.message, //解析提示文本
+                            "count": res.total, //解析数据长度
+                            "data": res.data //解析数据列表
+                        }
+                    },
+                    id: 'testReload',
+                    title: '后台用户',
+                    totalRow: true
+    
+                });
+                   
+         
+                 return false;
+             });
+
+
+
             table.on('tool(user)', function (obj) {
                  data = obj.data;
              
@@ -200,107 +357,53 @@
                     layer.open({
                         //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
                         type: 1,
-                        title: "分配订单给安装人员",
-                        area: ['700px', '600px'],
+                        title: "更换角色",
+                        area: ['400px', '300px'],
                         content: $("#popUpdateTest") //引用的弹出层的页面层的方式加载修改界面表单
                     });
 
-                    table.render({
-                        url: "build/3" //数据接口
-                            ,
-                        toolbar: '#toolbarDemo',
-                        page: true, //开启分页
-                            
-                        elem: '#LAY_table',
-                        cols: [
-                            [
-                                {type:'checkbox'},
-                                {
-                                    field: 'id',
-                                    title: 'ID',
-                                    width: 80,
-                                    sort: true
-                                }, {
-                                    field: 'truename',
-                                    title: '姓名',
-                                    width:150
-                                },{
-                                    field: 'phone',
-                                    title: '手机号',
-                                    width:150
-                                }, {
-                                    field: 'id_number',
-                                    title: '身份证号',
-                              
-                                }
-                            ]
-                        ],
-                        parseData: function (res) { //res 即为原始返回的数据
-                            console.log(res);
-                            return {
-                                "code": '0', //解析接口状态
-                                "msg": res.message, //解析提示文本
-                                "count": res.total, //解析数据长度
-                                "data": res.data //解析数据列表
-                            }
-                        },
-                        id: 'testReload',
-                        title: '后台用户',
-                        totalRow: true
-        
-                    });
+              
                     dataId = data.id;
                     setFormId(obj,dataId);
                     function setFormId(obj,dataId){
-                        table.on('toolbar(user)', function(obj){
-                            var checkStatus = table.checkStatus(obj.config.id);
-                        
-                            switch(obj.event){
-                            case 'getCheckData':
-                                var data = checkStatus.data;
-                               // layer.alert(JSON.stringify(data));
-                            break;
-                            };
-    
-                            if(data.length >1 ){
-                                layer.msg("只能选择一个人员", {
-                                    icon: 5
-                                });
-                            }
-            
-                            id = data[0]['id'];
 
-                            
-                    $.ajax({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        url: "build/"+dataId,
-                        type: 'patch',
-                        data: {engineer_id:id},//工程师id
-                        success: function (msg) {
-                            if (msg.status == 200) {
-                                layer.closeAll('loading');
-                                layer.load(2);
-                                layer.msg("分配成功", {
-                                    icon: 6
-                                });
-                                setTimeout(function () {
-                                    window.location.reload()
-                                    layer.closeAll(); //关闭所有的弹出层
-                                    //window.location.href = "/edit/horse-info";
-
-                                }, 1000);
-
-                            } else {
-                                layer.msg("修改失败", {
-                                    icon: 5
-                                });
-                            }
-                        }
-                    })
-                    return false;
-
+                        form.on('submit(createRole)', function (data) {
+                            role_id = data.field.role_id;
+                            var arr_box = [];
+                            $('#search_checkbox input[type=checkbox]:checked').each(function() {
+                               arr_box.push($(this).val());
+                            });
+                          
+                            $.ajax({
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
+                                url: "userinfo/"+dataId,
+                                type: 'patch',
+                                data:{role:arr_box} ,//工程师id
+                                success: function (msg) {
+                                    console.log(msg);
+                                    if (msg.status == 200) {
+                                        layer.closeAll('loading');
+                                        layer.load(2);
+                                        layer.msg("修改成功", {
+                                            icon: 6
+                                        });
+                                        setTimeout(function () {
+                                            window.location.reload()
+                                            layer.closeAll(); //关闭所有的弹出层
+                                            //window.location.href = "/edit/horse-info";
+        
+                                        }, 1000);
+        
+                                    } else {
+                                        layer.msg("修改失败", {
+                                            icon: 5
+                                        });
+                                    }
+                                }
+                            })
+                            return false;
                         });
                     }
 

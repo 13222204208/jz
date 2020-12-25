@@ -179,6 +179,14 @@ Route::prefix('user')->group(function () {
     });
     
     Route::resource('userinfo', 'User\UserInfoController');
+    Route::get('search','User\SearchUserController@search');
+
+    Route::get('true-name', function () {
+        return view('user.true-name');//实名认证
+    });
+    
+    Route::resource('truename', 'User\TruenameController');
+    
     
 
     Route::get('after-sale-list', function () {

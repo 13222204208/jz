@@ -146,6 +146,9 @@
                   <a lay-href="user/list">用户列表</a>
                 </dd>
                 <dd>
+                  <a lay-href="user/true-name">实名认证</a>
+                </dd>
+                <dd>
                   <a lay-href="user/after-sale-list">报修售后列表</a>
                 </dd>
                 <dd>

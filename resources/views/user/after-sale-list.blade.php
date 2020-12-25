@@ -167,7 +167,12 @@
                         photo += '<img width="300px" src="'+url+element+'">'
                         
                     });
-                    $("#popPhoto").html(photo);
+                    if(data.photo == ''){
+                        $("#popPhoto").html('没有上传故障图片');   
+                    }else{
+                        $("#popPhoto").html(photo);
+                    }
+                   
                 } else if (obj.event === 'edit') {
                     //location.href="details/"+data.id;
                     layer.open({

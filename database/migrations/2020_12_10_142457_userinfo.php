@@ -24,6 +24,9 @@ class Userinfo extends Migration
             $table->tinyInteger('sex')->default(0)->comment('性别 0代表女，1代表男');
             $table->string('address')->default('')->comment('地址');
             $table->tinyInteger('role_id')->default(1)->comment('角色 1,业主 2,商家 3,工程师');
+            $table->tinyInteger('is_owner')->default(1)->comment('是否是业主默认为是');
+            $table->tinyInteger('is_seller')->default(0)->comment('是否是商家，默认0  1代表是');
+            $table->tinyInteger('is_engineer')->default(0)->comment('是否是工程师，默认不是 1代表是');
             $table->string('role')->default('')->comment('角色名称');
             $table->string('cover')->default('')->comment('头像');
             $table->string('company')->default('')->comment('公司');
@@ -32,7 +35,7 @@ class Userinfo extends Migration
             $table->string('id_front')->default('')->comment('身份证正面');
             $table->string('id_the_back')->default('')->comment('身份反面');
             $table->string('id_in_hand')->default('')->comment('手持身份证');
-            $table->tinyInteger('engineer_status')->default(2)->comment('安装师傅状态，2为未审核，1为审核通过');
+            $table->tinyInteger('engineer_status')->default(3)->comment('安装师傅状态，2为未审核，1为审核通过,3未提交实名认证信息');
             $table->timestamps();
 
             $table->comment="小程序登陆的用户表";

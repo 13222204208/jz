@@ -74,7 +74,36 @@ class UserInfoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $role=  $request->role;
+
+        $arr = array();
+        if(in_array('is_owner',$role)){
+            $arr['is_owner'] = 1;
+        }else{
+            $arr['is_owner'] = 0;
+        }
+      
+        if(in_array('is_seller',$role)){
+            $arr['is_seller'] = 1;
+        }else{
+            $arr['is_seller'] = 0;
+        }
+
+        if(in_array('is_engineer',$role)){
+            $arr['is_engineer'] = 1;
+        }else{
+            $arr['is_engineer'] = 0;
+        }
+      
+        $state= Userinfo::where('id',$id)->update($arr);
+
+        if ($state) {
+            return response()->json([ 'status' => 200]);
+
+        } else {
+
+            return response()->json([ 'status' => 403]);
+        }   
     }
 
     /**

@@ -79,4 +79,47 @@ class UserDynamicController extends Controller
         }
 
     }
+
+    public function comment(Request $request)//评论美图 
+    {
+        try {
+            $data = $request->all();
+            $validator = Validator::make(//验证数据字段
+                $data,
+                [
+                    'dynamic_id' => 'required',
+                    'content' => 'required'
+                ],
+                [
+                    'required' => ':attribute不能为空'
+                ],
+                [
+                    'dynamic_id' => '美图ID',
+                    'content' => '评论内容'
+                ]        
+            );
+    
+            if ($validator->fails()) {
+                $messages = $validator->errors()->first();
+                return response()->json([ 'code' => 0 ,'msg'=>$messages]);
+            }
+
+            $dynamic = UserDynamic::find($request->dynamic_id);
+            $id = $dynamic->comments()->create([
+                'content' => request('content'),
+                'userinfo_id' => $this->user->id,
+                'parent_id' => request('parent_id',null)
+            ])->id;
+            
+            if($id){
+                return response()->json([ 'code' => 1 ,'msg'=>'成功']);
+            }else{
+                return response()->json([ 'code' => 0 ,'msg'=>'失败']);
+            }
+         
+        } catch (\Throwable $th) {
+            $err = $th->getMessage();
+            return response()->json([ 'code' => 0 ,'msg'=>$err]);
+        }
+    }
 }

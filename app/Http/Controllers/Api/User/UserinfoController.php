@@ -73,12 +73,27 @@ class UserinfoController extends Controller
                 $userData['nickname'] = $request->nickname;
                 $userData['token'] = $token;
                 $userData['cover'] = $request->cover;
+                $userData['sex'] = $user->sex;
+                $userData['phone'] = $user->phone;
+                $userData['address'] = $user->address;
+                $userData['company'] = $user->company;
+                $userData['is_owner'] = $user->is_owner;
+                $userData['is_seller'] = $user->is_seller;
+                $userData['is_engineer'] = $user->is_engineer;
+
              return response()->json([ 'code' => 1 ,'msg'=>'成功','data' =>$userData]);
             }
             $token = JWTAuth::fromUser($state);
             $userinfo['token'] = $token;
             $userinfo['nickname'] = $state->nickname;
             $userinfo['cover'] = $state->cover;
+            $userinfo['sex'] = $state->sex;
+            $userinfo['phone'] = $state->phone;
+            $userinfo['address'] = $state->address;
+            $userinfo['company'] = $state->company;
+            $userinfo['is_owner'] = $state->is_owner;
+            $userinfo['is_seller'] = $state->is_seller;
+            $userinfo['is_engineer'] = $state->is_engineer;
             return response()->json([ 'code' => 1 ,'msg'=>'成功','data' =>$userinfo]);
         } catch (\Throwable $th) {
             $err = $th->getMessage();
@@ -190,7 +205,7 @@ class UserinfoController extends Controller
             if ( $result === false ) {
                 return response()->json([ 'code' => 0 ,'msg'=>'你的身份证号码不正确']);
             }
-    
+            $data['engineer_status'] = 2;//工程师实名认证审核状态
             $state = Userinfo::where('id',$this->user->id)->update($data);//编辑用户资料，
     
             if ($state) {

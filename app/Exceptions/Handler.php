@@ -62,7 +62,7 @@ class Handler extends ExceptionHandler
         } */
 
         if ($exception instanceof UnauthorizedHttpException) {
-            return response()->json(['msg' => '没有提供token','code'=>0]);
+            return response()->json(['msg' => '没有提供token，请登陆获取','code'=>-1]);
         }
 
         return parent::render($request, $exception);
