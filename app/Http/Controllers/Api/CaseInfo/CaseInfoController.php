@@ -44,7 +44,7 @@ class CaseInfoController extends Controller
                 $page = ($request->get('page') -1)*$size;
             }
     
-            $data= CaseInfo::where('type',$type)->where('status',1)->skip($page)->take($size)->get(['title','cover','tag']);
+            $data= CaseInfo::where('type',$type)->where('status',1)->skip($page)->take($size)->get(['id','title','cover','tag']);
     
             if($data){
                 return response()->json([

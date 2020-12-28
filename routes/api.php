@@ -34,7 +34,7 @@ Route::prefix('user')->group(function (){
 Route::prefix('homepage')->group(function (){
 
     Route::get('banner','Api\Homepage\BannerController@banner');//获取banner轮播图
-    Route::get('menu','Api\Homepage\MenuController@menu');//获取首页套餐显示
+    //Route::get('menu','Api\Homepage\MenuController@menu');//获取首页套餐显示
     Route::get('dynamic','Api\Homepage\DynamicController@dynamic');//获取首页客户美图
     Route::get('dynamic_detail','Api\Homepage\DynamicController@dynamicDetail');//获取美图详细信息
     Route::group(['middleware' => 'auth.jwt'], function () {

@@ -12,6 +12,24 @@ class Comment extends Model
     use Timestamp;
     
     protected $guarded = [];
+    protected $appends = ['owner_cover','owner_nickname'];
+
+    public function userinfo()
+    {
+        $owner_id = $this->attributes['userinfo_id'];
+        $userinfo = Userinfo::find($owner_id);
+        return $userinfo;
+    }
+
+    public function getOwnerCoverAttribute()
+    {
+        return $this->userinfo()->cover;
+    }
+
+    public function getOwnerNicknameAttribute()
+    {
+        return $this->userinfo()->nickname;
+    }
 
     /**
      * 这个评论的所属用户

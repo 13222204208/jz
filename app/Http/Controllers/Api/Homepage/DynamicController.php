@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Api\Homepage;
 
+use App\Models\Comment;
 use App\Models\Userinfo;
 use App\Models\UserDynamic;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
 
@@ -25,20 +27,28 @@ class DynamicController extends Controller
         }
     }
     
-    public function dynamic()
+    public function dynamic(Request $request)
     {
+        $size = 20;
+        if($request->size){
+            $size = $request->size;
+        }
+
+        $page = 0;
+        if($request->page){
+            $page = ($request->page -1)*$size;
+        }
+
         try {
      
             if(!$this->id){
-                $newData= UserDynamic::where('status',2)->get()->toArray();//得出其它业主美图
+                $newData= UserDynamic::where('status',2)->skip($page)->take($size)->get()->toArray();//得出其它业主美图
             }else{
                 $id = $this->user->id;
                 $myData = UserDynamic::where('user_id',$id)->where('status',2)->get()->toArray();//得出当前业主美图
-                $data= UserDynamic::where('user_id','!=',$id)->where('status',2)->get()->toArray();//得出其它业主美图
+                $data= UserDynamic::where('status',2)->where('user_id','!=',$id)->skip($page)->take($size)->orderBy('id','desc')->get()->toArray();//得出其它业主美图
                 $newData= array_merge($myData,$data);
             }
-     
-
             return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=> $newData]);
         } catch (\Throwable $th) {
             $err = $th->getMessage();
@@ -52,7 +62,8 @@ class DynamicController extends Controller
             $user = Userinfo::find($this->user->id);
             $dynamic = UserDynamic::find($request->id);
             if($user->hasVoted($dynamic)){
-                return response()->json([ 'code' => 0 ,'msg'=>'你已经点过赞了']);
+                $user->cancelVote($dynamic);
+                return response()->json([ 'code' => 1 ,'msg'=>'已取消点赞']);
             }
             
             $state= $user->upVote($dynamic);
@@ -74,29 +85,43 @@ class DynamicController extends Controller
         try {
             if($request->dynamic_id != ''){
 
+                $size = 20;
+                if($request->size){
+                    $size = $request->size;
+                }
+        
+                $page = 0;
+                if($request->page){
+                    $page = ($request->page -1)*$size;
+                }
+
+                if($request->comment_id != ''){
+                    $comment_id = $request->comment_id;
+                    $data= Comment::where('parent_id',$comment_id)->skip($page)->take($size)->get();
+                    return response()->json([ 'code' => 1 ,'msg'=>'成功','data' => $data]);
+                }
+
                 $dynamic_id = $request->dynamic_id;
                 $dynamic = UserDynamic::find($dynamic_id);
-                $dynamic->load('comments.owner');
-                $comments = $dynamic->getComments();
-                $comments['comments'] = $comments[''];
-                unset($comments['']);
-            
-             
-                $arr = $comments['comments'];
-           
-                foreach ($comments as $key => $value) {
-                    foreach ($comments['comments'] as $k => $comment) {
-                        if($key == $comment->id){
-                            $arr[$k]['list'] = $value;
-                        }
-                    }
+
+
+                $arr= Comment::where('user_dynamic_id',$dynamic_id)->where('parent_id',null)->skip($page)->take($size)->get();
+                
+                $mData = array();
+
+                foreach ($arr as $value) {
+                    $count= Comment::where('parent_id',$value->id)->count();
+                    $value->count = $count;
+                    $mData[] = $value;
                 }
-                           
     
                 $datas = array();
                 $datas['dynamic']['title'] = $dynamic->title;
                 $datas['dynamic']['owner_cover'] = $dynamic->owner_cover;
                 $datas['dynamic']['owner_nickname'] = $dynamic->owner_nickname;  
+                $datas['dynamic']['photo'] = $dynamic->photo;  
+                $datas['dynamic']['like_count'] = $dynamic->like_count;  
+                $datas['dynamic']['created_at'] = $dynamic->created_at;  
                 $datas['comments'] = $arr;
         
                 return response()->json([ 'code' => 1 ,'msg'=>'成功','data' => $datas]);

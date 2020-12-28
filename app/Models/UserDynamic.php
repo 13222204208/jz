@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Userinfo;
 use Jcc\LaravelVote\CanBeVoted;
 use App\Models\Traits\Timestamp;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -16,7 +17,7 @@ class UserDynamic extends Model
 
     protected $guarded = [];
 
-    protected $appends = ['owner_cover','owner_nickname','like_count'];
+    protected $appends = ['owner_cover','owner_nickname','like_count','like_status','comment_count'];
 
     public function userinfo()
     {
@@ -39,6 +40,25 @@ class UserDynamic extends Model
     {
         $dynamic = UserDynamic::find($this->attributes['id']);
         return $dynamic->countVoters();
+    }
+
+    public function getLikeStatusAttribute()
+    {
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+            $dynamic = UserDynamic::find($this->attributes['id']);
+            if($user->hasVoted($dynamic)){
+                return 1;
+            }
+            return 2;
+        } catch (\Throwable $th) {
+            return 2;
+        }
+    }
+
+    public function getCommentCountAttribute()
+    {
+        return $this->comments()->count();
     }
 
     /**
