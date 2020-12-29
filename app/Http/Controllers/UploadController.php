@@ -48,7 +48,7 @@ class UploadController extends Controller
     public function contentImg(Request  $request)
     {
         $namePath= $this->uploadImg($request->file('file'),'goods');
-        $d = pathinfo($namePath); return $d;
+        $d = pathinfo($namePath); 
         if ($namePath) {
             $data['src'] = $d['basename'];
             return response()->json([ 'code' => 0 ,'msg'=>'','data' =>$data]);
@@ -61,6 +61,7 @@ class UploadController extends Controller
     {
         $namePath= $this->uploadImg($request->file('file'),'content');
         $d = pathinfo($namePath); 
+
         if ($namePath) {
             $data['src'] = $d['basename'];
             return response()->json([ 'code' => 0 ,'msg'=>'','data' =>$data]);

@@ -64,10 +64,20 @@ class UserDynamicController extends Controller
 
     }
 
-    public function myDynamic()
+    public function myDynamic(Request $request)
     {
         try {
-            $data= UserDynamic::where('user_id',$this->user->id)->get(['title','photo','created_at','user_id','id']);
+            $size = 20;
+            if($request->size){
+                $size = $request->size;
+            }
+    
+            $page = 0;
+            if($request->page){
+                $page = ($request->page -1)*$size;
+            }
+
+            $data= UserDynamic::where('user_id',$this->user->id)->skip($page)->take($size)->get(['title','photo','created_at','user_id','id']);
             if ($data) {
                 return response()->json([ 'code' => 1 ,'msg'=>'成功','data' =>$data]);
             } else {

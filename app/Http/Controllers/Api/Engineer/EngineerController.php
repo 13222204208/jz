@@ -13,6 +13,7 @@ use App\Models\BeforeConstruction;
 use App\Models\FinishConstruction;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
+use App\Models\News;
 use Illuminate\Support\Facades\Validator;
 
 class EngineerController extends Controller
@@ -191,13 +192,21 @@ class EngineerController extends Controller
                     $messages = $validator->errors()->first();
                     return response()->json([ 'code' => 0 ,'msg'=>$messages]);
                 }
-
+                unset($data['token']);
                 DoneConstruction::create($data);
                 $state = BuildOrder::where('order_num',$data['order_num'])->update([
                     'status' =>3
                 ]);
 
                 if($state){
+                    $order = BuildOrder::where('order_num',$data['order_num'])->first();
+                    News::create([
+                        'order_id'=> $order->id,
+                        'order_num' => $order->order_num,
+                        'userinfo_phone' =>$order->owner_phone,
+                        'comments' => '订单已完成',
+                        'order_status' =>3,
+                    ]);
                     return response()->json([ 'code' => 1 ,'msg'=>'成功']);
                 }else{
                     return response()->json([ 'code' => 0 ,'msg'=>'参数类型错误']);

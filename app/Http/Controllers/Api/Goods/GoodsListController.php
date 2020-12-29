@@ -13,7 +13,7 @@ class GoodsListController extends Controller
         try { 
             if($request->id != ""){
                 $data= Good::where('id',$request->id)->get([
-                    'id','title','description','cover','photo','number','price','content'
+                    'id','title','description','cover','photo','sold','number','price','content'
                 ])->first();
                 if($data){
                     return response()->json([ 'code' => 1 ,'msg'=>'成功','data' =>$data]);
@@ -33,7 +33,7 @@ class GoodsListController extends Controller
             }
     
             $data= Good::where('status',1)->skip($page)->take($size)->get([
-                'id','title','description','cover','photo','number','price','content'
+                'id','title','description','cover','photo','sold','number','price','content'
             ]);
     
             if($data){

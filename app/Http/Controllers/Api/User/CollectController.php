@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Api\User;
 
+use App\Models\Cart;
 use App\Models\Good;
 use App\Models\Collect;
+use App\Models\CartItem;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
@@ -25,7 +27,30 @@ class CollectController extends Controller
     
     public function collect(Request $request)//收藏产品
     {
-        try {
+          try {
+            if(!$request->has('id')){
+                return response()->json([ 'code' => 0 ,'msg'=>'缺少商品id']);
+            }
+            $id = $request->id;//商品id
+            $cart = Cart::where('userinfo_id',$this->user->id)->first();
+            if(!$cart){
+                $cart = new Cart();
+                $cart->userinfo_id = $this->user->id;
+                $cart->save();
+            }
+  
+            $cartItem = new CartItem();
+            $cartItem->product_id = $id;
+            $cartItem->cart_id = $cart->id;
+            $cartItem->save();
+            return response()->json([ 'code' => 1 ,'msg'=>'收藏成功']);
+
+        } catch (\Throwable $th) {
+            $err = $th->getMessage();
+            return response()->json([ 'code' => 0 ,'msg'=>$err]);
+        } 
+
+/*          try {
             if(!$request->has('id')){
                 return response()->json([ 'code' => 0 ,'msg'=>'缺少商品id']);
             }
@@ -43,19 +68,56 @@ class CollectController extends Controller
         } catch (\Throwable $th) {
             $err = $th->getMessage();
             return response()->json([ 'code' => 0 ,'msg'=>$err]);
-        }
+        }  */
     }
 
-    public function collectList()//产品收藏列表
+    public function collectList(Request $request)//产品收藏列表
     {
+
         try {
-            $goods_id= Collect::where('userinfo_id',$this->user->id)->where('status',1)->pluck('goods_id');
-            $data = Good::whereIn('id',$goods_id)->get(['id','title','description','price','cover']);
-            return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$data]);
+            $size = 10;
+            if($request->get('size')){
+                $size = $request->get('size');
+            }
+    
+            $page = 0;
+            if($request->get('page')){
+                $page = ($request->get('page') -1)*$size;
+            }
+            $cart = Cart::where('userinfo_id',$this->user->id)->first();
+            if(!$cart){
+                $cart = new Cart();
+                $cart->userinfo_id = $this->user->id;
+                $cart->save();
+            }
+            $items = $cart->cartItems(['carts:product_id'])->get('cart_id','product_id');
+            return response()->json([ 'code' => 0 ,'msg'=>$items]);
         } catch (\Throwable $th) {
             $err = $th->getMessage();
             return response()->json([ 'code' => 0 ,'msg'=>$err]);
         }
+
+/*         try {
+            $size = 10;
+            if($request->get('size')){
+                $size = $request->get('size');
+            }
+    
+            $page = 0;
+            if($request->get('page')){
+                $page = ($request->get('page') -1)*$size;
+            }
+
+            $goods_id= Collect::where('userinfo_id',$this->user->id)->where('status',1)->pluck('goods_id');
+            $data = Good::whereIn('id',$goods_id)->skip($page)->take($size)->get(['id','title','description','price','cover']);
+            $gnum = Good::whereIn('id',$goods_id)->count();
+            $arr['count'] = $gnum;//产品种类
+            $arr['goods'] = $data;
+            return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$arr]);
+        } catch (\Throwable $th) {
+            $err = $th->getMessage();
+            return response()->json([ 'code' => 0 ,'msg'=>$err]);
+        } */
     }
 
     public function defined(Request $request)//保存方案
@@ -81,4 +143,5 @@ class CollectController extends Controller
             return response()->json([ 'code' => 0 ,'msg'=>$err]);
         }
     }
+
 }

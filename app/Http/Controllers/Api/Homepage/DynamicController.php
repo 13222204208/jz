@@ -42,14 +42,14 @@ class DynamicController extends Controller
         try {
      
             if(!$this->id){
-                $newData= UserDynamic::where('status',2)->skip($page)->take($size)->get()->toArray();//得出其它业主美图
+                $myData= UserDynamic::where('status',2)->skip($page)->take($size)->orderBy('created_at','desc')->get()->toArray();//得出其它业主美图
             }else{
                 $id = $this->user->id;
-                $myData = UserDynamic::where('user_id',$id)->where('status',2)->get()->toArray();//得出当前业主美图
-                $data= UserDynamic::where('status',2)->where('user_id','!=',$id)->skip($page)->take($size)->orderBy('id','desc')->get()->toArray();//得出其它业主美图
-                $newData= array_merge($myData,$data);
+                $myData = UserDynamic::where('status',2)->orderByRaw(DB::raw('FIELD(user_id, '.$id.') desc'))->skip($page)->take($size)->get();//得出当前业主美图
+               // $data= UserDynamic::where('status',2)->where('user_id','!=',$id)->skip($page)->take($size)->orderBy('id','desc')->get()->toArray();//得出其它业主美图
+                //$newData= array_merge($myData,$data);
             }
-            return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=> $newData]);
+            return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=> $myData]);
         } catch (\Throwable $th) {
             $err = $th->getMessage();
             return response()->json([ 'code' => 0 ,'msg'=>$err]);
@@ -97,15 +97,18 @@ class DynamicController extends Controller
 
                 if($request->comment_id != ''){
                     $comment_id = $request->comment_id;
-                    $data= Comment::where('parent_id',$comment_id)->skip($page)->take($size)->get();
-                    return response()->json([ 'code' => 1 ,'msg'=>'成功','data' => $data]);
+                    $data= Comment::where('parent_id',$comment_id)->skip($page)->take($size)->orderBy('created_at','desc')->get();
+                    $listCount = Comment::where('parent_id',$comment_id)->count();
+                    $arr['list_count'] = $listCount;
+                    $arr['list_comments'] = $data;
+                    return response()->json([ 'code' => 1 ,'msg'=>'成功','data' => $arr]);
                 }
 
                 $dynamic_id = $request->dynamic_id;
                 $dynamic = UserDynamic::find($dynamic_id);
 
 
-                $arr= Comment::where('user_dynamic_id',$dynamic_id)->where('parent_id',null)->skip($page)->take($size)->get();
+                $arr= Comment::where('user_dynamic_id',$dynamic_id)->where('parent_id',null)->orderBy('created_at','desc')->skip($page)->take($size)->get();
                 
                 $mData = array();
 
@@ -122,6 +125,7 @@ class DynamicController extends Controller
                 $datas['dynamic']['photo'] = $dynamic->photo;  
                 $datas['dynamic']['like_count'] = $dynamic->like_count;  
                 $datas['dynamic']['created_at'] = $dynamic->created_at;  
+                $datas['dynamic']['like_status'] = $dynamic->like_status;  
                 $datas['comments'] = $arr;
         
                 return response()->json([ 'code' => 1 ,'msg'=>'成功','data' => $datas]);

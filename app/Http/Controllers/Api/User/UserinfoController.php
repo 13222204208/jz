@@ -10,6 +10,7 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\UploadController;
+use App\Models\News;
 
 class UserinfoController extends Controller
 {
@@ -218,6 +219,17 @@ class UserinfoController extends Controller
             return response()->json([ 'code' => 0 ,'msg'=>$err]);
         }
 
+    }
+
+    public function news()
+    {
+        try {
+            $data= News::where('userinfo_phone',$this->user->phone)->get();
+            return response()->json([ 'code' => 1 ,'msg'=>'成功','data' =>$data]);
+        } catch (\Throwable $th) {
+            $err = $th->getMessage();
+            return response()->json([ 'code' => 0 ,'msg'=>$err]);
+        }
     }
 
 }

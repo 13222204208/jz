@@ -21,7 +21,7 @@ class AfterSale extends Migration
             $table->string('order_num')->unique()->comment('订单号');
             $table->string('goods_name')->comment('产品名称');
             $table->string('hitch_content')->comment('故障描述');
-            $table->string('photo')->default('')->comment('故障产品图片');
+            $table->string('photo')->nullable()->comment('故障产品图片');
             $table->integer('status')->default(1)->comment('状态  1：待处理  2：处理中 3：完成');
             $table->unsignedInteger('engineer_id')->default(0)->comment('分配的工程师id');
             $table->string('delete_time')->default('')->comment('删除时间');

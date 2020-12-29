@@ -163,6 +163,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Jcc\LaravelVote\VoteServiceProvider::class,//点赞
+ 
 
         /*
          * Package Service Providers...

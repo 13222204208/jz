@@ -2538,16 +2538,16 @@
         },
         {
             "name": "overtrue/wechat",
-            "version": "4.3.4",
+            "version": "4.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/w7corp/easywechat.git",
-                "reference": "3cb328208cc8d5a78c34586a0789fecaaea7855a"
+                "reference": "19d60ef304bae897ef5b68d6bf1a116940b53423"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/w7corp/easywechat/zipball/3cb328208cc8d5a78c34586a0789fecaaea7855a",
-                "reference": "3cb328208cc8d5a78c34586a0789fecaaea7855a",
+                "url": "https://api.github.com/repos/w7corp/easywechat/zipball/19d60ef304bae897ef5b68d6bf1a116940b53423",
+                "reference": "19d60ef304bae897ef5b68d6bf1a116940b53423",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -2609,9 +2609,9 @@
             ],
             "support": {
                 "issues": "https://github.com/w7corp/easywechat/issues",
-                "source": "https://github.com/w7corp/easywechat/tree/4.3.4"
+                "source": "https://github.com/w7corp/easywechat/tree/4.3.5"
             },
-            "time": "2020-12-15T08:46:48+00:00"
+            "time": "2020-12-23T06:55:46+00:00"
         },
         {
             "name": "phpoption/phpoption",
@@ -6903,16 +6903,16 @@
         },
         {
             "name": "facade/ignition",
-            "version": "2.5.3",
+            "version": "2.5.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/facade/ignition.git",
-                "reference": "d8dc4f90ed469f9f9313b976fb078c20585d5c99"
+                "reference": "2b6fd8b7b630e5c6a04440f7ed358e8753229509"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facade/ignition/zipball/d8dc4f90ed469f9f9313b976fb078c20585d5c99",
-                "reference": "d8dc4f90ed469f9f9313b976fb078c20585d5c99",
+                "url": "https://api.github.com/repos/facade/ignition/zipball/2b6fd8b7b630e5c6a04440f7ed358e8753229509",
+                "reference": "2b6fd8b7b630e5c6a04440f7ed358e8753229509",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -6982,7 +6982,7 @@
                 "issues": "https://github.com/facade/ignition/issues",
                 "source": "https://github.com/facade/ignition"
             },
-            "time": "2020-12-09T20:25:45+00:00"
+            "time": "2020-12-28T23:56:45+00:00"
         },
         {
             "name": "facade/ignition-contracts",

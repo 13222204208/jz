@@ -10,6 +10,7 @@ Route::prefix('user')->group(function (){
 
         Route::post('upload_img','Api\User\UserinfoController@uploadImg');//图片上传
         Route::post('edit','Api\User\UserinfoController@edit');//用户编辑资料
+        Route::get('news','Api\User\UserinfoController@news');//用户消息
     
         Route::post('truename','Api\User\UserinfoController@truename');//工程师编辑资料用于提交身份证资料实名认证
     
@@ -22,6 +23,7 @@ Route::prefix('user')->group(function (){
     
         Route::post('collect','Api\User\CollectController@collect');//收藏产品
         Route::get('collect_list','Api\User\CollectController@collectList');//产品收藏列表
+        Route::post('add_goods','Api\User\CollectController@addGoods');//添加产品数量
         Route::post('defined','Api\User\CollectController@defined');//保存方案
     
         Route::get('rate','Api\User\ConstructController@rate');//订单进度显示
