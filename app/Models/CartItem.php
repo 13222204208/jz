@@ -18,6 +18,6 @@ class CartItem extends Model
 
     public function product()
     {
-        return $this->hasMany('App\Models\Good','product_id');
+        return $this->hasMany('App\Models\Good','id','product_id');
     }
 }

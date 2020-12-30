@@ -51,7 +51,7 @@ class AfterSaleController extends Controller
     public function show(Request $request,$id)
     {
         $limit = $request->get('limit');
-        $data= Userinfo::where('role_id',3)->paginate($limit);
+        $data= Userinfo::where('is_engineer',1)->paginate($limit);
         return $data;
     }
 

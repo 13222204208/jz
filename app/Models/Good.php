@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\GoodsType;
 use App\Models\Traits\Timestamp;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,6 +10,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Good extends Model
 {
     use HasFactory,Timestamp;
+
+    protected $appends= ['quantity'];
 
     public function getContentAttribute($value)
     {
@@ -18,6 +21,17 @@ class Good extends Model
         $pregRule = "/<[img|IMG].*?src=[\‘|\"](.*?(?:[\.jpg|\.jpeg|\.png|\.gif|\.bmp]))[\‘|\"].*?[\/]?>/";
         $list = preg_replace($pregRule, '<img src="'.$url.'${1}" style="max-width:100%">', $value);
         return $list;
+    }
+
+    public function getGoodsTypeAttribute($value)
+    {
+        $goodsType=  GoodsType::find(intval($value),'name');
+        return $goodsType->name;
+    }
+
+    public function getQuantityAttribute()
+    {
+        return 1;
     }
     
 }

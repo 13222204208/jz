@@ -10,6 +10,7 @@ use App\Models\BuildBetweenGoods;
 use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
+use App\Models\Contract;
 use Illuminate\Support\Facades\Validator;
 
 class BuildOrderController extends Controller
@@ -100,7 +101,7 @@ class BuildOrderController extends Controller
 
         try {
             if($request->id != ''){//查询订单详情
-                $data= BuildOrder::find(intval($request->id),['status','owner_name','owner_phone','owner_address','functionary',
+                $data= BuildOrder::find(intval($request->id),['id','status','owner_name','owner_phone','owner_address','functionary',
                         'functionary_phone','time','agreement_id','owner_demand','engineer_id']);
                 $goods_id = BuildBetweenGoods::where('build_order_id',intval($request->id))->pluck('goods_id');
                 $ginfo= Good::whereIn('id',$goods_id)->get(['id','title','cover','price']);//查询套内商品
@@ -132,24 +133,56 @@ class BuildOrderController extends Controller
                 $page = ($request->page -1)*$size;
             }
     
-            $data= BuildOrder::skip($page)->take($size)->where('status',$status)->get(['id','status','owner_name','owner_phone','owner_address','functionary','functionary_phone','time','agreement_id','owner_demand','engineer_id']);
-            $arr = array();
-            foreach($data as $d){ 
-                $goods_id = BuildBetweenGoods::where('build_order_id',$d['id'])->pluck('goods_id');
-            
-                $ginfo= Good::whereIn('id',$goods_id)->get(['id','title','cover','price']);//查询套内商品
-        
-                $d['goods_id'] = $ginfo;
-                $d['engineer_name']="";
-                $d['engineer_phone']=""; 
-                if($d['engineer_id'] != null){
-                    $einfo = explode(',',$d['engineer_id']);
-                    $d['engineer_name']=$einfo[0];
-                    $d['engineer_phone']=$einfo[1];
-                } 
-                $arr[]= $d;
+            $data= BuildOrder::skip($page)->take($size)->where('merchant_id',$this->user->id)->where('status',$status)->get(['id','status','owner_name','owner_phone','owner_address','functionary','functionary_phone','time','agreement_id','owner_demand','engineer_id','order_name']); 
+            return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$data]);
+        } catch (\Throwable $th) {
+            $err = $th->getMessage();
+            return response()->json([ 'code' => 0 ,'msg'=>$err]);
+        }
+    }
+
+    public function contract(Request $request)
+    {
+        try {
+            $status = 1;
+            if($status != ''){
+                $status = $request->status;
             }
-            return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$arr]);
+
+            $size = 10;
+            if($request->size){
+                $size = $request->size;
+            }
+    
+            $page = 0;
+            if($request->page){
+                $page = ($request->page -1)*$size;
+            }
+
+            $data= Contract::where('merchant_id',$this->user->id)->where('status',$status)->skip($page)->take($size)->get();
+            return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$data]);
+        } catch (\Throwable $th) {
+            $err = $th->getMessage();
+            return response()->json([ 'code' => 0 ,'msg'=>$err]);
+        }
+    }
+
+    public function doneContract(Request $request)
+    {
+        try {
+
+            $size = 10;
+            if($request->size){
+                $size = $request->size;
+            }
+    
+            $page = 0;
+            if($request->page){
+                $page = ($request->page -1)*$size;
+            }
+
+            $data= Contract::where('merchant_id',$this->user->id)->skip($page)->take($size)->get();
+            return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$data]);
         } catch (\Throwable $th) {
             $err = $th->getMessage();
             return response()->json([ 'code' => 0 ,'msg'=>$err]);

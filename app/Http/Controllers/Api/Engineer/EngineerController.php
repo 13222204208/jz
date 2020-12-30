@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Engineer;
 
 use App\Models\Good;
+use App\Models\News;
 use App\Models\AfterSale;
 use App\Models\BuildOrder;
 use Illuminate\Http\Request;
@@ -11,9 +12,9 @@ use App\Models\BuildBetweenGoods;
 use App\Models\UnderConstruction;
 use App\Models\BeforeConstruction;
 use App\Models\FinishConstruction;
+use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
-use App\Models\News;
 use Illuminate\Support\Facades\Validator;
 
 class EngineerController extends Controller
@@ -48,12 +49,48 @@ class EngineerController extends Controller
     {
 
         try {
-            if($request->id != ''){//查询订单详情
-                $data= BuildOrder::find(intval($request->id),['status','owner_name','owner_phone','owner_address','created_at','order_num','owner_demand']);
-                $goods_id = BuildBetweenGoods::where('build_order_id',intval($request->id))->pluck('goods_id');
-                $ginfo= Good::whereIn('id',$goods_id)->get(['id','title','cover','price']);//查询套内商品
+           
+            if($request->long != '' && $request->lat != ''){
+                $long = $request->long;
+                $lat = $request->lat;
+
+                if($request->id != ''){//查询订单详情
+                    $data= BuildOrder::find(intval($request->id),['id','status','engineer_id','owner_name','owner_phone','owner_address','created_at','order_num','order_name','owner_demand','long','lat']);
+                    $data['distance'] = $this->distance($long,$data->long,$lat,$data->lat);
+                    
+                   return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$data]);
+                }
+        
+                //安装端订单列表
+                $size = 10;
+                if($request->size){
+                    $size = $request->size;
+                }
+        
+                $page = 0;
+                if($request->page){
+                    $page = ($request->page -1)*$size;
+                }
     
-                $data['goods_id'] = $ginfo;
+                $status = 1;
+                if($request->status != ''){
+                    $status = intval($request->get('status'));
+                    $data= BuildOrder::skip($page)->take($size)->where('engineer_id',$this->user->id)->where('status',$status)->get(['id','engineer_id','order_name','owner_name','owner_phone','owner_address','owner_demand']);
+                    return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$data]);
+                }
+        
+                $data= BuildOrder::skip($page)->take($size)->where('engineer_id',$this->user->id)->orderByRaw(DB::raw('FIELD(status, 1) desc'))->get(['id','engineer_id','order_name','status','owner_name','owner_phone','owner_address','owner_demand']);
+             
+                $arr = array();
+                foreach($data as $d){ 
+                    $d->distance= $this->distance($long,$d->long,$lat,$d->lat);
+                    $arr[]= $d;
+                }
+                return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$arr]); 
+            }
+        
+            if($request->id != ''){//查询订单详情
+                $data= BuildOrder::find(intval($request->id),['id','status','engineer_id','owner_name','owner_phone','owner_address','created_at','order_num','order_name','owner_demand','long','lat']);
                 
                return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$data]);
             }
@@ -69,22 +106,16 @@ class EngineerController extends Controller
                 $page = ($request->page -1)*$size;
             }
 
-            $status = 2;
+            $status = 1;
             if($request->status != ''){
                 $status = intval($request->get('status'));
+                $data= BuildOrder::skip($page)->take($size)->where('engineer_id',$this->user->id)->where('status',$status)->get(['id','engineer_id','order_name','owner_name','owner_phone','owner_address','owner_demand']);
+                return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$data]);
             }
     
-            $data= BuildOrder::skip($page)->take($size)->where('engineer_id',$this->user->id)->where('status',$status)->get(['id','owner_name','owner_phone','owner_address','owner_demand']);
-            $arr = array();
-            foreach($data as $d){ 
-                $goods_id = BuildBetweenGoods::where('build_order_id',$d['id'])->pluck('goods_id');
-            
-                $ginfo= Good::whereIn('id',$goods_id)->get(['id','title','cover','price']);//查询套内商品
-        
-                $d['goods_id'] = $ginfo;
-                $arr[]= $d;
-            }
-            return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$arr]);
+            $data= BuildOrder::skip($page)->take($size)->where('engineer_id',$this->user->id)->orderByRaw(DB::raw('FIELD(status, 1) desc'))->get(['id','engineer_id','order_name','status','owner_name','owner_phone','owner_address','owner_demand']);
+
+            return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$data]); 
         } catch (\Throwable $th) {
             $err = $th->getMessage();
             return response()->json([ 'code' => 0 ,'msg'=>$err]);
@@ -112,7 +143,9 @@ class EngineerController extends Controller
                     $messages = $validator->errors()->first();
                     return response()->json([ 'code' => 0 ,'msg'=>$messages]);
                 }
-
+                BuildOrder::where('order_num',$data['order_num'])->update([
+                    'status' =>2
+                ]);
                 BeforeConstruction::create($data);
                 return response()->json([ 'code' => 1 ,'msg'=>'成功']);
 
@@ -159,6 +192,9 @@ class EngineerController extends Controller
                 }
 
                 FinishConstruction::create($data);
+                BuildOrder::where('order_num',$data['order_num'])->update([
+                    'status' =>3
+                ]);
                 return response()->json([ 'code' => 1 ,'msg'=>'成功']);
 
             }
@@ -246,14 +282,69 @@ class EngineerController extends Controller
         }
     }
 
-    public function after()
+    public function after(Request $request)
     {
         try {
-            $data = AfterSale::where('engineer_id',10)->get(['order_num','user_id','engineer_id','created_at','status']);
+            $size = 10;
+            if($request->size){
+                $size = $request->size;
+            }
+    
+            $page = 0;
+            if($request->page){
+                $page = ($request->page -1)*$size;
+            }
+            $data = AfterSale::where('engineer_id',$this->user->id)->where('status','!=',4)->skip($page)->take($size)->get(['order_num','goods_name','hitch_content','user_id','engineer_id','created_at','status']);
             return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=> $data]);
         } catch (\Throwable $th) {
             $err = $th->getMessage();
             return response()->json([ 'code' => 0 ,'msg'=>$err]);
         }
     }
+
+    public function afterStatus(Request $request)
+    {
+        try {
+            if($request->order_num != ''){
+                $order_num = $request->order_num;
+            }
+
+            if($request->type != ''){
+                $type = $request->type;
+                if($type == 'done'){
+                    AfterSale::where('order_num',$order_num)->update([
+                        'status' => 3
+                    ]);
+                    return response()->json([ 'code' => 1 ,'msg'=>'成功']);
+                }
+
+                if($type == 'del'){
+                    AfterSale::where('order_num',$order_num)->update([
+                        'status' => 4
+                    ]);
+                    return response()->json([ 'code' => 1 ,'msg'=>'成功']);
+                }
+
+            }
+            return response()->json([ 'code' => 0 ,'msg'=>'参数错误']);
+           
+        } catch (\Throwable $th) {
+            $err = $th->getMessage();
+            return response()->json([ 'code' => 0 ,'msg'=>$err]);
+        }
+    }
+
+    
+    public function distance($lat1,$lat2,$lng1,$lng2)
+    {
+        $radLat1 = deg2rad($lat1);//deg2rad()函数将角度转换为弧度
+        $radLat2 = deg2rad($lat2);
+        $radLng1 = deg2rad($lng1);
+        $radLng2 = deg2rad($lng2);
+        $a = $radLat1 - $radLat2;
+        $b = $radLng1 - $radLng2;
+        $s = 2 * asin(sqrt(pow(sin($a / 2), 2) + cos($radLat1) * cos($radLat2) * pow(sin($b / 2), 2))) * 6378.137;
+        return round($s,3)*1000;//返回米数
+    }
+
 }

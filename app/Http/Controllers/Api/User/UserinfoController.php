@@ -81,6 +81,12 @@ class UserinfoController extends Controller
                 $userData['is_owner'] = $user->is_owner;
                 $userData['is_seller'] = $user->is_seller;
                 $userData['is_engineer'] = $user->is_engineer;
+                $userData['engineer_status'] = $user->engineer_status;//是否实名认证通过
+                $userData['truename'] = $user->truename;
+                $userData['id_number'] = $user->id_number;
+                $userData['id_front'] = $user->id_front;
+                $userData['id_the_back'] = $user->id_the_back;
+                $userData['id_in_hand'] = $user->id_in_hand;
 
              return response()->json([ 'code' => 1 ,'msg'=>'成功','data' =>$userData]);
             }
@@ -95,6 +101,14 @@ class UserinfoController extends Controller
             $userinfo['is_owner'] = $state->is_owner;
             $userinfo['is_seller'] = $state->is_seller;
             $userinfo['is_engineer'] = $state->is_engineer;
+            $userinfo['engineer_status'] = $state->engineer_status;//是否实名认证通过
+                $userinfo['truename'] = $state->truename;
+                $userinfo['id_number'] = $state->id_number;
+                $userinfo['id_front'] = $state->id_front;
+                $userinfo['id_the_back'] = $state->id_the_back;
+                $userinfo['id_in_hand'] = $state->id_in_hand;
+   
+        
             return response()->json([ 'code' => 1 ,'msg'=>'成功','data' =>$userinfo]);
         } catch (\Throwable $th) {
             $err = $th->getMessage();

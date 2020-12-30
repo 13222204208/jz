@@ -88,8 +88,7 @@ class BuildOrderController extends Controller
     public function update(Request $request, $id)
     { 
         $state= BuildOrder::where('id',intval($id))->update([
-            'engineer_id' => $request->engineer_id,
-            'status' => 2
+            'engineer_id' => $request->engineer_id
         ]);
 
         if($state){

@@ -86,9 +86,14 @@
                       
                         },
                         {
-                            field: 'engineer_id',
-                            title: '施工人员信息',
-                            width:280
+                            field: 'engineer_name',
+                            title: '施工人员名称',
+                            width:180
+                      
+                        },{
+                            field: 'engineer_phone',
+                            title: '施工人员手机号',
+                            width:200
                       
                         },{
                             field: 'agreement_id',
@@ -103,6 +108,16 @@
                         }, {
                             field: 'status',
                             title: '状态',
+                            templet: function(d) {
+                                if(d.status ==1){
+                                  return '待施工';
+                                }else if(d.status ==2){
+                                  return '施工中';
+                                }else if(d.status ==3){
+                                    return '施工完成';
+                                }
+                               
+                              },
                             width:100
                       
                         },{
@@ -133,7 +148,7 @@
 
 
             table.on('tool(user)', function (obj) {
-                 data = obj.data;
+                 data = obj.data;//console.log(data.order_num); return false;
              
                 if (obj.event === 'show') {
 
@@ -155,14 +170,14 @@
                             order_num:data.order_num
                         },
                         success: function (msg) {
-                           data = msg.data;
+                           data = msg.data; 
                             if (msg.status == 200) {
-                                if(data.before.created_at){
+                                if(data.before != null){
                                     time = '施工前 '+data.before.created_at;
                                     photo =data.before.comments +'<br> <img width="500px" src="'+ data.before.photo + '" >';
                                  
                                 }else{
-                                    time = '还没有施工';
+                                    time = '还没有施工图片';
                                     photo = '';
                                 }
                                 
@@ -217,6 +232,7 @@
                                   '</ul>'  
 
                                 $('#orderRate').html(html);
+                                return false;
                             } 
                         }
                     });

@@ -20,6 +20,13 @@
 
             <div class="layui-form-item">
                
+                <select name="goods_type" id="goodsType" lay-filter="cate_demo" lay-verify="required" >
+               
+                </select>
+            </div>
+
+            <div class="layui-form-item">
+               
                     <input type="text" name="title" lay-verify="required"  autocomplete="off"
                         placeholder="产品名称" value="" class="layui-input">
                
@@ -256,6 +263,38 @@
                    return layedit.sync(index);
                   }
           });
+
+          $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            url: "goods/3",
+            method: 'get',
+            dataType: 'json',
+            success: function (res) {
+               data = res.data;
+                if (res.status == 200) {
+                    
+                    under= '';
+                    for(i=0; i<data.length; i++){          
+                        under +=     '<option value="'+data[i].id+'">'+data[i].name+'</option>';
+                    }
+                    console.log(under);
+                    $('#goodsType').html(under);
+                    form.render();
+
+                } else if (res.status == 403) {
+                    layer.msg('填写错误或重复', {
+                        offset: '15px',
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                        location.href = 'create';
+                    })
+                }
+            }
+        });
+
    
             //监听提交
             form.on('submit(create)', function (data) {

@@ -25,6 +25,7 @@ class Contracts extends Migration
             $table->string('comments')->default('')->comment('合同备注');
             $table->decimal('cost',11,2)->default(0)->comment('合同费用');
             $table->integer('quantity')->default(1)->comment('合同套数');
+            $table->integer('done_quantity')->default(0)->comment('已完成合同套数');
             $table->integer('status')->default(1)->comment('合同状态  1：开启  2：关闭');
             $table->string('delete_time')->default('')->comment('删除时间');
             $table->timestamps();

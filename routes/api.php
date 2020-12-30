@@ -23,7 +23,7 @@ Route::prefix('user')->group(function (){
     
         Route::post('collect','Api\User\CollectController@collect');//收藏产品
         Route::get('collect_list','Api\User\CollectController@collectList');//产品收藏列表
-        Route::post('add_goods','Api\User\CollectController@addGoods');//添加产品数量
+        Route::post('goods_num','Api\User\CollectController@goodsNum');//修改产品数量
         Route::post('defined','Api\User\CollectController@defined');//保存方案
     
         Route::get('rate','Api\User\ConstructController@rate');//订单进度显示
@@ -88,6 +88,8 @@ Route::prefix('order')->group(function (){//商家端工程订单
     Route::group(['middleware' => 'auth.jwt'], function () {
         Route::post('create','Api\Order\BuildOrderController@create');//商家端添加工程订单
         Route::get('list','Api\Order\BuildOrderController@list');//商家端工程订单列表 
+        Route::get('contract','Api\Order\BuildOrderController@contract');//商家合同列表 
+        Route::get('done_contract','Api\Order\BuildOrderController@doneContract');//商家合同完成统计
     });
 
 });
@@ -99,6 +101,7 @@ Route::prefix('engineer')->group(function (){//商家端工程订单
 
         Route::post('schedule','Api\Engineer\EngineerController@schedule');//添加工程订单施工进度
         Route::post('done','Api\Engineer\EngineerController@done');//竣工
+        Route::post('after_status','Api\Engineer\EngineerController@afterStatus');//更改售后订单状态
     
         Route::get('show','Api\Engineer\EngineerController@show');//展示施工进度
     

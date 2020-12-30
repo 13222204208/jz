@@ -46,8 +46,6 @@ class DynamicController extends Controller
             }else{
                 $id = $this->user->id;
                 $myData = UserDynamic::where('status',2)->orderByRaw(DB::raw('FIELD(user_id, '.$id.') desc'))->skip($page)->take($size)->get();//得出当前业主美图
-               // $data= UserDynamic::where('status',2)->where('user_id','!=',$id)->skip($page)->take($size)->orderBy('id','desc')->get()->toArray();//得出其它业主美图
-                //$newData= array_merge($myData,$data);
             }
             return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=> $myData]);
         } catch (\Throwable $th) {

@@ -21,6 +21,7 @@ class Goods extends Migration
             $table->string('photo')->default('')->comment('产品轮播图片');
             $table->integer('number')->default(0)->comment('数量库存');
             $table->integer('sold')->default(0)->comment('已售数量');
+            $table->integer('goods_type')->default(1)->comment('商品类别');
             $table->decimal('price',11,2)->default(0)->comment('单价');
             $table->decimal('package_price',11,2)->default(0)->comment('套餐单价');
             $table->integer('sales_volume')->default(0)->comment('真实销售数量（前台展示销量 需要加上虚拟销量');

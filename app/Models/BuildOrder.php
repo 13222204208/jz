@@ -13,35 +13,15 @@ class BuildOrder extends Model
     use Timestamp,HasFactory;
 
     protected $guarded = [];
-    protected $appends = ['goods_list','engineer_name','engineer_phone'];
+    protected $appends = ['goods_list','engineer_name','engineer_phone','owner_cover','goods_list_name'];
 
     public function userinfo()
     {   
         if($this->attributes['engineer_id'] != 0 ){
-            $info= Userinfo::find($this->attributes['engineer_id'],['truename','phone']);
+            $info= Userinfo::find($this->attributes['engineer_id'],['truename','phone','cover']);
             return $info;
         }
     } 
-
-/*     public function getStatusAttribute($value)
-    {
-        switch ($value)
-        {
-            case 1:
-            return '待施工';
-            break;  
-            case 2:
-            return '施工中';
-            break;
-            case 3:
-            return '已完成';
-            break;  
-            case 4:
-            return '已取消';
-            break;
-            default:$value;
-        }
-    } */
 
     public function getAgreementIdAttribute($value)//获取合同名称
     {
@@ -49,18 +29,15 @@ class BuildOrder extends Model
         return $title->title;
     }
 
-/*     public function getEngineerIdAttribute($value)
+    public function getGoodsListNameAttribute()
     {
-        if($value != 0){
-            $info= Userinfo::find($value,['truename','phone']);
-            return $info->truename.','.$info->phone;
-        }
-    } */
+        return "安防套餐";
+    } 
 
     public function getGoodsListAttribute()
     {
         $goods_id = BuildBetweenGoods::where('build_order_id',$this->attributes['id'])->pluck('goods_id');
-        $ginfo= Good::whereIn('id',$goods_id)->get(['id','title','cover','price']);//查询套内商品
+        $ginfo= Good::whereIn('id',$goods_id)->get(['id','title','description','cover','price','goods_type']);//查询套内商品
         return $ginfo;
     }
 
@@ -77,5 +54,13 @@ class BuildOrder extends Model
             return $this->userinfo()->truename;
         }
     }
+
+    public function getOwnerCoverAttribute()
+    {
+        $phone = $this->attributes['owner_phone'];
+        $cover = Userinfo::where('phone',$phone)->pluck('cover')->first();
+        return $cover;
+    }
+
 
 }

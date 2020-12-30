@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Goods;
 use App\Models\Good;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\GoodsType;
 
 class GoodsController extends Controller
 {
@@ -70,7 +71,15 @@ class GoodsController extends Controller
      */
     public function show($id)
     {
-        //
+        $data= GoodsType::all();
+
+        if ($data) {
+            return response()->json([ 'status' => 200,'data'=>$data]);
+
+        } else {
+
+            return response()->json([ 'status' => 403]);
+        }   
     }
 
     /**
