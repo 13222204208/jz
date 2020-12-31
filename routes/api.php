@@ -60,6 +60,7 @@ Route::prefix('gp')->group(function (){//套餐
 
     Route::group(['middleware' => 'auth.jwt'], function () {
         Route::get('list','Api\GoodsPackage\GoodsPackageController@list');//获取套餐产品 
+        Route::get('custom','Api\GoodsPackage\GoodsPackageController@custom');//获取自定义套餐A
     });
 
 
