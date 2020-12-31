@@ -59,7 +59,7 @@ class ContractController extends Controller
     public function show(Request $request,$id)
     {
         $limit = $request->get('limit');
-        $data= Userinfo::where('role_id',2)->paginate($limit);
+        $data= Userinfo::where('is_seller',1)->paginate($limit);
         return $data;
     }
 

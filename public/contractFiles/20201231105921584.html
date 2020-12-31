@@ -1,0 +1,2330 @@
+<!DOCTYPE html>
+<!-- saved from url=(0043)https://segmentfault.com/q/1010000015794387 -->
+<html lang="zh-Hans" class="fontawesome-i2svg-active fontawesome-i2svg-complete"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+            <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+                <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta content="IE=edge, chrome=1" http-equiv="X-UA-Compatible">
+    <meta content="webkit" name="renderer">
+    <meta content="15317273575564615446375" property="qc:admins">
+    <meta content="LkzCRJ7rPEUwt6fVey2vhxiw1vQ" name="alexaVerifyID">
+    <meta content="app-id=958101793, app-argument=" name="apple-itunes-app">
+                <title>js如何修改对象的key值？ - SegmentFault 思否</title>
+    
+            <meta name="description" content="原数据： {代码...} 我要改为的数据： {代码...} 对应的值不变，只是改key的名称，用js如何实现呢？">
+    
+            <meta name="keywords" content="html5,html,css,javascript">
+    
+    <style type="text/css">svg:not(:root).svg-inline--fa {
+  overflow: visible;
+}
+
+.svg-inline--fa {
+  display: inline-block;
+  font-size: inherit;
+  height: 1em;
+  overflow: visible;
+  vertical-align: -0.125em;
+}
+.svg-inline--fa.fa-lg {
+  vertical-align: -0.225em;
+}
+.svg-inline--fa.fa-w-1 {
+  width: 0.0625em;
+}
+.svg-inline--fa.fa-w-2 {
+  width: 0.125em;
+}
+.svg-inline--fa.fa-w-3 {
+  width: 0.1875em;
+}
+.svg-inline--fa.fa-w-4 {
+  width: 0.25em;
+}
+.svg-inline--fa.fa-w-5 {
+  width: 0.3125em;
+}
+.svg-inline--fa.fa-w-6 {
+  width: 0.375em;
+}
+.svg-inline--fa.fa-w-7 {
+  width: 0.4375em;
+}
+.svg-inline--fa.fa-w-8 {
+  width: 0.5em;
+}
+.svg-inline--fa.fa-w-9 {
+  width: 0.5625em;
+}
+.svg-inline--fa.fa-w-10 {
+  width: 0.625em;
+}
+.svg-inline--fa.fa-w-11 {
+  width: 0.6875em;
+}
+.svg-inline--fa.fa-w-12 {
+  width: 0.75em;
+}
+.svg-inline--fa.fa-w-13 {
+  width: 0.8125em;
+}
+.svg-inline--fa.fa-w-14 {
+  width: 0.875em;
+}
+.svg-inline--fa.fa-w-15 {
+  width: 0.9375em;
+}
+.svg-inline--fa.fa-w-16 {
+  width: 1em;
+}
+.svg-inline--fa.fa-w-17 {
+  width: 1.0625em;
+}
+.svg-inline--fa.fa-w-18 {
+  width: 1.125em;
+}
+.svg-inline--fa.fa-w-19 {
+  width: 1.1875em;
+}
+.svg-inline--fa.fa-w-20 {
+  width: 1.25em;
+}
+.svg-inline--fa.fa-pull-left {
+  margin-right: 0.3em;
+  width: auto;
+}
+.svg-inline--fa.fa-pull-right {
+  margin-left: 0.3em;
+  width: auto;
+}
+.svg-inline--fa.fa-border {
+  height: 1.5em;
+}
+.svg-inline--fa.fa-li {
+  width: 2em;
+}
+.svg-inline--fa.fa-fw {
+  width: 1.25em;
+}
+
+.fa-layers svg.svg-inline--fa {
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.fa-layers {
+  display: inline-block;
+  height: 1em;
+  position: relative;
+  text-align: center;
+  vertical-align: -0.125em;
+  width: 1em;
+}
+.fa-layers svg.svg-inline--fa {
+  -webkit-transform-origin: center center;
+          transform-origin: center center;
+}
+
+.fa-layers-counter, .fa-layers-text {
+  display: inline-block;
+  position: absolute;
+  text-align: center;
+}
+
+.fa-layers-text {
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  -webkit-transform-origin: center center;
+          transform-origin: center center;
+}
+
+.fa-layers-counter {
+  background-color: #ff253a;
+  border-radius: 1em;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  color: #fff;
+  height: 1.5em;
+  line-height: 1;
+  max-width: 5em;
+  min-width: 1.5em;
+  overflow: hidden;
+  padding: 0.25em;
+  right: 0;
+  text-overflow: ellipsis;
+  top: 0;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: top right;
+          transform-origin: top right;
+}
+
+.fa-layers-bottom-right {
+  bottom: 0;
+  right: 0;
+  top: auto;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: bottom right;
+          transform-origin: bottom right;
+}
+
+.fa-layers-bottom-left {
+  bottom: 0;
+  left: 0;
+  right: auto;
+  top: auto;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: bottom left;
+          transform-origin: bottom left;
+}
+
+.fa-layers-top-right {
+  right: 0;
+  top: 0;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: top right;
+          transform-origin: top right;
+}
+
+.fa-layers-top-left {
+  left: 0;
+  right: auto;
+  top: 0;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: top left;
+          transform-origin: top left;
+}
+
+.fa-lg {
+  font-size: 1.3333333333em;
+  line-height: 0.75em;
+  vertical-align: -0.0667em;
+}
+
+.fa-xs {
+  font-size: 0.75em;
+}
+
+.fa-sm {
+  font-size: 0.875em;
+}
+
+.fa-1x {
+  font-size: 1em;
+}
+
+.fa-2x {
+  font-size: 2em;
+}
+
+.fa-3x {
+  font-size: 3em;
+}
+
+.fa-4x {
+  font-size: 4em;
+}
+
+.fa-5x {
+  font-size: 5em;
+}
+
+.fa-6x {
+  font-size: 6em;
+}
+
+.fa-7x {
+  font-size: 7em;
+}
+
+.fa-8x {
+  font-size: 8em;
+}
+
+.fa-9x {
+  font-size: 9em;
+}
+
+.fa-10x {
+  font-size: 10em;
+}
+
+.fa-fw {
+  text-align: center;
+  width: 1.25em;
+}
+
+.fa-ul {
+  list-style-type: none;
+  margin-left: 2.5em;
+  padding-left: 0;
+}
+.fa-ul > li {
+  position: relative;
+}
+
+.fa-li {
+  left: -2em;
+  position: absolute;
+  text-align: center;
+  width: 2em;
+  line-height: inherit;
+}
+
+.fa-border {
+  border: solid 0.08em #eee;
+  border-radius: 0.1em;
+  padding: 0.2em 0.25em 0.15em;
+}
+
+.fa-pull-left {
+  float: left;
+}
+
+.fa-pull-right {
+  float: right;
+}
+
+.fa.fa-pull-left,
+.fas.fa-pull-left,
+.far.fa-pull-left,
+.fal.fa-pull-left,
+.fab.fa-pull-left {
+  margin-right: 0.3em;
+}
+.fa.fa-pull-right,
+.fas.fa-pull-right,
+.far.fa-pull-right,
+.fal.fa-pull-right,
+.fab.fa-pull-right {
+  margin-left: 0.3em;
+}
+
+.fa-spin {
+  -webkit-animation: fa-spin 2s infinite linear;
+          animation: fa-spin 2s infinite linear;
+}
+
+.fa-pulse {
+  -webkit-animation: fa-spin 1s infinite steps(8);
+          animation: fa-spin 1s infinite steps(8);
+}
+
+@-webkit-keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+@keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+.fa-rotate-90 {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=1)";
+  -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
+}
+
+.fa-rotate-180 {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2)";
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
+}
+
+.fa-rotate-270 {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=3)";
+  -webkit-transform: rotate(270deg);
+          transform: rotate(270deg);
+}
+
+.fa-flip-horizontal {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1)";
+  -webkit-transform: scale(-1, 1);
+          transform: scale(-1, 1);
+}
+
+.fa-flip-vertical {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)";
+  -webkit-transform: scale(1, -1);
+          transform: scale(1, -1);
+}
+
+.fa-flip-both, .fa-flip-horizontal.fa-flip-vertical {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)";
+  -webkit-transform: scale(-1, -1);
+          transform: scale(-1, -1);
+}
+
+:root .fa-rotate-90,
+:root .fa-rotate-180,
+:root .fa-rotate-270,
+:root .fa-flip-horizontal,
+:root .fa-flip-vertical,
+:root .fa-flip-both {
+  -webkit-filter: none;
+          filter: none;
+}
+
+.fa-stack {
+  display: inline-block;
+  height: 2em;
+  position: relative;
+  width: 2.5em;
+}
+
+.fa-stack-1x,
+.fa-stack-2x {
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.svg-inline--fa.fa-stack-1x {
+  height: 1em;
+  width: 1.25em;
+}
+.svg-inline--fa.fa-stack-2x {
+  height: 2em;
+  width: 2.5em;
+}
+
+.fa-inverse {
+  color: #fff;
+}
+
+.sr-only {
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+.sr-only-focusable:active, .sr-only-focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto;
+}
+
+.svg-inline--fa .fa-primary {
+  fill: var(--fa-primary-color, currentColor);
+  opacity: 1;
+  opacity: var(--fa-primary-opacity, 1);
+}
+
+.svg-inline--fa .fa-secondary {
+  fill: var(--fa-secondary-color, currentColor);
+  opacity: 0.4;
+  opacity: var(--fa-secondary-opacity, 0.4);
+}
+
+.svg-inline--fa.fa-swap-opacity .fa-primary {
+  opacity: 0.4;
+  opacity: var(--fa-secondary-opacity, 0.4);
+}
+
+.svg-inline--fa.fa-swap-opacity .fa-secondary {
+  opacity: 1;
+  opacity: var(--fa-primary-opacity, 1);
+}
+
+.svg-inline--fa mask .fa-primary,
+.svg-inline--fa mask .fa-secondary {
+  fill: black;
+}
+
+.fad.fa-inverse {
+  color: #fff;
+}</style><link href="https://segmentfault.com/opensearch.xml" rel="search" title="SegmentFault" type="application/opensearchdescription+xml">
+    <link rel="shortcut icon" href="https://assets.segmentfault.com/v-5feaff84/global/img/favicon.ico">
+    <link rel="apple-touch-icon" href="./js如何修改对象的key值？ - SegmentFault 思否_files/touch-icon.png">
+
+    <meta content="#00965e" name="msapplication-TileColor">
+    <meta name="msapplication-square150x150logo" content="https://assets.segmentfault.com/v-5feaff84/global/img/static/touch-icon.png">
+    <meta content="bcf7fd80dca60d53d46d5b46e1b990ca" name="baidu_union_verify">
+
+        <meta name="sogou_site_verification" content="MKVKCoIjwL">
+    <meta name="360-site-verification" content="737314c9bf48873a1a0a22295203d9d1">
+    <meta name="msvalidate.01" content="2C018C53297C8388F3E7052F5E9CA6AF">
+
+                        <link href="https://segmentfault.com/feeds/questions" rel="alternate" title="SegmentFault 最新问题" type="application/atom+xml">
+    <link href="https://segmentfault.com/feeds/blogs" rel="alternate" title="SegmentFault 最新文章" type="application/atom+xml">
+    
+    
+    
+    
+    
+            <link rel="stylesheet" href="./js如何修改对象的key值？ - SegmentFault 思否_files/global.css">
+        <link rel="stylesheet" href="./js如何修改对象的key值？ - SegmentFault 思否_files/vendors.css">
+    
+            <link rel="stylesheet" href="./js如何修改对象的key值？ - SegmentFault 思否_files/qdetail.css">
+    
+    
+    <script src="./js如何修改对象的key值？ - SegmentFault 思否_files/osd.js.下载"></script><script src="./js如何修改对象的key值？ - SegmentFault 思否_files/f.txt"></script><script src="./js如何修改对象的key值？ - SegmentFault 思否_files/f(1).txt" id="google_shimpl"></script><script async="" defer="" src="./js如何修改对象的key值？ - SegmentFault 思否_files/f(2).txt"></script><script type="text/javascript" async="" src="./js如何修改对象的key值？ - SegmentFault 思否_files/analytics.js.下载"></script><script async="" defer="" src="./js如何修改对象的key值？ - SegmentFault 思否_files/fl.js.下载"></script><script async="" defer="" src="./js如何修改对象的key值？ - SegmentFault 思否_files/spc.php"></script><script src="./js如何修改对象的key值？ - SegmentFault 思否_files/hm.js.下载"></script><script async="" defer="" src="./js如何修改对象的key值？ - SegmentFault 思否_files/spcjs.php"></script><script>
+var _oa = [], OA_google = true;
+
+function OA_script(src, cb) {
+    var s = document.createElement('script'), m = document.getElementsByTagName('script')[0];
+    
+    if (cb) {
+        s.onload = cb;
+    }
+    
+    s.async = 1;
+    s.defer = 1;
+    s.src = src;
+    m.parentNode.insertBefore(s, m);
+}
+
+function OA_show(name) {
+    _oa.push(name);
+    document.write('<div id="OA_holder_' + name + '"></div>');
+}
+
+OA_script('https://sponsor.segmentfault.com/spcjs.php?id=1&block=1&repu=0&tag=html5,html,css,javascript&v=5feb05cf');
+</script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+                    <script async="" src="./js如何修改对象的key值？ - SegmentFault 思否_files/js"></script>
+            <script>
+          window.dataLayer = window.dataLayer || [];
+
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+
+          gtag('js', new Date());
+          gtag('config', 'UA-918487-8');
+                  </script>
+    <link rel="preload" href="./js如何修改对象的key值？ - SegmentFault 思否_files/f(3).txt" as="script"><script type="text/javascript" src="./js如何修改对象的key值？ - SegmentFault 思否_files/f(3).txt"></script></head>
+<body itemscope="" itemtype="https://schema.org/QAPage" style=""><div class="custome-alert alert alert-warning topframe text-center my-0 sticky-top d-none rounded-0">
+                <span class="alert-content"></span>
+                <button type="button" class="close">
+                    <span aria-hidden="true">×</span><span class="sr-only">Close</span>
+                </button>
+            </div>
+
+    <img style="height: 0; width: 0; display: none" src="./js如何修改对象的key值？ - SegmentFault 思否_files/touch-icon.png">
+
+<div class="d-none d-lg-block text-center" style="display: block;">
+    <script type="text/javascript">
+        OA_show(5);
+    </script><div id="OA_holder_5"><div class="ad-close" style="position: relative;">
+<style>#OA_holder_5 a { display: block; }</style><div class="ad-close" style="background-color: rgb(227, 230, 238); position: relative;">
+<img src="./js如何修改对象的key值？ - SegmentFault 思否_files/k=2211236&amp;p=7jGyH&amp;dx=__IPDX__&amp;rt=2&amp;pro=s&amp;ns=__IP__&amp;ni=__IESID__&amp;v=__LOC__&amp;xa=__ADPLATFORM__&amp;tr=__REQUESTID__&amp;vg=__AUTOPLAY__&amp;nh=__AUTOREFRESH__&amp;o=&amp;ca7d0a55ff" style="display: none"><a href="https://sponsor.segmentfault.com/ck.php?oaparams=2__bannerid=431__zoneid=5__cb=ca7d0a55ff__oadest=https%3A%2F%2Fe.cn.miaozhen.com%2Fr%2Fk%3D2211236%26p%3D7jGyH%26dx%3D__IPDX__%26rt%3D2%26pro%3Ds%26ns%3D__IP__%26ni%3D__IESID__%26v%3D__LOC__%26xa%3D__ADPLATFORM__%26tr%3D__REQUESTID__%26o%3Dhttps%3A%2F%2Factivity.huaweicloud.com%2F1212_promotion%2Findex.html%3Futm_source%3Dsegmentfault%26utm_medium%3Dbanner%26utm_campaign%3D%26utm_content%3D%26utm_term%3D%26utm_adplace%3DAdPlace028602" target="_blank"><img src="./js如何修改对象的key值？ - SegmentFault 思否_files/c8b65cae8731488e0d589fc7dabba13e.jpg" width="970" height="60" alt="" title="" border="0"></a><div id="beacon_ca7d0a55ff" style="position: absolute; left: 0px; top: 0px; visibility: hidden;"><img src="./js如何修改对象的key值？ - SegmentFault 思否_files/lg.php" width="0" height="0" alt="" style="width: 0px; height: 0px;"></div><div class="sflex-center ad-close-div" style="width: 16px; height: 16px; position: absolute; right: 8px; top: 8px; background-color: rgba(0, 0, 0, 0.75); cursor: pointer; pointer-events: none; border-radius: 50%;"><span class="ad-close-span" style="width: 8px; height: 8px; display: block; background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns=&#39;http://www.w3.org/2000/svg&#39; width=&#39;8&#39; height=&#39;8&#39;%3E%3Cpath fill=&#39;%23FFF&#39; fill-rule=&#39;evenodd&#39; d=&#39;M6.6667 0L8 1.3333 5.333 4 8 6.6667 6.6667 8 4 5.333 1.3333 8 0 6.6667 2.666 4 0 1.3333 1.3333 0 4 2.667 6.6667 0z&#39;/%3E%3C/svg%3E&quot;); background-repeat: no-repeat; background-position: center center; pointer-events: auto;"></span></div></div><div class="sflex-center ad-close-div" style="width: 16px; height: 16px; position: absolute; right: 8px; top: 8px; background-color: rgba(0, 0, 0, 0.75); cursor: pointer; pointer-events: none; border-radius: 50%;"><span class="ad-close-span" style="width: 8px; height: 8px; display: block; background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns=&#39;http://www.w3.org/2000/svg&#39; width=&#39;8&#39; height=&#39;8&#39;%3E%3Cpath fill=&#39;%23FFF&#39; fill-rule=&#39;evenodd&#39; d=&#39;M6.6667 0L8 1.3333 5.333 4 8 6.6667 6.6667 8 4 5.333 1.3333 8 0 6.6667 2.666 4 0 1.3333 1.3333 0 4 2.667 6.6667 0z&#39;/%3E%3C/svg%3E&quot;); background-repeat: no-repeat; background-position: center center; pointer-events: auto;"></span></div></div>
+</div>
+</div>
+<div id="gridMapHoverBox" style="position:absolute; border: 1px solid #00965e; z-index: 99; font-size: 10px; background:#fff"></div>
+
+
+<nav id="sf-header" class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+    <div class="container">
+        <a class="navbar-brand text-hide sf-header-logo" href="https://segmentfault.com/">SegmentFault</a>
+
+                    <a class="btn btn-primary d-lg-none ml-auto mr-2 mobile-login" href="https://segmentfault.com/user/login">注册登录</a>
+        
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav font-weight-bold">
+                <li class="nav-item">
+                    <a href="https://segmentfault.com/" class="nav-link ">首页</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://segmentfault.com/questions" class="nav-link active">问答</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://segmentfault.com/blogs" class="nav-link ">专栏</a>
+                </li>
+                 <li class="nav-item">
+                    <a href="https://segmentfault.com/news" class="nav-link ">资讯</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://ke.sifou.com/" class="nav-link ">课程</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://segmentfault.com/events" class="nav-link ">活动</a>
+                </li>
+                <li class="nav-item dropdown hover-down">
+                    <a href="https://segmentfault.com/q/1010000015794387###" id="navbarDiscover" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link  dropdown-toggle ">发现</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDiscover">
+                        <a class="dropdown-item" href="https://segmentfault.com/groups">圈子</a>
+                        <a class="dropdown-item" href="https://segmentfault.com/tags">标签</a>
+                        <a class="dropdown-item" href="https://segmentfault.com/groups?tab=jobs">酷工作</a>
+                        <a class="dropdown-item" href="https://segmentfault.com/users">排行榜</a>
+                        <a class="dropdown-item" href="https://segmentfault.com/badges">徽章</a>
+                        <a class="dropdown-item" href="https://segmentfault.com/notes">笔记</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="https://docs.segmentfault.com/" target="_blank">开发手册</a>
+                        <a class="dropdown-item" href="https://business.segmentfault.com/ads?utm_source=sf-header" target="_blank">广告投放<svg class="svg-inline--fa fa-external-link-square fa-w-14 ml-2 text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="external-link-square" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M448 80v352c0 26.51-21.49 48-48 48H48c-26.51 0-48-21.49-48-48V80c0-26.51 21.49-48 48-48h352c26.51 0 48 21.49 48 48zm-64 47.111C384 109.929 370.071 96 352.889 96H220.667c-12.887 0-23.333 10.447-23.333 23.334v14.904c0 13.138 10.843 23.686 23.976 23.324l56.002-1.588L69.908 361.908c-7.858 7.802-7.88 20.504-.05 28.334l19.899 19.899c7.83 7.83 20.532 7.808 28.334-.05l205.935-207.404-1.588 56.003c-.362 13.133 10.186 23.976 23.324 23.976h14.904c12.887 0 23.334-10.447 23.334-23.333V127.111z"></path></svg><!-- <i class="ml-2 text-warning fas fa-external-link-square"></i> -->
+                        </a>
+                    </div>
+                </li>
+            </ul>
+
+            <form class="form-inline my-2 my-lg-0 flex-fill d-none d-xl-block px-4" action="https://segmentfault.com/search">
+                <input class="form-control w-100" id="searchBox" name="q" type="search" value="" placeholder="搜索关键字" aria-label="搜索">
+            </form>
+
+            <ul class="navbar-nav navbar-user ml-auto align-items-lg-center">
+                                    <li class="nav-item d-none d-lg-flex">
+                        <a href="https://segmentfault.com/user/login" class="btn btn-link mr-2 require-login">立即登录</a>
+                    </li>
+                    <li class="nav-item d-none d-lg-flex">
+                        <a href="https://segmentfault.com/user/register" class="btn btn-primary require-login">免费注册</a>
+                    </li>
+                            </ul>
+        </div>
+    </div>
+</nav>
+
+    <input id="questionId" value="1010000015794387" class="hidden">
+    <div class="d-none d-xl-flex justify-content-center" style="">
+        <script type="text/javascript">
+          OA_show(2);
+        </script><div id="OA_holder_2"><div id="beacon_c675cf06ea" style="position: absolute; left: 0px; top: 0px; visibility: hidden;"><img src="./js如何修改对象的key值？ - SegmentFault 思否_files/lg(1).php" width="0" height="0" alt="" style="width: 0px; height: 0px;"></div>
+</div>
+    </div>
+    <div class="position-relative qdetail-wrap">
+        <div class="container my-4">
+            <div class="row">
+                                <div class="col-12 col-xl w-0" itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
+                    
+                                                            
+                    <div class="card border-0 mb-4">
+                        <div class="card-body p-lg-30">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div class="information d-flex align-items-center">
+                                    <a class="d-flex align-items-centers mr-1" href="https://segmentfault.com/u/codermin" itemprop="author" itemscope="" itemtype="https://schema.org/Person">
+                                        <picture class="mr-2">
+                                            <img class="d-inline-block rounded-circle " width="32" src="./js如何修改对象的key值？ - SegmentFault 思否_files/2397109587-5af6b7357870d_big64" aria-hidden="true" itemprop="image">
+                                        </picture>
+                                        <strong class="align-self-center" itemprop="name">Codermin</strong>
+                                    </a>
+                                    <ul class="list-inline mb-0 authentication-info font-size-14 sflex-center">
+                                                                                <li class="list-inline-item">
+                                            <svg class="svg-inline--fa fa-dice-d8 fa-w-16" style="color: #BF7158;" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="dice-d8" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M225.53 2.52L2.36 233.83c-4.21 4.37-2.56 11.71 3.1 13.77l234.13 85.06V8.39c-.01-7.49-8.91-11.21-14.06-5.87zm284.11 231.31L286.47 2.52C281.32-2.82 272.41.9 272.41 8.4v324.27l234.13-85.06c5.66-2.07 7.31-9.42 3.1-13.78zM33.53 310.38l192 199.1c5.15 5.34 14.06 1.62 14.06-5.88V368.29L42.13 296.61c-8.21-2.98-14.72 7.43-8.6 13.77zm436.34-13.77l-197.46 71.68V503.6c0 7.5 8.91 11.22 14.06 5.88l192-199.1c6.12-6.34-.39-16.75-8.6-13.77z"></path></svg><!-- <i class="fas fa-dice-d8" style="color:#BF7158"></i> -->
+                                            <span style="color: #BF7158;font-weight:bold">503</span>
+                                        </li>
+                                        
+                                                                            </ul>
+                                </div>
+
+                            </div>
+                            <div class="functional-area-left sticky-top d-none d-xl-flex"><div class="text-center"><button class="func-btn mainBookmark btn btn-outline-secondary 
+                                 " data-id="1010000015794387">
+                                <svg class="svg-inline--fa fa-bookmark fa-w-12" aria-hidden="true" focusable="false" data-prefix="far" data-icon="bookmark" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg=""><path fill="currentColor" d="M336 0H48C21.49 0 0 21.49 0 48v464l192-112 192 112V48c0-26.51-21.49-48-48-48zm0 428.43l-144-84-144 84V54a6 6 0 0 1 6-6h276c3.314 0 6 2.683 6 5.996V428.43z"></path></svg><!-- <i class="far fa-bookmark"></i> -->
+                                
+                            </button><div class="dropdown dropup d-inline-block">
+                        <button class="func-btn btn btn-outline-secondary
+                        " id="func_share" data-toggle="dropdown">
+                        <svg class="svg-inline--fa fa-share-alt fa-w-14" aria-hidden="true" focusable="false" data-prefix="far" data-icon="share-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M352 320c-25.6 0-48.9 10-66.1 26.4l-98.3-61.5c5.9-18.8 5.9-39.1 0-57.8l98.3-61.5C303.1 182 326.4 192 352 192c53 0 96-43 96-96S405 0 352 0s-96 43-96 96c0 9.8 1.5 19.6 4.4 28.9l-98.3 61.5C144.9 170 121.6 160 96 160c-53 0-96 43-96 96s43 96 96 96c25.6 0 48.9-10 66.1-26.4l98.3 61.5c-2.9 9.4-4.4 19.1-4.4 28.9 0 53 43 96 96 96s96-43 96-96-43-96-96-96zm0-272c26.5 0 48 21.5 48 48s-21.5 48-48 48-48-21.5-48-48 21.5-48 48-48zM96 304c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm256 160c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48z"></path></svg><!-- <i class="far fa-share-alt"></i> -->
+                        
+                        </button>
+                        <div class="dropdown-menu shareContent" aria-labelledby="func_share">
+                            <div class="text-center mt-2" style="cursor: auto">
+                                <div class="qr"><img crossorigin="anonymous" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHYAAAB2CAYAAAAdp2cRAAAGkklEQVR4Xu2dW3bbMAxE3T1l/yvIntyjVMe1HFEXA4C24kx/QQLgDAZ82HH/XK/X68X/3g6BPwuxHx8fT13Y5+fnJh7FfxyvJvvon/xRPhRfXR/5U+1LfBO7g5qJVUtpHa9WNCmM0rBiCaEmu4ltAnLgZtiKqwp5jKcqZu6yv3un/MhO+VbnZ/zv7rEm9vhwp+JjYqk0J9kJeLJTWtX5Gf9W7OVyIeDJngGe5ij2vfxCxKrHfzocqXbasxUQlrFq/NnEzsDXxJ5AsSZ2laYKxKOirdgkkLOBM7F8aj9lK56tMLUw1OsNnQmo8OnMQPPDDxRVIOjwQf4jC7kHoxqPCouAN7HBVm9it6USwcOtOCA/t+IVpEhFHbXOANabISrw1KopvjqfxtNWRFvDj3mgIGBpoTSfgO6eT/FM7ABxK3b7DZgfcyomBZnYJLEELNmpFanXA3U8xVft6lZA/gk/sqf3WHJMdnVh3ePJn2o3sYN7KrVOAtqK3SJgxU66jnUXKnXASGGf8uun1Xvw2eerxKnjT/u94rMTU81PJUodb2KDZwDa81W7SpQ63sS+O7FqRcweryqADi9qvtUnPjXejPFfh6cZjis+TWwFvX9zTewOhlZsvbB2PVixdWBb7rG0x72aKBUmypf8qfOrHSL88kSJP9pNLD/xHWFqYtWKS45XFRd54jOxO3+CkeQnPe1tiaUnM7UVU0UTA9TqVf/kr7s10vq68Wz7BgUBpQLfvVDVn4ldETOx2q/gkIKreFqxA4TfVrFUUd2tTa1QNb/ZhyEqhOr6Mv5f8kChFoZKJO3pKtBUGBnglTVl/JvYAMImNrlnqQoKcLEZQsSQP5qfURTFvLdn/Kc+3aGFUtLd8yketX7Kh4BV49N4tdCHb8UU6Nl7FuVTBZoeYMhO+VXtJjaJIBFH9mTY8DQTG4ZqO5CII3sybHhaG7G0x1Rb8atbZ5UoAlrFjxgmvCifxX/oL9pN7PbJsIqHiV0RIMVV7QQ0KcSKJQQH9ipxNJ/S+rHEqq2FKrTbXgW+ur5qfMKD/NOeu3dP332goESebaeFk6JM7IrAs4mb3SpNrIn9QiDT+o66CgmFOlImn9B159mJ7e0ZCnAEFHUIau2Eh2qn9ZpYYjR5faq2ciokEzsgLlPR965IYSa2CXiqYAKahEsKeptWTEBUFTHbf7fiKN9qYZH/amEt/kMftJvYYypUfEzsAIHZrZSAt2KDCKkVb2K//3biI9SpbykSsEE+b8NoTyGFqPnQeMqnuxAJr0y+Jjbw/+5QYVWJqc7fK0QTa2L/1xW1BqpA9Z5KilHzofFv04oJOJUIulfSHkXAqvmqhVZdL82v4kP+h/fYKvDVxE3s9tRLhTncY1UFEPAmdouo2vpJWFYslXrQrhYyAV8tfPJ/a8UUqKpotQKDeIeHVRWjEquOJ6JUfkzsiqhKPBW6iQ1rrjZQJU5VSHW8FZvk99cSS3hRRdIe2t2aqq1QXS8pivxV7YT/nv/U57GkABWI7sKgQiKgq/mQf9VuYgeHoSqQaqGq8Wi8iTWxtxoJ/YkHVZTamskfKWR2qySFUHx1fer4yFZjYndQNbHBC75akVbsMWJWbLKi3laxSTzS0whIcqzueZGKP4pJ8VT/5I/Wv9fhQvdY1bE63sRqn78SvkthmVhCKXC4ojMBhbBiBwipwKit8jEsxVP9kz8qjGEr7nZMidDCqTVTvnSvPlv8GetJff2UiCP72YAlRVKhUCt+RaGa2MAeamJJqoMHjVcr5tXxn9aKqVUG+bsNo1ZE/tT53ePJH9nV9VVb+zI/9OMilBjZuxdOhafGo/FVu4qPiQ1ef6qFYGKbgFb3vNnj35ZY2tw7WsdRu1KBVfOhVjnbX7f/25NiFTg1MWqNqgKp8NTrChHd7U/FL5Jf6PBEwKmJmdhjaqqFY8VS6Q/sVeApbNX/aYilrYBaM3UMml8F8hlEqWeQU7RiE6u15kihmtid/zpcPVNYsSsC1ProcEXAq/MpHyKO7FX/mfWcUrEEVPeeqsZTt45I61T30Pvxe/mYWJXVxM8HmdgEyMuUTKtKhvqaZsWu6BEQtGcSCSb2+28rhloxAUt2ldhuoqhwqvFofWorJn9kX+KZ2IZWHgGaDjuddhM7uH51K6zbX6SQrNjfpFjaM6t2urDTnqfGpwonOymO7tXqHk/5kH3YilXg1PEmdouYioeJTV63qGNUFagqXCXeig0S/2NbsdpKPf78CPwFoacbUyhYhMAAAAAASUVORK5CYII=" width="118" height="118" style="width: 118px; height: 118px;"></div>
+                                扫一扫分享
+                            </div>
+                            <div class="dropdown-divider"></div>
+                        <a class="dropdown-item share_weibo" data-share="weibo" href="http://weibo.com/segmentfault" target="_blank"><svg class="svg-inline--fa fa-weibo fa-w-16 fa-fw" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="weibo" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M407 177.6c7.6-24-13.4-46.8-37.4-41.7-22 4.8-28.8-28.1-7.1-32.8 50.1-10.9 92.3 37.1 76.5 84.8-6.8 21.2-38.8 10.8-32-10.3zM214.8 446.7C108.5 446.7 0 395.3 0 310.4c0-44.3 28-95.4 76.3-143.7C176 67 279.5 65.8 249.9 161c-4 13.1 12.3 5.7 12.3 6 79.5-33.6 140.5-16.8 114 51.4-3.7 9.4 1.1 10.9 8.3 13.1 135.7 42.3 34.8 215.2-169.7 215.2zm143.7-146.3c-5.4-55.7-78.5-94-163.4-85.7-84.8 8.6-148.8 60.3-143.4 116s78.5 94 163.4 85.7c84.8-8.6 148.8-60.3 143.4-116zM347.9 35.1c-25.9 5.6-16.8 43.7 8.3 38.3 72.3-15.2 134.8 52.8 111.7 124-7.4 24.2 29.1 37 37.4 12 31.9-99.8-55.1-195.9-157.4-174.3zm-78.5 311c-17.1 38.8-66.8 60-109.1 46.3-40.8-13.1-58-53.4-40.3-89.7 17.7-35.4 63.1-55.4 103.4-45.1 42 10.8 63.1 50.2 46 88.5zm-86.3-30c-12.9-5.4-30 .3-38 12.9-8.3 12.9-4.3 28 8.6 34 13.1 6 30.8.3 39.1-12.9 8-13.1 3.7-28.3-9.7-34zm32.6-13.4c-5.1-1.7-11.4.6-14.3 5.4-2.9 5.1-1.4 10.6 3.7 12.9 5.1 2 11.7-.3 14.6-5.4 2.8-5.2 1.1-10.9-4-12.9z"></path></svg><!-- <i class="fab fa-weibo fa-fw"></i> --> 新浪微博</a><a class="dropdown-item share_twitter" data-share="twitter" href="https://twitter.com/segment_fault" target="_blank"><svg class="svg-inline--fa fa-twitter fa-w-16 fa-fw" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="twitter" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path></svg><!-- <i class="fab fa-twitter fa-fw"></i> --> Twitter</a><a class="dropdown-item share_facebook" data-share="facebook" href="javascript:;" target="_blank"><svg class="svg-inline--fa fa-facebook-square fa-w-14 fa-fw" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="facebook-square" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M400 32H48A48 48 0 0 0 0 80v352a48 48 0 0 0 48 48h137.25V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.27c-30.81 0-40.42 19.12-40.42 38.73V256h68.78l-11 71.69h-57.78V480H400a48 48 0 0 0 48-48V80a48 48 0 0 0-48-48z"></path></svg><!-- <i class="fab fa-facebook-square fa-fw"></i> --> Facebook</a></div>
+                    </div></div></div>
+                            <h1 class="h2 mb-3" itemprop="name">
+                                <a class="text-body" href="https://segmentfault.com/q/1010000015794387">js如何修改对象的key值？</a>
+                            </h1>
+                            <div class="d-flex flex-wrap align-items-center mb-4">
+                                <div class="m-n1"><a class="m-1 badge-tag" href="https://segmentfault.com/t/html5" data-toggle="popover" data-img="https://avatar-static.segmentfault.com/320/807/3208078129-1040000000089409_big64" data-placement="top" data-original-title="html5" data-id="1040000000089409">
+                                                                                            <img src="./js如何修改对象的key值？ - SegmentFault 思否_files/1025005915-54cb538538eea_small">
+                                                                                        html5
+                                        </a><a class="m-1 badge-tag" href="https://segmentfault.com/t/html" data-toggle="popover" data-img="https://avatar-static.segmentfault.com/418/365/4183652815-1040000000089571_big64" data-placement="top" data-original-title="html" data-id="1040000000089571">
+                                                                                        html
+                                        </a><a class="m-1 badge-tag" href="https://segmentfault.com/t/css" data-toggle="popover" data-img="https://avatar-static.segmentfault.com/122/960/1229606535-1040000000089434_big64" data-placement="top" data-original-title="css" data-id="1040000000089434">
+                                                                                        css
+                                        </a><a class="m-1 badge-tag" href="https://segmentfault.com/t/javascript" data-toggle="popover" data-img="https://avatar-static.segmentfault.com/195/823/1958237468-1040000000089436_big64" data-placement="top" data-original-title="javascript" data-id="1040000000089436">
+                                                                                        javascript
+                                        </a></div>
+                                <div class="font-size-14">
+                                                                    </div>
+                            </div>
+                            <article class="article fmt article-content" data-id="1010000015794387" data-license="" itemprop="text">
+                                
+<p><strong>原数据：</strong></p>
+<pre class="hljs properties"><code><span class="hljs-attr">var</span> <span class="hljs-string">array = [</span>
+    <span class="hljs-attr">{</span>
+        <span class="hljs-attr">id</span>:<span class="hljs-string">1,</span>
+        <span class="hljs-attr">name</span>:<span class="hljs-string">"小明"</span>
+    <span class="hljs-attr">},</span>
+    <span class="hljs-attr">{</span>
+        <span class="hljs-attr">id</span>:<span class="hljs-string">2,</span>
+        <span class="hljs-attr">name</span>:<span class="hljs-string">"小红"</span>
+    <span class="hljs-attr">}</span>
+<span class="hljs-attr">];</span>
+</code></pre>
+<p><strong>我要改为的数据：</strong></p>
+<pre class="hljs properties"><code><span class="hljs-attr">var</span> <span class="hljs-string">array = [</span>
+    <span class="hljs-attr">{</span>
+        <span class="hljs-attr">value</span>:<span class="hljs-string">1,</span>
+        <span class="hljs-attr">label</span>:<span class="hljs-string">"小明"</span>
+    <span class="hljs-attr">},</span>
+    <span class="hljs-attr">{</span>
+        <span class="hljs-attr">value</span>:<span class="hljs-string">2,</span>
+        <span class="hljs-attr">label</span>:<span class="hljs-string">"小红"</span>
+    <span class="hljs-attr">}</span>
+<span class="hljs-attr">];</span>
+</code></pre>
+<p>对应的值不变，只是改key的名称，用js如何实现呢？</p>
+
+                            </article>
+
+                            <div class="text-secondary font-size-14 mb-3 d-flex justify-content-between" id="viewsWord" data-viewsword="29024">
+                                阅读 29k 
+                            </div>
+                            <div class="text-secondary font-size-14 d-flex justify-content-between align-items-center flex-column flex-md-row">
+                                <div class="sflex-center flex-column flex-md-row">
+                                    <div class="functional-area-bottom"><div class="text-center"><div class="btn-group like-group mr-2" role="group">
+            <button data-type="question" class="func-btn mainLike like-btn btn btn-outline-primary 
+                            " data-id="1010000015794387">
+                            <svg class="svg-inline--fa fa-thumbs-up fa-w-16" aria-hidden="true" focusable="false" data-prefix="far" data-icon="thumbs-up" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M466.27 286.69C475.04 271.84 480 256 480 236.85c0-44.015-37.218-85.58-85.82-85.58H357.7c4.92-12.81 8.85-28.13 8.85-46.54C366.55 31.936 328.86 0 271.28 0c-61.607 0-58.093 94.933-71.76 108.6-22.747 22.747-49.615 66.447-68.76 83.4H32c-17.673 0-32 14.327-32 32v240c0 17.673 14.327 32 32 32h64c14.893 0 27.408-10.174 30.978-23.95 44.509 1.001 75.06 39.94 177.802 39.94 7.22 0 15.22.01 22.22.01 77.117 0 111.986-39.423 112.94-95.33 13.319-18.425 20.299-43.122 17.34-66.99 9.854-18.452 13.664-40.343 8.99-62.99zm-61.75 53.83c12.56 21.13 1.26 49.41-13.94 57.57 7.7 48.78-17.608 65.9-53.12 65.9h-37.82c-71.639 0-118.029-37.82-171.64-37.82V240h10.92c28.36 0 67.98-70.89 94.54-97.46 28.36-28.36 18.91-75.63 37.82-94.54 47.27 0 47.27 32.98 47.27 56.73 0 39.17-28.36 56.72-28.36 94.54h103.99c21.11 0 37.73 18.91 37.82 37.82.09 18.9-12.82 37.81-22.27 37.81 13.489 14.555 16.371 45.236-5.21 65.62zM88 432c0 13.255-10.745 24-24 24s-24-10.745-24-24 10.745-24 24-24 24 10.745 24 24z"></path></svg><!-- <i class="far fa-thumbs-up"></i> -->
+                            <span class="ml-1">赞</span> <span class="mainLikeNum hidden">0</span>
+                        </button><button data-type="question" data-toggle="popover" data-placement="top" data-content="如果该内容有可改进的余地，欢迎通过回复给作者建议。" class="func-btn downLike btn like-btn btn-outline-secondary 
+                        " data-id="1010000015794387">
+                        <svg class="svg-inline--fa fa-thumbs-down fa-w-16 fa-flip-horizontal" aria-hidden="true" focusable="false" data-prefix="far" data-icon="thumbs-down" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M466.27 225.31c4.674-22.647.864-44.538-8.99-62.99 2.958-23.868-4.021-48.565-17.34-66.99C438.986 39.423 404.117 0 327 0c-7 0-15 .01-22.22.01C201.195.01 168.997 40 128 40h-10.845c-5.64-4.975-13.042-8-21.155-8H32C14.327 32 0 46.327 0 64v240c0 17.673 14.327 32 32 32h64c11.842 0 22.175-6.438 27.708-16h7.052c19.146 16.953 46.013 60.653 68.76 83.4 13.667 13.667 10.153 108.6 71.76 108.6 57.58 0 95.27-31.936 95.27-104.73 0-18.41-3.93-33.73-8.85-46.54h36.48c48.602 0 85.82-41.565 85.82-85.58 0-19.15-4.96-34.99-13.73-49.84zM64 296c-13.255 0-24-10.745-24-24s10.745-24 24-24 24 10.745 24 24-10.745 24-24 24zm330.18 16.73H290.19c0 37.82 28.36 55.37 28.36 94.54 0 23.75 0 56.73-47.27 56.73-18.91-18.91-9.46-66.18-37.82-94.54C206.9 342.89 167.28 272 138.92 272H128V85.83c53.611 0 100.001-37.82 171.64-37.82h37.82c35.512 0 60.82 17.12 53.12 65.9 15.2 8.16 26.5 36.44 13.94 57.57 21.581 20.384 18.699 51.065 5.21 65.62 9.45 0 22.36 18.91 22.27 37.81-.09 18.91-16.71 37.82-37.82 37.82z"></path></svg><!-- <i class="far fa-thumbs-down fa-flip-horizontal"></i> -->
+                        <span class="ml-1 sr-only">踩</span>
+                    </button></div><button class="func-btn mainBookmark btn btn-outline-secondary 
+                                mr-2 " data-id="1010000015794387">
+                                <svg class="svg-inline--fa fa-bookmark fa-w-12" aria-hidden="true" focusable="false" data-prefix="far" data-icon="bookmark" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg=""><path fill="currentColor" d="M336 0H48C21.49 0 0 21.49 0 48v464l192-112 192 112V48c0-26.51-21.49-48-48-48zm0 428.43l-144-84-144 84V54a6 6 0 0 1 6-6h276c3.314 0 6 2.683 6 5.996V428.43z"></path></svg><!-- <i class="far fa-bookmark"></i> -->
+                                <span class="ml-1">收藏</span> <span class="bookmarkNum">3</span>
+                            </button><button class="func-btn sf_do follow-question innerChange btn btn-outline-secondary 
+                        mr-3" data-number-tag-class="qfollowNum" data-dotype="post" data-content="{&quot;type&quot;:&quot;state&quot;,
+                            &quot;state&quot;:&quot;false&quot;,
+                            &quot;true&quot;:&quot;关注&quot;,
+                            &quot;false&quot;:&quot;已关注&quot;}" ;="" data-api="/iteration/api/question/1010000015794387/follow" data-id="1010000015794387">
+                        <span class="ml-1">关注</span> <span class="qfollowNum">7</span>
+                    </button></div></div>
+                                    <div>
+                                        <a class="text-secondary question-reply-btn" href="javascript:;">评论</a>
+                                        <span class="split-dot"></span>
+                                                                                    <time itemprop="dateCreated" datetime="2018-07-27T17:51:58+08:00">
+                                                发布于 2018-07-27 </time>
+                                                                            </div>
+                                </div>
+                                <div class="operation text-center">
+                                    
+                                                                                                        </div>
+                            </div>
+                            <div class="d-none card bg-light border-0 mt-3" id="question-1010000015794387-form">
+                                <form class="card-body my-2 question-comment-form py-0 pt-3" action="https://segmentfault.com/api/question/1010000015794387/comments/add" method="post">
+                                    <div class="form-group">
+                                        <textarea autoheight="true" class="form-control form-control-sm comment-text" rows="1" placeholder="撰写评论 ..." style="overflow: hidden; overflow-wrap: break-word; resize: none;" name="text" aria-placeholder="撰写评论..."></textarea>
+                                    </div>
+                                    <div class="mt-y d-flex align-content-center justify-content-end">
+                                        <button type="button" submit-type="answer-reply" class="btn btn-primary" data-commentid="1010000015794387">
+                                            提交评论
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+
+                                                        <div class="replies question-replies media-body d-none mt-3" data-content="null" data-id="1010000015794387" data-type="question" data-page="1" data-hasmore="0" data-user="null">
+                                <div class="card bg-light border-0">
+                                    <div class="card-body py-0">
+                                        <ul class="list-group list-group-flush reply-list" data-page="1"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script type="text/javascript">
+                      OA_show(3);
+                    </script><div id="OA_holder_3"><div class="d-none d-lg-flex justify-content-center">
+<script async="" src="./js如何修改对象的key值？ - SegmentFault 思否_files/f(2).txt"></script>
+<!-- 中部横幅广告位 -->
+<ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-6330872677300335" data-ad-slot="5598290435" data-adsbygoogle-status="done"><ins id="aswift_0_expand" style="display:inline-table;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px;background-color:transparent;" tabindex="0" title="Advertisement" aria-label="Advertisement"><ins id="aswift_0_anchor" style="display:block;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px;background-color:transparent;"><iframe id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;border:0;width:728px;height:90px;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" width="728" height="90" frameborder="0" src="./js如何修改对象的key值？ - SegmentFault 思否_files/ads.html" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" data-google-container-id="a!1" data-google-query-id="CJXL3JrJ9e0CFQaClgodUW8OKA" data-load-complete="true"></iframe></ins></ins></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="beacon_2581d8dcba" style="position: absolute; left: 0px; top: 0px; visibility: hidden;"><img src="./js如何修改对象的key值？ - SegmentFault 思否_files/lg(2).php" width="0" height="0" alt="" style="width: 0px; height: 0px;"></div></div>
+</div>
+
+                                                            <div id="comment-area" class="my-4 answer-area">
+                                                    <div class="d-flex justify-content-between mb-2">
+                                <div id="comment-total" class="h5 mb-0"><span itemprop="answerCount">6</span> 个回答
+                                </div>
+                                <div>
+                                    <a href="https://segmentfault.com/q/1010000015794387#comment-area" class="sort text-dark" data-sort="default">得票</a><span class="split-dot text-secondary"></span><a href="https://segmentfault.com/q/1010000015794387?sort=created#comment-area" class="sort text-secondary" data-sort="desc">时间</a>
+                                </div>
+                            </div>
+                        
+                                                
+                                                        <div class="card mb-2 border-0">
+    <div class="media card-body p-lg-30" id="answer-1020000015794622" itemscope="" itemtype="https://schema.org/Answer" itemprop="acceptedAnswer">
+        <div class="media-body w-0">
+            <div class="commentUnit">
+                <div class="mb-4 information d-flex align-items-center">
+                    <a class="d-uname sflex-center mr-1" href="https://segmentfault.com/u/helloworld_" itemprop="author" itemscope="" itemtype="https://schema.org/Person">
+                        <img class="d-inline-block rounded-circle mr-2 high-rank-user" width="32" src="./js如何修改对象的key值？ - SegmentFault 思否_files/2832136720-5e27e2346e79f_big64" alt="avatar" itemprop="image">
+                        <strong itemprop="name">helloworld_</strong></a>
+                    <ul class="list-inline mb-0 authentication-info sflex-center font-size-14">
+                                                <li class="list-inline-item">
+                            <svg class="svg-inline--fa fa-dice-d8 fa-w-16" style="color: #BF7158;" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="dice-d8" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M225.53 2.52L2.36 233.83c-4.21 4.37-2.56 11.71 3.1 13.77l234.13 85.06V8.39c-.01-7.49-8.91-11.21-14.06-5.87zm284.11 231.31L286.47 2.52C281.32-2.82 272.41.9 272.41 8.4v324.27l234.13-85.06c5.66-2.07 7.31-9.42 3.1-13.78zM33.53 310.38l192 199.1c5.15 5.34 14.06 1.62 14.06-5.88V368.29L42.13 296.61c-8.21-2.98-14.72 7.43-8.6 13.77zm436.34-13.77l-197.46 71.68V503.6c0 7.5 8.91 11.22 14.06 5.88l192-199.1c6.12-6.34-.39-16.75-8.6-13.77z"></path></svg><!-- <i class="fas fa-dice-d8" style="color:#BF7158"></i> -->
+                            <span style="color: #BF7158;font-weight:bold">2.9k</span>
+                        </li>
+
+                        
+                                            </ul>
+
+                </div>
+                <article class="article fmt my-3 parsedText" itemprop="text">
+                    <pre class="hljs php"><code><span class="hljs-keyword">var</span> <span class="hljs-keyword">array</span> = [
+    {
+        id:<span class="hljs-number">1</span>,
+        name:<span class="hljs-string">"小明"</span>
+    },
+    {
+        id:<span class="hljs-number">2</span>,
+        name:<span class="hljs-string">"小红"</span>
+    }
+];
+<span class="hljs-comment">//旧key到新key的映射</span>
+<span class="hljs-keyword">var</span> keyMap = {
+    <span class="hljs-string">"id"</span> : <span class="hljs-string">"value"</span>,
+    <span class="hljs-string">"name"</span> : <span class="hljs-string">"label"</span>
+};
+
+<span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>;i &lt; <span class="hljs-keyword">array</span>.length;i++){
+        <span class="hljs-keyword">var</span> obj = <span class="hljs-keyword">array</span>[i];
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> key in obj){
+                   <span class="hljs-keyword">var</span> newKey = keyMap[key];
+                   <span class="hljs-keyword">if</span>(newKey){
+                            obj[newKey] = obj[key];
+                            delete obj[key];
+                     }
+            }
+}
+console.log(<span class="hljs-keyword">array</span>);</code></pre>
+                </article>
+
+                <form class="d-none edit-form edit-top-comment-form" action="https://segmentfault.com/api/comment/1020000015794622/edit" method="post">
+                    <div class="form-group">
+                    <textarea autoheight="true" class="form-control comment-text" rows="1" placeholder="撰写评论 ..." style="overflow: hidden; overflow-wrap: break-word; resize: none;" name="text" data-init="```
+var array = [
+    {
+        id:1,
+        name:&quot;小明&quot;
+    },
+    {
+        id:2,
+        name:&quot;小红&quot;
+    }
+];
+//旧key到新key的映射
+var keyMap = {
+	&quot;id&quot; : &quot;value&quot;,
+	&quot;name&quot; : &quot;label&quot;
+};
+
+for(var i = 0;i &lt; array.length;i++){
+	    var obj = array[i];
+	    for(var key in obj){
+				   var newKey = keyMap[key];
+				   if(newKey){
+						    obj[newKey] = obj[key];
+						    delete obj[key];
+					 }
+			}
+}
+console.log(array);
+```"></textarea>
+                    </div>
+                    <div class="my-3 d-flex align-content-center justify-content-end">
+                        <button type="button" class="btn btn-outline-secondary btn-sm mr-2 edit-top-comment-cancel-btn cancelEdit">
+                            取消
+                        </button>
+                        <button type="button" submit-type="comment-edit" class="btn btn-primary btn-sm">
+                            提交
+                        </button>
+                        <input type="hidden" name="objectId" value="1010000015794387" autocomplete="off">
+                        <input type="hidden" name="id" value="1020000015794622" autocomplete="off">
+                    </div>
+                </form>
+
+                                
+                <div class="handle-bar font-size-14 d-flex justify-content-between mt-3 flex-column flex-md-row">
+                    <div class="sflex-center  flex-column flex-md-row">
+                        <div class="sflex-center">
+                            <div class="btn-group like-group" role="group" data-like="-1" data-hate="-1">
+                                <button data-type="answer" class="func-btn mainLike like-btn btn btn-outline-primary " data-id="1020000015794622">
+                                        <svg class="svg-inline--fa fa-thumbs-up fa-w-16" aria-hidden="true" focusable="false" data-prefix="far" data-icon="thumbs-up" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M466.27 286.69C475.04 271.84 480 256 480 236.85c0-44.015-37.218-85.58-85.82-85.58H357.7c4.92-12.81 8.85-28.13 8.85-46.54C366.55 31.936 328.86 0 271.28 0c-61.607 0-58.093 94.933-71.76 108.6-22.747 22.747-49.615 66.447-68.76 83.4H32c-17.673 0-32 14.327-32 32v240c0 17.673 14.327 32 32 32h64c14.893 0 27.408-10.174 30.978-23.95 44.509 1.001 75.06 39.94 177.802 39.94 7.22 0 15.22.01 22.22.01 77.117 0 111.986-39.423 112.94-95.33 13.319-18.425 20.299-43.122 17.34-66.99 9.854-18.452 13.664-40.343 8.99-62.99zm-61.75 53.83c12.56 21.13 1.26 49.41-13.94 57.57 7.7 48.78-17.608 65.9-53.12 65.9h-37.82c-71.639 0-118.029-37.82-171.64-37.82V240h10.92c28.36 0 67.98-70.89 94.54-97.46 28.36-28.36 18.91-75.63 37.82-94.54 47.27 0 47.27 32.98 47.27 56.73 0 39.17-28.36 56.72-28.36 94.54h103.99c21.11 0 37.73 18.91 37.82 37.82.09 18.9-12.82 37.81-22.27 37.81 13.489 14.555 16.371 45.236-5.21 65.62zM88 432c0 13.255-10.745 24-24 24s-24-10.745-24-24 10.745-24 24-24 24 10.745 24 24z"></path></svg><!-- <i class="far fa-thumbs-up"></i> -->
+                                        <span class="ml-1">赞</span>
+                                                                                <span class="mainLikeNum" itemprop="upvoteCount">6</span>
+                                                                            </button>
+                                <button data-type="answer" data-toggle="popover" data-placement="top" data-content="如果该内容有可改进的余地，欢迎通过回复给作者建议。" class="func-btn downLike btn like-btn btn-outline-secondary " data-id="1020000015794622">
+                                    <svg class="svg-inline--fa fa-thumbs-down fa-w-16 fa-flip-horizontal" aria-hidden="true" focusable="false" data-prefix="far" data-icon="thumbs-down" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M466.27 225.31c4.674-22.647.864-44.538-8.99-62.99 2.958-23.868-4.021-48.565-17.34-66.99C438.986 39.423 404.117 0 327 0c-7 0-15 .01-22.22.01C201.195.01 168.997 40 128 40h-10.845c-5.64-4.975-13.042-8-21.155-8H32C14.327 32 0 46.327 0 64v240c0 17.673 14.327 32 32 32h64c11.842 0 22.175-6.438 27.708-16h7.052c19.146 16.953 46.013 60.653 68.76 83.4 13.667 13.667 10.153 108.6 71.76 108.6 57.58 0 95.27-31.936 95.27-104.73 0-18.41-3.93-33.73-8.85-46.54h36.48c48.602 0 85.82-41.565 85.82-85.58 0-19.15-4.96-34.99-13.73-49.84zM64 296c-13.255 0-24-10.745-24-24s10.745-24 24-24 24 10.745 24 24-10.745 24-24 24zm330.18 16.73H290.19c0 37.82 28.36 55.37 28.36 94.54 0 23.75 0 56.73-47.27 56.73-18.91-18.91-9.46-66.18-37.82-94.54C206.9 342.89 167.28 272 138.92 272H128V85.83c53.611 0 100.001-37.82 171.64-37.82h37.82c35.512 0 60.82 17.12 53.12 65.9 15.2 8.16 26.5 36.44 13.94 57.57 21.581 20.384 18.699 51.065 5.21 65.62 9.45 0 22.36 18.91 22.27 37.81-.09 18.91-16.71 37.82-37.82 37.82z"></path></svg><!-- <i class="far fa-thumbs-down fa-flip-horizontal"></i> -->
+                                </button>
+                            </div>
+
+                            
+                                                                                                <button class="btn btn-outline-success ml-2 active func-btn"><svg class="svg-inline--fa fa-check-circle fa-w-16" aria-hidden="true" focusable="false" data-prefix="far" data-icon="check-circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 48c110.532 0 200 89.451 200 200 0 110.532-89.451 200-200 200-110.532 0-200-89.451-200-200 0-110.532 89.451-200 200-200m140.204 130.267l-22.536-22.718c-4.667-4.705-12.265-4.736-16.97-.068L215.346 303.697l-59.792-60.277c-4.667-4.705-12.265-4.736-16.97-.069l-22.719 22.536c-4.705 4.667-4.736 12.265-.068 16.971l90.781 91.516c4.667 4.705 12.265 4.736 16.97.068l172.589-171.204c4.704-4.668 4.734-12.266.067-16.971z"></path></svg><!-- <i class="far fa-check-circle"></i> --> 已采纳</button>
+                                                                                    </div>
+                        <div class="ml-3">
+                            <a class="text-secondary btn-comment" href="javascript:;" data-id="1020000015794622">评论</a>
+                            <span class="split-dot"></span>
+                            <a class="text-secondary btn-reward" href="javascript:;" data-payid="1020000015794622">赞赏</a>
+                            <span class="split-dot"></span>
+                                                        <a itemprop="url" href="https://segmentfault.com/q/1010000015794387/a-1020000015794622"><time class="text-secondary" itemprop="dateCreated" datetime="2018-07-27T18:07:44+08:00">发布于 2018-07-27 </time></a>
+                                                    </div>
+                        
+                    </div>
+                    <div class="control-area align-self-center d-none">
+                                        </div>
+                </div>
+
+                <div class="card bg-light border-0 mt-3 d-none" id="answer-1020000015794622-form">
+                    <form class="card-body my-2 add-comment-form py-0 pt-3" action="https://segmentfault.com/api/answer/1020000015794622/comments/add" method="post">
+                        <div class="form-group">
+                        <textarea autoheight="true" class="form-control form-control-sm comment-text" rows="1" placeholder="撰写评论 ..." style="overflow: hidden; overflow-wrap: break-word; resize: none;" name="text" aria-placeholder="撰写评论..."></textarea>
+                        </div>
+                        <div class="mt-y d-flex align-content-center justify-content-end">
+                            <button type="button" submit-type="reply" class="btn btn-primary btn-sm">
+                                提交评论
+                            </button>
+                            <input type="hidden" name="objectId" value="1010000015794387" autocomplete="off">
+                            <input type="hidden" name="replyUserId" value="1020000015794622" autocomplete="off">
+                        </div>
+                    </form>
+                </div>
+                            </div>
+            <div class="replies mt-3 d-none" data-content="null" data-id="1020000015794622" data-type="answer" data-hasmore="0" data-user="null">
+                <div class="card bg-light border-0">
+                    <div class="card-body py-0">
+                        <ul class="list-group list-group-flush reply-list" data-page="1"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+                        
+                                                        <div class="card mb-2 border-0">
+    <div class="media card-body p-lg-30" id="answer-1020000015794463" itemscope="" itemtype="https://schema.org/Answer" itemprop="suggestedAnswer">
+        <div class="media-body w-0">
+            <div class="commentUnit">
+                <div class="mb-4 information d-flex align-items-center">
+                    <a class="d-uname sflex-center mr-1" href="https://segmentfault.com/u/ezmo" itemprop="author" itemscope="" itemtype="https://schema.org/Person">
+                        <img class="d-inline-block rounded-circle mr-2 high-rank-user" width="32" src="./js如何修改对象的key值？ - SegmentFault 思否_files/4074253551-58705f0094300_big64" alt="avatar" itemprop="image">
+                        <strong itemprop="name">ezmo</strong></a>
+                    <ul class="list-inline mb-0 authentication-info sflex-center font-size-14">
+                                                <li class="list-inline-item">
+                            <svg class="svg-inline--fa fa-dice-d8 fa-w-16" style="color: #BF7158;" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="dice-d8" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M225.53 2.52L2.36 233.83c-4.21 4.37-2.56 11.71 3.1 13.77l234.13 85.06V8.39c-.01-7.49-8.91-11.21-14.06-5.87zm284.11 231.31L286.47 2.52C281.32-2.82 272.41.9 272.41 8.4v324.27l234.13-85.06c5.66-2.07 7.31-9.42 3.1-13.78zM33.53 310.38l192 199.1c5.15 5.34 14.06 1.62 14.06-5.88V368.29L42.13 296.61c-8.21-2.98-14.72 7.43-8.6 13.77zm436.34-13.77l-197.46 71.68V503.6c0 7.5 8.91 11.22 14.06 5.88l192-199.1c6.12-6.34-.39-16.75-8.6-13.77z"></path></svg><!-- <i class="fas fa-dice-d8" style="color:#BF7158"></i> -->
+                            <span style="color: #BF7158;font-weight:bold">6.9k</span>
+                        </li>
+
+                                                                                    <li class="list-inline-item">
+                                    <a class="text-body" href="https://github.com/chenjihu" target="_blank"><svg class="svg-inline--fa fa-github fa-w-16" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="github" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" data-fa-i2svg=""><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg><!-- <i class="fab fa-github"></i> --></a>
+                                </li>
+                                                    
+                                            </ul>
+
+                </div>
+                <article class="article fmt my-3 parsedText" itemprop="text">
+                    <pre class="javascript hljs"><code class="javascript"><span class="hljs-keyword">var</span> result = array.map(<span class="hljs-function"><span class="hljs-params">o</span>=&gt;</span>{<span class="hljs-keyword">return</span>{<span class="hljs-attr">value</span>:o.id, <span class="hljs-attr">label</span>:o.name}});
+<span class="hljs-built_in">console</span>.log(result);</code></pre>
+                </article>
+
+                <form class="d-none edit-form edit-top-comment-form" action="https://segmentfault.com/api/comment/1020000015794463/edit" method="post">
+                    <div class="form-group">
+                    <textarea autoheight="true" class="form-control comment-text" rows="1" placeholder="撰写评论 ..." style="overflow: hidden; overflow-wrap: break-word; resize: none;" name="text" data-init="```javascript
+var result = array.map(o=&gt;{return{value:o.id, label:o.name}});
+console.log(result);
+```"></textarea>
+                    </div>
+                    <div class="my-3 d-flex align-content-center justify-content-end">
+                        <button type="button" class="btn btn-outline-secondary btn-sm mr-2 edit-top-comment-cancel-btn cancelEdit">
+                            取消
+                        </button>
+                        <button type="button" submit-type="comment-edit" class="btn btn-primary btn-sm">
+                            提交
+                        </button>
+                        <input type="hidden" name="objectId" value="1010000015794387" autocomplete="off">
+                        <input type="hidden" name="id" value="1020000015794463" autocomplete="off">
+                    </div>
+                </form>
+
+                                
+                <div class="handle-bar font-size-14 d-flex justify-content-between mt-3 flex-column flex-md-row">
+                    <div class="sflex-center  flex-column flex-md-row">
+                        <div class="sflex-center">
+                            <div class="btn-group like-group" role="group" data-like="-1" data-hate="-1">
+                                <button data-type="answer" class="func-btn mainLike like-btn btn btn-outline-primary " data-id="1020000015794463">
+                                        <svg class="svg-inline--fa fa-thumbs-up fa-w-16" aria-hidden="true" focusable="false" data-prefix="far" data-icon="thumbs-up" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M466.27 286.69C475.04 271.84 480 256 480 236.85c0-44.015-37.218-85.58-85.82-85.58H357.7c4.92-12.81 8.85-28.13 8.85-46.54C366.55 31.936 328.86 0 271.28 0c-61.607 0-58.093 94.933-71.76 108.6-22.747 22.747-49.615 66.447-68.76 83.4H32c-17.673 0-32 14.327-32 32v240c0 17.673 14.327 32 32 32h64c14.893 0 27.408-10.174 30.978-23.95 44.509 1.001 75.06 39.94 177.802 39.94 7.22 0 15.22.01 22.22.01 77.117 0 111.986-39.423 112.94-95.33 13.319-18.425 20.299-43.122 17.34-66.99 9.854-18.452 13.664-40.343 8.99-62.99zm-61.75 53.83c12.56 21.13 1.26 49.41-13.94 57.57 7.7 48.78-17.608 65.9-53.12 65.9h-37.82c-71.639 0-118.029-37.82-171.64-37.82V240h10.92c28.36 0 67.98-70.89 94.54-97.46 28.36-28.36 18.91-75.63 37.82-94.54 47.27 0 47.27 32.98 47.27 56.73 0 39.17-28.36 56.72-28.36 94.54h103.99c21.11 0 37.73 18.91 37.82 37.82.09 18.9-12.82 37.81-22.27 37.81 13.489 14.555 16.371 45.236-5.21 65.62zM88 432c0 13.255-10.745 24-24 24s-24-10.745-24-24 10.745-24 24-24 24 10.745 24 24z"></path></svg><!-- <i class="far fa-thumbs-up"></i> -->
+                                        <span class="ml-1">赞</span>
+                                                                                <span class="mainLikeNum" itemprop="upvoteCount">30</span>
+                                                                            </button>
+                                <button data-type="answer" data-toggle="popover" data-placement="top" data-content="如果该内容有可改进的余地，欢迎通过回复给作者建议。" class="func-btn downLike btn like-btn btn-outline-secondary " data-id="1020000015794463">
+                                    <svg class="svg-inline--fa fa-thumbs-down fa-w-16 fa-flip-horizontal" aria-hidden="true" focusable="false" data-prefix="far" data-icon="thumbs-down" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M466.27 225.31c4.674-22.647.864-44.538-8.99-62.99 2.958-23.868-4.021-48.565-17.34-66.99C438.986 39.423 404.117 0 327 0c-7 0-15 .01-22.22.01C201.195.01 168.997 40 128 40h-10.845c-5.64-4.975-13.042-8-21.155-8H32C14.327 32 0 46.327 0 64v240c0 17.673 14.327 32 32 32h64c11.842 0 22.175-6.438 27.708-16h7.052c19.146 16.953 46.013 60.653 68.76 83.4 13.667 13.667 10.153 108.6 71.76 108.6 57.58 0 95.27-31.936 95.27-104.73 0-18.41-3.93-33.73-8.85-46.54h36.48c48.602 0 85.82-41.565 85.82-85.58 0-19.15-4.96-34.99-13.73-49.84zM64 296c-13.255 0-24-10.745-24-24s10.745-24 24-24 24 10.745 24 24-10.745 24-24 24zm330.18 16.73H290.19c0 37.82 28.36 55.37 28.36 94.54 0 23.75 0 56.73-47.27 56.73-18.91-18.91-9.46-66.18-37.82-94.54C206.9 342.89 167.28 272 138.92 272H128V85.83c53.611 0 100.001-37.82 171.64-37.82h37.82c35.512 0 60.82 17.12 53.12 65.9 15.2 8.16 26.5 36.44 13.94 57.57 21.581 20.384 18.699 51.065 5.21 65.62 9.45 0 22.36 18.91 22.27 37.81-.09 18.91-16.71 37.82-37.82 37.82z"></path></svg><!-- <i class="far fa-thumbs-down fa-flip-horizontal"></i> -->
+                                </button>
+                            </div>
+
+                            
+                                                                                                                </div>
+                        <div class="ml-3">
+                            <a class="text-secondary btn-comment" href="javascript:;" data-id="1020000015794463">评论</a>
+                            <span class="split-dot"></span>
+                            <a class="text-secondary btn-reward" href="javascript:;" data-payid="1020000015794463">赞赏</a>
+                            <span class="split-dot"></span>
+                                                        <a itemprop="url" href="https://segmentfault.com/q/1010000015794387/a-1020000015794463"><time class="text-secondary" itemprop="dateCreated" data-toggle="tooltip" data-placement="top" datetime="2018-07-27T17:57:15+08:00" title="" data-original-title="发布于 2018-07-27 ">更新于 2018-07-27 </time></a>
+                                                    </div>
+                        
+                    </div>
+                    <div class="control-area align-self-center d-none">
+                                        </div>
+                </div>
+
+                <div class="card bg-light border-0 mt-3 d-none" id="answer-1020000015794463-form">
+                    <form class="card-body my-2 add-comment-form py-0 pt-3" action="https://segmentfault.com/api/answer/1020000015794463/comments/add" method="post">
+                        <div class="form-group">
+                        <textarea autoheight="true" class="form-control form-control-sm comment-text" rows="1" placeholder="撰写评论 ..." style="overflow: hidden; overflow-wrap: break-word; resize: none;" name="text" aria-placeholder="撰写评论..."></textarea>
+                        </div>
+                        <div class="mt-y d-flex align-content-center justify-content-end">
+                            <button type="button" submit-type="reply" class="btn btn-primary btn-sm">
+                                提交评论
+                            </button>
+                            <input type="hidden" name="objectId" value="1010000015794387" autocomplete="off">
+                            <input type="hidden" name="replyUserId" value="1020000015794463" autocomplete="off">
+                        </div>
+                    </form>
+                </div>
+                            </div>
+            <div class="replies mt-3" data-content="[{&quot;id&quot;:&quot;1050000017262176&quot;,&quot;userId&quot;:&quot;1030000015094636&quot;,&quot;objectId&quot;:&quot;1020000015794463&quot;,&quot;canEdit&quot;:false,&quot;canDelete&quot;:false,&quot;user&quot;:{&quot;id&quot;:&quot;1030000015094636&quot;,&quot;url&quot;:&quot;\/u\/var_jh&quot;,&quot;slug&quot;:&quot;var_jh&quot;,&quot;name&quot;:&quot;var_jh&quot;,&quot;avatarUrl&quot;:&quot;https:\/\/cdn.segmentfault.com\/v-5feb05cf\/global\/img\/user-64.png&quot;},&quot;repliedComments&quot;:null,&quot;repliedCommentCount&quot;:0,&quot;replyUser&quot;:null,&quot;parsedText&quot;:&quot;&lt;p&gt;\u611f\u8c22\u3002&lt;\/p&gt;&quot;,&quot;originalText&quot;:&quot;\u611f\u8c22\u3002&quot;,&quot;createdDate&quot;:&quot;2018-12-05 &quot;,&quot;created&quot;:&quot;1543977469&quot;,&quot;isLiked&quot;:false,&quot;votes&quot;:&quot;0&quot;,&quot;isAuthor&quot;:false,&quot;reply_comment_id&quot;:&quot;0&quot;,&quot;isDisObjAuthor&quot;:false},{&quot;id&quot;:&quot;1050000017262350&quot;,&quot;userId&quot;:&quot;1030000007442115&quot;,&quot;objectId&quot;:&quot;1020000015794463&quot;,&quot;canEdit&quot;:false,&quot;canDelete&quot;:false,&quot;user&quot;:{&quot;id&quot;:&quot;1030000007442115&quot;,&quot;url&quot;:&quot;\/u\/ezmo&quot;,&quot;slug&quot;:&quot;ezmo&quot;,&quot;name&quot;:&quot;ezmo&quot;,&quot;avatarUrl&quot;:&quot;https:\/\/avatar-static.segmentfault.com\/407\/425\/4074253551-58705f0094300_big64&quot;},&quot;repliedComments&quot;:null,&quot;repliedCommentCount&quot;:0,&quot;replyUser&quot;:{&quot;url&quot;:&quot;\/u\/var_jh&quot;,&quot;name&quot;:&quot;var_jh&quot;},&quot;parsedText&quot;:&quot;&lt;p&gt;\u8fd9\u4e48\u5ba2\u6c14&lt;\/p&gt;&quot;,&quot;originalText&quot;:&quot;\u8fd9\u4e48\u5ba2\u6c14&quot;,&quot;createdDate&quot;:&quot;2018-12-05 &quot;,&quot;created&quot;:&quot;1543977863&quot;,&quot;isLiked&quot;:false,&quot;votes&quot;:&quot;0&quot;,&quot;isAuthor&quot;:true,&quot;reply_comment_id&quot;:&quot;0&quot;,&quot;isDisObjAuthor&quot;:false},{&quot;id&quot;:&quot;1050000020313129&quot;,&quot;userId&quot;:&quot;1030000016339698&quot;,&quot;objectId&quot;:&quot;1020000015794463&quot;,&quot;canEdit&quot;:false,&quot;canDelete&quot;:false,&quot;user&quot;:{&quot;id&quot;:&quot;1030000016339698&quot;,&quot;url&quot;:&quot;\/u\/lumos&quot;,&quot;slug&quot;:&quot;lumos&quot;,&quot;name&quot;:&quot;lumos&quot;,&quot;avatarUrl&quot;:&quot;https:\/\/avatar-static.segmentfault.com\/179\/899\/1798993510-5b962947acace_big64&quot;},&quot;repliedComments&quot;:null,&quot;repliedCommentCount&quot;:0,&quot;replyUser&quot;:null,&quot;parsedText&quot;:&quot;&lt;p&gt;\u8fd9\u624d\u662f\u6700\u597d\u7684\u7b54\u6848 \u611f\u8c22\u4eb2\u4eb2&lt;\/p&gt;&quot;,&quot;originalText&quot;:&quot;\u8fd9\u624d\u662f\u6700\u597d\u7684\u7b54\u6848 \u611f\u8c22\u4eb2\u4eb2&quot;,&quot;createdDate&quot;:&quot;2019-09-06 &quot;,&quot;created&quot;:&quot;1567763313&quot;,&quot;isLiked&quot;:false,&quot;votes&quot;:&quot;0&quot;,&quot;isAuthor&quot;:false,&quot;reply_comment_id&quot;:&quot;0&quot;,&quot;isDisObjAuthor&quot;:false}]" data-id="1020000015794463" data-type="answer" data-hasmore="1" data-user="null">
+                <div class="card bg-light border-0">
+                    <div class="card-body py-0">
+                        <ul class="list-group list-group-flush reply-list" data-page="1"><li class="list-group-item px-0 bg-light border-0 commentUnit">
+            <div class="font-size-14 mb-2">
+                <a class="d-uname" href="https://segmentfault.com/u/var_jh" target="_blank"><strong>var_jh</strong></a>：
+                <div class="parsedText fmt"><p>感谢。</p></div>
+            </div>
+            <form class="d-none edit-form edit-reply-form" action="https://segmentfault.com/api/comment/1050000017262176/edit" method="post">
+                <div class="form-group">
+                    <textarea autoheight="true" class="form-control form-control-sm comment-text" rows="1" placeholder="撰写评论 ..." style="overflow: hidden; overflow-wrap: break-word; resize: none;" name="text" data-init="感谢。"></textarea>
+                </div>
+                <div class="my-3 d-flex align-content-center justify-content-end">
+                    <button type="button" class="btn btn-outline-secondary btn-sm mr-2 edit-top-comment-cancel-btn cancelEdit">
+                        取消
+                    </button>
+                    <button type="button" submit-type="reply-edit" class="btn btn-primary btn-sm">
+                        提交
+                    </button>
+                    <input type="hidden" name="id" value="1050000017262176" autocomplete="off">
+                </div>
+            </form>
+            <div class="handle-bar font-size-14 d-flex justify-content-between ">
+                <div>
+                    <a class="text-secondary" href="Javascript:;">
+                    <span class="mainLike-comment " data-id="1050000017262176">
+                        <svg class="svg-inline--fa fa-thumbs-up fa-w-16 mr-1" aria-hidden="true" focusable="false" data-prefix="far" data-icon="thumbs-up" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M466.27 286.69C475.04 271.84 480 256 480 236.85c0-44.015-37.218-85.58-85.82-85.58H357.7c4.92-12.81 8.85-28.13 8.85-46.54C366.55 31.936 328.86 0 271.28 0c-61.607 0-58.093 94.933-71.76 108.6-22.747 22.747-49.615 66.447-68.76 83.4H32c-17.673 0-32 14.327-32 32v240c0 17.673 14.327 32 32 32h64c14.893 0 27.408-10.174 30.978-23.95 44.509 1.001 75.06 39.94 177.802 39.94 7.22 0 15.22.01 22.22.01 77.117 0 111.986-39.423 112.94-95.33 13.319-18.425 20.299-43.122 17.34-66.99 9.854-18.452 13.664-40.343 8.99-62.99zm-61.75 53.83c12.56 21.13 1.26 49.41-13.94 57.57 7.7 48.78-17.608 65.9-53.12 65.9h-37.82c-71.639 0-118.029-37.82-171.64-37.82V240h10.92c28.36 0 67.98-70.89 94.54-97.46 28.36-28.36 18.91-75.63 37.82-94.54 47.27 0 47.27 32.98 47.27 56.73 0 39.17-28.36 56.72-28.36 94.54h103.99c21.11 0 37.73 18.91 37.82 37.82.09 18.9-12.82 37.81-22.27 37.81 13.489 14.555 16.371 45.236-5.21 65.62zM88 432c0 13.255-10.745 24-24 24s-24-10.745-24-24 10.745-24 24-24 24 10.745 24 24z"></path></svg><!-- <i class="far fa-thumbs-up mr-1"></i> -->
+                    </span>
+                    <span data-icon-count-size="" data-count-hidden="true" class="mainLike-commentNum">
+                        </span> </a>
+                    <span class="split-dot"></span>
+                    <a class="text-secondary btn-reply" href="Javascript:;" data-id="1050000017262176">回复</a>
+                    <span class="split-dot"></span>
+                    <span class="ml-1 text-secondary">2018-12-05 </span>
+                </div>
+                <div class="comment-control-area d-none">
+                    
+                    
+                    
+                </div>
+            </div>
+            <form id="reply-1050000017262176-form" class="d-none my-2 add-comment-form" action="https://segmentfault.com/api/comment/1050000017262176/reply" method="post">
+                <div class="form-group">
+                    <textarea autoheight="true" class="form-control form-control-sm reply-text" rows="1" placeholder="撰写评论 ..." style="overflow: hidden; overflow-wrap: break-word; resize: none;" name="text"></textarea>
+                </div>
+                <div class="mt-y d-flex align-content-center justify-content-end">
+                    <button type="button" submit-type="reply" class="btn btn-primary btn-sm" data-commentid="1050000017262176">
+                        提交评论
+                    </button>
+                    <input type="hidden" name="replyUserId" value="1030000015094636" autocomplete="off">
+                </div>
+            </form>
+        </li><li class="list-group-item px-0 bg-light border-0 commentUnit">
+            <div class="font-size-14 mb-2">
+                <a class="d-uname" href="https://segmentfault.com/u/ezmo" target="_blank"><strong>ezmo</strong></a>：
+                <div class="parsedText fmt"><p>这么客气</p></div>
+            </div>
+            <form class="d-none edit-form edit-reply-form" action="https://segmentfault.com/api/comment/1050000017262350/edit" method="post">
+                <div class="form-group">
+                    <textarea autoheight="true" class="form-control form-control-sm comment-text" rows="1" placeholder="撰写评论 ..." style="overflow: hidden; overflow-wrap: break-word; resize: none;" name="text" data-init="这么客气"></textarea>
+                </div>
+                <div class="my-3 d-flex align-content-center justify-content-end">
+                    <button type="button" class="btn btn-outline-secondary btn-sm mr-2 edit-top-comment-cancel-btn cancelEdit">
+                        取消
+                    </button>
+                    <button type="button" submit-type="reply-edit" class="btn btn-primary btn-sm">
+                        提交
+                    </button>
+                    <input type="hidden" name="id" value="1050000017262350" autocomplete="off">
+                </div>
+            </form>
+            <div class="handle-bar font-size-14 d-flex justify-content-between ">
+                <div>
+                    <a class="text-secondary" href="Javascript:;">
+                    <span class="mainLike-comment " data-id="1050000017262350">
+                        <svg class="svg-inline--fa fa-thumbs-up fa-w-16 mr-1" aria-hidden="true" focusable="false" data-prefix="far" data-icon="thumbs-up" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M466.27 286.69C475.04 271.84 480 256 480 236.85c0-44.015-37.218-85.58-85.82-85.58H357.7c4.92-12.81 8.85-28.13 8.85-46.54C366.55 31.936 328.86 0 271.28 0c-61.607 0-58.093 94.933-71.76 108.6-22.747 22.747-49.615 66.447-68.76 83.4H32c-17.673 0-32 14.327-32 32v240c0 17.673 14.327 32 32 32h64c14.893 0 27.408-10.174 30.978-23.95 44.509 1.001 75.06 39.94 177.802 39.94 7.22 0 15.22.01 22.22.01 77.117 0 111.986-39.423 112.94-95.33 13.319-18.425 20.299-43.122 17.34-66.99 9.854-18.452 13.664-40.343 8.99-62.99zm-61.75 53.83c12.56 21.13 1.26 49.41-13.94 57.57 7.7 48.78-17.608 65.9-53.12 65.9h-37.82c-71.639 0-118.029-37.82-171.64-37.82V240h10.92c28.36 0 67.98-70.89 94.54-97.46 28.36-28.36 18.91-75.63 37.82-94.54 47.27 0 47.27 32.98 47.27 56.73 0 39.17-28.36 56.72-28.36 94.54h103.99c21.11 0 37.73 18.91 37.82 37.82.09 18.9-12.82 37.81-22.27 37.81 13.489 14.555 16.371 45.236-5.21 65.62zM88 432c0 13.255-10.745 24-24 24s-24-10.745-24-24 10.745-24 24-24 24 10.745 24 24z"></path></svg><!-- <i class="far fa-thumbs-up mr-1"></i> -->
+                    </span>
+                    <span data-icon-count-size="" data-count-hidden="true" class="mainLike-commentNum">
+                        </span> </a>
+                    <span class="split-dot"></span>
+                    <a class="text-secondary btn-reply" href="Javascript:;" data-id="1050000017262350">回复</a>
+                    <span class="split-dot"></span>
+                    <span class="ml-1 text-secondary">2018-12-05 </span>
+                </div>
+                <div class="comment-control-area d-none">
+                    
+                    
+                    
+                </div>
+            </div>
+            <form id="reply-1050000017262350-form" class="d-none my-2 add-comment-form" action="https://segmentfault.com/api/comment/1050000017262350/reply" method="post">
+                <div class="form-group">
+                    <textarea autoheight="true" class="form-control form-control-sm reply-text" rows="1" placeholder="撰写评论 ..." style="overflow: hidden; overflow-wrap: break-word; resize: none;" name="text"></textarea>
+                </div>
+                <div class="mt-y d-flex align-content-center justify-content-end">
+                    <button type="button" submit-type="reply" class="btn btn-primary btn-sm" data-commentid="1050000017262350">
+                        提交评论
+                    </button>
+                    <input type="hidden" name="replyUserId" value="1030000007442115" autocomplete="off">
+                </div>
+            </form>
+        </li><li class="list-group-item px-0 bg-light border-0 commentUnit">
+            <div class="font-size-14 mb-2">
+                <a class="d-uname" href="https://segmentfault.com/u/lumos" target="_blank"><strong>lumos</strong></a>：
+                <div class="parsedText fmt"><p>这才是最好的答案 感谢亲亲</p></div>
+            </div>
+            <form class="d-none edit-form edit-reply-form" action="https://segmentfault.com/api/comment/1050000020313129/edit" method="post">
+                <div class="form-group">
+                    <textarea autoheight="true" class="form-control form-control-sm comment-text" rows="1" placeholder="撰写评论 ..." style="overflow: hidden; overflow-wrap: break-word; resize: none;" name="text" data-init="这才是最好的答案 感谢亲亲"></textarea>
+                </div>
+                <div class="my-3 d-flex align-content-center justify-content-end">
+                    <button type="button" class="btn btn-outline-secondary btn-sm mr-2 edit-top-comment-cancel-btn cancelEdit">
+                        取消
+                    </button>
+                    <button type="button" submit-type="reply-edit" class="btn btn-primary btn-sm">
+                        提交
+                    </button>
+                    <input type="hidden" name="id" value="1050000020313129" autocomplete="off">
+                </div>
+            </form>
+            <div class="handle-bar font-size-14 d-flex justify-content-between ">
+                <div>
+                    <a class="text-secondary" href="Javascript:;">
+                    <span class="mainLike-comment " data-id="1050000020313129">
+                        <svg class="svg-inline--fa fa-thumbs-up fa-w-16 mr-1" aria-hidden="true" focusable="false" data-prefix="far" data-icon="thumbs-up" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M466.27 286.69C475.04 271.84 480 256 480 236.85c0-44.015-37.218-85.58-85.82-85.58H357.7c4.92-12.81 8.85-28.13 8.85-46.54C366.55 31.936 328.86 0 271.28 0c-61.607 0-58.093 94.933-71.76 108.6-22.747 22.747-49.615 66.447-68.76 83.4H32c-17.673 0-32 14.327-32 32v240c0 17.673 14.327 32 32 32h64c14.893 0 27.408-10.174 30.978-23.95 44.509 1.001 75.06 39.94 177.802 39.94 7.22 0 15.22.01 22.22.01 77.117 0 111.986-39.423 112.94-95.33 13.319-18.425 20.299-43.122 17.34-66.99 9.854-18.452 13.664-40.343 8.99-62.99zm-61.75 53.83c12.56 21.13 1.26 49.41-13.94 57.57 7.7 48.78-17.608 65.9-53.12 65.9h-37.82c-71.639 0-118.029-37.82-171.64-37.82V240h10.92c28.36 0 67.98-70.89 94.54-97.46 28.36-28.36 18.91-75.63 37.82-94.54 47.27 0 47.27 32.98 47.27 56.73 0 39.17-28.36 56.72-28.36 94.54h103.99c21.11 0 37.73 18.91 37.82 37.82.09 18.9-12.82 37.81-22.27 37.81 13.489 14.555 16.371 45.236-5.21 65.62zM88 432c0 13.255-10.745 24-24 24s-24-10.745-24-24 10.745-24 24-24 24 10.745 24 24z"></path></svg><!-- <i class="far fa-thumbs-up mr-1"></i> -->
+                    </span>
+                    <span data-icon-count-size="" data-count-hidden="true" class="mainLike-commentNum">
+                        </span> </a>
+                    <span class="split-dot"></span>
+                    <a class="text-secondary btn-reply" href="Javascript:;" data-id="1050000020313129">回复</a>
+                    <span class="split-dot"></span>
+                    <span class="ml-1 text-secondary">2019-09-06 </span>
+                </div>
+                <div class="comment-control-area d-none">
+                    
+                    
+                    
+                </div>
+            </div>
+            <form id="reply-1050000020313129-form" class="d-none my-2 add-comment-form" action="https://segmentfault.com/api/comment/1050000020313129/reply" method="post">
+                <div class="form-group">
+                    <textarea autoheight="true" class="form-control form-control-sm reply-text" rows="1" placeholder="撰写评论 ..." style="overflow: hidden; overflow-wrap: break-word; resize: none;" name="text"></textarea>
+                </div>
+                <div class="mt-y d-flex align-content-center justify-content-end">
+                    <button type="button" submit-type="reply" class="btn btn-primary btn-sm" data-commentid="1050000020313129">
+                        提交评论
+                    </button>
+                    <input type="hidden" name="replyUserId" value="1030000016339698" autocomplete="off">
+                </div>
+            </form>
+        </li><div class="font-size-14 d-flex py-2 my-1 loader d-none"><a class="text-secondary next-page-btn" href="javascript:;">展开显示更多</a></div></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+                                                        <div class="card mb-2 border-0">
+    <div class="media card-body p-lg-30" id="answer-1020000019112484" itemscope="" itemtype="https://schema.org/Answer" itemprop="suggestedAnswer">
+        <div class="media-body w-0">
+            <div class="commentUnit">
+                <div class="mb-4 information d-flex align-items-center">
+                    <a class="d-uname sflex-center mr-1" href="https://segmentfault.com/u/weijiatan" itemprop="author" itemscope="" itemtype="https://schema.org/Person">
+                        <img class="d-inline-block rounded-circle mr-2 " width="32" src="./js如何修改对象的key值？ - SegmentFault 思否_files/593608295-58f9589167553_big64" alt="avatar" itemprop="image">
+                        <strong itemprop="name">blueサ石头</strong></a>
+                    <ul class="list-inline mb-0 authentication-info sflex-center font-size-14">
+                                                <li class="list-inline-item">
+                            <svg class="svg-inline--fa fa-dice-d8 fa-w-16" style="color: #BF7158;" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="dice-d8" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M225.53 2.52L2.36 233.83c-4.21 4.37-2.56 11.71 3.1 13.77l234.13 85.06V8.39c-.01-7.49-8.91-11.21-14.06-5.87zm284.11 231.31L286.47 2.52C281.32-2.82 272.41.9 272.41 8.4v324.27l234.13-85.06c5.66-2.07 7.31-9.42 3.1-13.78zM33.53 310.38l192 199.1c5.15 5.34 14.06 1.62 14.06-5.88V368.29L42.13 296.61c-8.21-2.98-14.72 7.43-8.6 13.77zm436.34-13.77l-197.46 71.68V503.6c0 7.5 8.91 11.22 14.06 5.88l192-199.1c6.12-6.34-.39-16.75-8.6-13.77z"></path></svg><!-- <i class="fas fa-dice-d8" style="color:#BF7158"></i> -->
+                            <span style="color: #BF7158;font-weight:bold">80</span>
+                        </li>
+
+                        
+                                            </ul>
+
+                </div>
+                <article class="article fmt my-3 parsedText" itemprop="text">
+                    
+<pre class="javascript hljs"><code class="javascript"><span class="hljs-keyword">var</span> array = [
+    {
+        <span class="hljs-attr">id</span>:<span class="hljs-number">1</span>,
+        <span class="hljs-attr">name</span>:<span class="hljs-string">"小明"</span>
+    },
+    {
+        <span class="hljs-attr">id</span>:<span class="hljs-number">2</span>,
+        <span class="hljs-attr">name</span>:<span class="hljs-string">"小红"</span>
+    }
+];
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">convertKey</span>(<span class="hljs-params">arr,keyMap</span>)</span>{
+    <span class="hljs-keyword">let</span> tempString = <span class="hljs-built_in">JSON</span>.stringify(arr);
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> key <span class="hljs-keyword">in</span> keyMap){
+        <span class="hljs-keyword">var</span> reg = <span class="hljs-string">`/"<span class="hljs-subst">${key}</span>":/g`</span>;
+        tempString = tempString.replace(<span class="hljs-built_in">eval</span>(reg),<span class="hljs-string">'"'</span>+keyMap[key]+<span class="hljs-string">'":'</span>);
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">JSON</span>.parse(tempString);
+}
+
+convertKey(array,{<span class="hljs-string">'id'</span>:<span class="hljs-string">'value'</span>,<span class="hljs-string">'name'</span>:<span class="hljs-string">'label'</span>});</code></pre>
+<p><strong> keyMap是你要替换的键值对映射 </strong></p>
+
+                </article>
+
+                <form class="d-none edit-form edit-top-comment-form" action="https://segmentfault.com/api/comment/1020000019112484/edit" method="post">
+                    <div class="form-group">
+                    <textarea autoheight="true" class="form-control comment-text" rows="1" placeholder="撰写评论 ..." style="overflow: hidden; overflow-wrap: break-word; resize: none;" name="text" data-init="```javascript
+var array = [
+    {
+        id:1,
+        name:&quot;小明&quot;
+    },
+    {
+        id:2,
+        name:&quot;小红&quot;
+    }
+];
+
+function convertKey(arr,keyMap){
+	let tempString = JSON.stringify(arr);
+	for(var key in keyMap){
+		var reg = `/&quot;${key}&quot;:/g`;
+		tempString = tempString.replace(eval(reg),&#39;&quot;&#39;+keyMap[key]+&#39;&quot;:&#39;);
+	}
+	return JSON.parse(tempString);
+}
+
+convertKey(array,{&#39;id&#39;:&#39;value&#39;,&#39;name&#39;:&#39;label&#39;});
+```
+** keyMap是你要替换的键值对映射 **
+"></textarea>
+                    </div>
+                    <div class="my-3 d-flex align-content-center justify-content-end">
+                        <button type="button" class="btn btn-outline-secondary btn-sm mr-2 edit-top-comment-cancel-btn cancelEdit">
+                            取消
+                        </button>
+                        <button type="button" submit-type="comment-edit" class="btn btn-primary btn-sm">
+                            提交
+                        </button>
+                        <input type="hidden" name="objectId" value="1010000015794387" autocomplete="off">
+                        <input type="hidden" name="id" value="1020000019112484" autocomplete="off">
+                    </div>
+                </form>
+
+                                
+                <div class="handle-bar font-size-14 d-flex justify-content-between mt-3 flex-column flex-md-row">
+                    <div class="sflex-center  flex-column flex-md-row">
+                        <div class="sflex-center">
+                            <div class="btn-group like-group" role="group" data-like="-1" data-hate="-1">
+                                <button data-type="answer" class="func-btn mainLike like-btn btn btn-outline-primary " data-id="1020000019112484">
+                                        <svg class="svg-inline--fa fa-thumbs-up fa-w-16" aria-hidden="true" focusable="false" data-prefix="far" data-icon="thumbs-up" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M466.27 286.69C475.04 271.84 480 256 480 236.85c0-44.015-37.218-85.58-85.82-85.58H357.7c4.92-12.81 8.85-28.13 8.85-46.54C366.55 31.936 328.86 0 271.28 0c-61.607 0-58.093 94.933-71.76 108.6-22.747 22.747-49.615 66.447-68.76 83.4H32c-17.673 0-32 14.327-32 32v240c0 17.673 14.327 32 32 32h64c14.893 0 27.408-10.174 30.978-23.95 44.509 1.001 75.06 39.94 177.802 39.94 7.22 0 15.22.01 22.22.01 77.117 0 111.986-39.423 112.94-95.33 13.319-18.425 20.299-43.122 17.34-66.99 9.854-18.452 13.664-40.343 8.99-62.99zm-61.75 53.83c12.56 21.13 1.26 49.41-13.94 57.57 7.7 48.78-17.608 65.9-53.12 65.9h-37.82c-71.639 0-118.029-37.82-171.64-37.82V240h10.92c28.36 0 67.98-70.89 94.54-97.46 28.36-28.36 18.91-75.63 37.82-94.54 47.27 0 47.27 32.98 47.27 56.73 0 39.17-28.36 56.72-28.36 94.54h103.99c21.11 0 37.73 18.91 37.82 37.82.09 18.9-12.82 37.81-22.27 37.81 13.489 14.555 16.371 45.236-5.21 65.62zM88 432c0 13.255-10.745 24-24 24s-24-10.745-24-24 10.745-24 24-24 24 10.745 24 24z"></path></svg><!-- <i class="far fa-thumbs-up"></i> -->
+                                        <span class="ml-1">赞</span>
+                                                                                <span class="mainLikeNum" itemprop="upvoteCount">6</span>
+                                                                            </button>
+                                <button data-type="answer" data-toggle="popover" data-placement="top" data-content="如果该内容有可改进的余地，欢迎通过回复给作者建议。" class="func-btn downLike btn like-btn btn-outline-secondary " data-id="1020000019112484">
+                                    <svg class="svg-inline--fa fa-thumbs-down fa-w-16 fa-flip-horizontal" aria-hidden="true" focusable="false" data-prefix="far" data-icon="thumbs-down" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M466.27 225.31c4.674-22.647.864-44.538-8.99-62.99 2.958-23.868-4.021-48.565-17.34-66.99C438.986 39.423 404.117 0 327 0c-7 0-15 .01-22.22.01C201.195.01 168.997 40 128 40h-10.845c-5.64-4.975-13.042-8-21.155-8H32C14.327 32 0 46.327 0 64v240c0 17.673 14.327 32 32 32h64c11.842 0 22.175-6.438 27.708-16h7.052c19.146 16.953 46.013 60.653 68.76 83.4 13.667 13.667 10.153 108.6 71.76 108.6 57.58 0 95.27-31.936 95.27-104.73 0-18.41-3.93-33.73-8.85-46.54h36.48c48.602 0 85.82-41.565 85.82-85.58 0-19.15-4.96-34.99-13.73-49.84zM64 296c-13.255 0-24-10.745-24-24s10.745-24 24-24 24 10.745 24 24-10.745 24-24 24zm330.18 16.73H290.19c0 37.82 28.36 55.37 28.36 94.54 0 23.75 0 56.73-47.27 56.73-18.91-18.91-9.46-66.18-37.82-94.54C206.9 342.89 167.28 272 138.92 272H128V85.83c53.611 0 100.001-37.82 171.64-37.82h37.82c35.512 0 60.82 17.12 53.12 65.9 15.2 8.16 26.5 36.44 13.94 57.57 21.581 20.384 18.699 51.065 5.21 65.62 9.45 0 22.36 18.91 22.27 37.81-.09 18.91-16.71 37.82-37.82 37.82z"></path></svg><!-- <i class="far fa-thumbs-down fa-flip-horizontal"></i> -->
+                                </button>
+                            </div>
+
+                            
+                                                                                                                </div>
+                        <div class="ml-3">
+                            <a class="text-secondary btn-comment" href="javascript:;" data-id="1020000019112484">评论</a>
+                            <span class="split-dot"></span>
+                            <a class="text-secondary btn-reward" href="javascript:;" data-payid="1020000019112484">赞赏</a>
+                            <span class="split-dot"></span>
+                                                        <a itemprop="url" href="https://segmentfault.com/q/1010000015794387/a-1020000019112484"><time class="text-secondary" itemprop="dateCreated" datetime="2019-05-08T16:25:40+08:00">发布于 2019-05-08 </time></a>
+                                                    </div>
+                        
+                    </div>
+                    <div class="control-area align-self-center d-none">
+                                        </div>
+                </div>
+
+                <div class="card bg-light border-0 mt-3 d-none" id="answer-1020000019112484-form">
+                    <form class="card-body my-2 add-comment-form py-0 pt-3" action="https://segmentfault.com/api/answer/1020000019112484/comments/add" method="post">
+                        <div class="form-group">
+                        <textarea autoheight="true" class="form-control form-control-sm comment-text" rows="1" placeholder="撰写评论 ..." style="overflow: hidden; overflow-wrap: break-word; resize: none;" name="text" aria-placeholder="撰写评论..."></textarea>
+                        </div>
+                        <div class="mt-y d-flex align-content-center justify-content-end">
+                            <button type="button" submit-type="reply" class="btn btn-primary btn-sm">
+                                提交评论
+                            </button>
+                            <input type="hidden" name="objectId" value="1010000015794387" autocomplete="off">
+                            <input type="hidden" name="replyUserId" value="1020000019112484" autocomplete="off">
+                        </div>
+                    </form>
+                </div>
+                            </div>
+            <div class="replies mt-3" data-content="[{&quot;id&quot;:&quot;1050000019794554&quot;,&quot;userId&quot;:&quot;1030000008675353&quot;,&quot;objectId&quot;:&quot;1020000019112484&quot;,&quot;canEdit&quot;:false,&quot;canDelete&quot;:false,&quot;user&quot;:{&quot;id&quot;:&quot;1030000008675353&quot;,&quot;url&quot;:&quot;\/u\/aken_58c65812a0a22&quot;,&quot;slug&quot;:&quot;aken_58c65812a0a22&quot;,&quot;name&quot;:&quot;Youth&quot;,&quot;avatarUrl&quot;:&quot;https:\/\/avatar-static.segmentfault.com\/419\/790\/4197903567-5b67e92ef1ccb_big64&quot;},&quot;repliedComments&quot;:null,&quot;repliedCommentCount&quot;:0,&quot;replyUser&quot;:null,&quot;parsedText&quot;:&quot;&lt;p&gt;\u8fd9\u4e2a\u597d&lt;\/p&gt;&quot;,&quot;originalText&quot;:&quot;\u8fd9\u4e2a\u597d&quot;,&quot;createdDate&quot;:&quot;2019-07-17 &quot;,&quot;created&quot;:&quot;1563374767&quot;,&quot;isLiked&quot;:false,&quot;votes&quot;:&quot;0&quot;,&quot;isAuthor&quot;:false,&quot;reply_comment_id&quot;:&quot;0&quot;,&quot;isDisObjAuthor&quot;:false},{&quot;id&quot;:&quot;1050000019794885&quot;,&quot;userId&quot;:&quot;1030000008675353&quot;,&quot;objectId&quot;:&quot;1020000019112484&quot;,&quot;canEdit&quot;:false,&quot;canDelete&quot;:false,&quot;user&quot;:{&quot;id&quot;:&quot;1030000008675353&quot;,&quot;url&quot;:&quot;\/u\/aken_58c65812a0a22&quot;,&quot;slug&quot;:&quot;aken_58c65812a0a22&quot;,&quot;name&quot;:&quot;Youth&quot;,&quot;avatarUrl&quot;:&quot;https:\/\/avatar-static.segmentfault.com\/419\/790\/4197903567-5b67e92ef1ccb_big64&quot;},&quot;repliedComments&quot;:null,&quot;repliedCommentCount&quot;:0,&quot;replyUser&quot;:null,&quot;parsedText&quot;:&quot;&lt;p&gt;\u611f\u8c22&lt;\/p&gt;&quot;,&quot;originalText&quot;:&quot;\u611f\u8c22&quot;,&quot;createdDate&quot;:&quot;2019-07-17 &quot;,&quot;created&quot;:&quot;1563375960&quot;,&quot;isLiked&quot;:false,&quot;votes&quot;:&quot;0&quot;,&quot;isAuthor&quot;:false,&quot;reply_comment_id&quot;:&quot;0&quot;,&quot;isDisObjAuthor&quot;:false},{&quot;id&quot;:&quot;1050000022644358&quot;,&quot;userId&quot;:&quot;1030000011339090&quot;,&quot;objectId&quot;:&quot;1020000019112484&quot;,&quot;canEdit&quot;:false,&quot;canDelete&quot;:false,&quot;user&quot;:{&quot;id&quot;:&quot;1030000011339090&quot;,&quot;url&quot;:&quot;\/u\/like0413&quot;,&quot;slug&quot;:&quot;like0413&quot;,&quot;name&quot;:&quot;LeeKer&quot;,&quot;avatarUrl&quot;:&quot;https:\/\/cdn.segmentfault.com\/v-5feb05cf\/global\/img\/user-64.png&quot;},&quot;repliedComments&quot;:null,&quot;repliedCommentCount&quot;:0,&quot;replyUser&quot;:null,&quot;parsedText&quot;:&quot;&lt;p&gt;\u5f88\u5f3a&lt;\/p&gt;&quot;,&quot;originalText&quot;:&quot;\u5f88\u5f3a&quot;,&quot;createdDate&quot;:&quot;5\u670814\u65e5&quot;,&quot;created&quot;:&quot;1589450322&quot;,&quot;isLiked&quot;:false,&quot;votes&quot;:&quot;0&quot;,&quot;isAuthor&quot;:false,&quot;reply_comment_id&quot;:&quot;0&quot;,&quot;isDisObjAuthor&quot;:false}]" data-id="1020000019112484" data-type="answer" data-hasmore="1" data-user="null">
+                <div class="card bg-light border-0">
+                    <div class="card-body py-0">
+                        <ul class="list-group list-group-flush reply-list" data-page="1"><li class="list-group-item px-0 bg-light border-0 commentUnit">
+            <div class="font-size-14 mb-2">
+                <a class="d-uname" href="https://segmentfault.com/u/aken_58c65812a0a22" target="_blank"><strong>Youth</strong></a>：
+                <div class="parsedText fmt"><p>这个好</p></div>
+            </div>
+            <form class="d-none edit-form edit-reply-form" action="https://segmentfault.com/api/comment/1050000019794554/edit" method="post">
+                <div class="form-group">
+                    <textarea autoheight="true" class="form-control form-control-sm comment-text" rows="1" placeholder="撰写评论 ..." style="overflow: hidden; overflow-wrap: break-word; resize: none;" name="text" data-init="这个好"></textarea>
+                </div>
+                <div class="my-3 d-flex align-content-center justify-content-end">
+                    <button type="button" class="btn btn-outline-secondary btn-sm mr-2 edit-top-comment-cancel-btn cancelEdit">
+                        取消
+                    </button>
+                    <button type="button" submit-type="reply-edit" class="btn btn-primary btn-sm">
+                        提交
+                    </button>
+                    <input type="hidden" name="id" value="1050000019794554" autocomplete="off">
+                </div>
+            </form>
+            <div class="handle-bar font-size-14 d-flex justify-content-between ">
+                <div>
+                    <a class="text-secondary" href="Javascript:;">
+                    <span class="mainLike-comment " data-id="1050000019794554">
+                        <svg class="svg-inline--fa fa-thumbs-up fa-w-16 mr-1" aria-hidden="true" focusable="false" data-prefix="far" data-icon="thumbs-up" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M466.27 286.69C475.04 271.84 480 256 480 236.85c0-44.015-37.218-85.58-85.82-85.58H357.7c4.92-12.81 8.85-28.13 8.85-46.54C366.55 31.936 328.86 0 271.28 0c-61.607 0-58.093 94.933-71.76 108.6-22.747 22.747-49.615 66.447-68.76 83.4H32c-17.673 0-32 14.327-32 32v240c0 17.673 14.327 32 32 32h64c14.893 0 27.408-10.174 30.978-23.95 44.509 1.001 75.06 39.94 177.802 39.94 7.22 0 15.22.01 22.22.01 77.117 0 111.986-39.423 112.94-95.33 13.319-18.425 20.299-43.122 17.34-66.99 9.854-18.452 13.664-40.343 8.99-62.99zm-61.75 53.83c12.56 21.13 1.26 49.41-13.94 57.57 7.7 48.78-17.608 65.9-53.12 65.9h-37.82c-71.639 0-118.029-37.82-171.64-37.82V240h10.92c28.36 0 67.98-70.89 94.54-97.46 28.36-28.36 18.91-75.63 37.82-94.54 47.27 0 47.27 32.98 47.27 56.73 0 39.17-28.36 56.72-28.36 94.54h103.99c21.11 0 37.73 18.91 37.82 37.82.09 18.9-12.82 37.81-22.27 37.81 13.489 14.555 16.371 45.236-5.21 65.62zM88 432c0 13.255-10.745 24-24 24s-24-10.745-24-24 10.745-24 24-24 24 10.745 24 24z"></path></svg><!-- <i class="far fa-thumbs-up mr-1"></i> -->
+                    </span>
+                    <span data-icon-count-size="" data-count-hidden="true" class="mainLike-commentNum">
+                        </span> </a>
+                    <span class="split-dot"></span>
+                    <a class="text-secondary btn-reply" href="Javascript:;" data-id="1050000019794554">回复</a>
+                    <span class="split-dot"></span>
+                    <span class="ml-1 text-secondary">2019-07-17 </span>
+                </div>
+                <div class="comment-control-area d-none">
+                    
+                    
+                    
+                </div>
+            </div>
+            <form id="reply-1050000019794554-form" class="d-none my-2 add-comment-form" action="https://segmentfault.com/api/comment/1050000019794554/reply" method="post">
+                <div class="form-group">
+                    <textarea autoheight="true" class="form-control form-control-sm reply-text" rows="1" placeholder="撰写评论 ..." style="overflow: hidden; overflow-wrap: break-word; resize: none;" name="text"></textarea>
+                </div>
+                <div class="mt-y d-flex align-content-center justify-content-end">
+                    <button type="button" submit-type="reply" class="btn btn-primary btn-sm" data-commentid="1050000019794554">
+                        提交评论
+                    </button>
+                    <input type="hidden" name="replyUserId" value="1030000008675353" autocomplete="off">
+                </div>
+            </form>
+        </li><li class="list-group-item px-0 bg-light border-0 commentUnit">
+            <div class="font-size-14 mb-2">
+                <a class="d-uname" href="https://segmentfault.com/u/aken_58c65812a0a22" target="_blank"><strong>Youth</strong></a>：
+                <div class="parsedText fmt"><p>感谢</p></div>
+            </div>
+            <form class="d-none edit-form edit-reply-form" action="https://segmentfault.com/api/comment/1050000019794885/edit" method="post">
+                <div class="form-group">
+                    <textarea autoheight="true" class="form-control form-control-sm comment-text" rows="1" placeholder="撰写评论 ..." style="overflow: hidden; overflow-wrap: break-word; resize: none;" name="text" data-init="感谢"></textarea>
+                </div>
+                <div class="my-3 d-flex align-content-center justify-content-end">
+                    <button type="button" class="btn btn-outline-secondary btn-sm mr-2 edit-top-comment-cancel-btn cancelEdit">
+                        取消
+                    </button>
+                    <button type="button" submit-type="reply-edit" class="btn btn-primary btn-sm">
+                        提交
+                    </button>
+                    <input type="hidden" name="id" value="1050000019794885" autocomplete="off">
+                </div>
+            </form>
+            <div class="handle-bar font-size-14 d-flex justify-content-between ">
+                <div>
+                    <a class="text-secondary" href="Javascript:;">
+                    <span class="mainLike-comment " data-id="1050000019794885">
+                        <svg class="svg-inline--fa fa-thumbs-up fa-w-16 mr-1" aria-hidden="true" focusable="false" data-prefix="far" data-icon="thumbs-up" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M466.27 286.69C475.04 271.84 480 256 480 236.85c0-44.015-37.218-85.58-85.82-85.58H357.7c4.92-12.81 8.85-28.13 8.85-46.54C366.55 31.936 328.86 0 271.28 0c-61.607 0-58.093 94.933-71.76 108.6-22.747 22.747-49.615 66.447-68.76 83.4H32c-17.673 0-32 14.327-32 32v240c0 17.673 14.327 32 32 32h64c14.893 0 27.408-10.174 30.978-23.95 44.509 1.001 75.06 39.94 177.802 39.94 7.22 0 15.22.01 22.22.01 77.117 0 111.986-39.423 112.94-95.33 13.319-18.425 20.299-43.122 17.34-66.99 9.854-18.452 13.664-40.343 8.99-62.99zm-61.75 53.83c12.56 21.13 1.26 49.41-13.94 57.57 7.7 48.78-17.608 65.9-53.12 65.9h-37.82c-71.639 0-118.029-37.82-171.64-37.82V240h10.92c28.36 0 67.98-70.89 94.54-97.46 28.36-28.36 18.91-75.63 37.82-94.54 47.27 0 47.27 32.98 47.27 56.73 0 39.17-28.36 56.72-28.36 94.54h103.99c21.11 0 37.73 18.91 37.82 37.82.09 18.9-12.82 37.81-22.27 37.81 13.489 14.555 16.371 45.236-5.21 65.62zM88 432c0 13.255-10.745 24-24 24s-24-10.745-24-24 10.745-24 24-24 24 10.745 24 24z"></path></svg><!-- <i class="far fa-thumbs-up mr-1"></i> -->
+                    </span>
+                    <span data-icon-count-size="" data-count-hidden="true" class="mainLike-commentNum">
+                        </span> </a>
+                    <span class="split-dot"></span>
+                    <a class="text-secondary btn-reply" href="Javascript:;" data-id="1050000019794885">回复</a>
+                    <span class="split-dot"></span>
+                    <span class="ml-1 text-secondary">2019-07-17 </span>
+                </div>
+                <div class="comment-control-area d-none">
+                    
+                    
+                    
+                </div>
+            </div>
+            <form id="reply-1050000019794885-form" class="d-none my-2 add-comment-form" action="https://segmentfault.com/api/comment/1050000019794885/reply" method="post">
+                <div class="form-group">
+                    <textarea autoheight="true" class="form-control form-control-sm reply-text" rows="1" placeholder="撰写评论 ..." style="overflow: hidden; overflow-wrap: break-word; resize: none;" name="text"></textarea>
+                </div>
+                <div class="mt-y d-flex align-content-center justify-content-end">
+                    <button type="button" submit-type="reply" class="btn btn-primary btn-sm" data-commentid="1050000019794885">
+                        提交评论
+                    </button>
+                    <input type="hidden" name="replyUserId" value="1030000008675353" autocomplete="off">
+                </div>
+            </form>
+        </li><li class="list-group-item px-0 bg-light border-0 commentUnit">
+            <div class="font-size-14 mb-2">
+                <a class="d-uname" href="https://segmentfault.com/u/like0413" target="_blank"><strong>LeeKer</strong></a>：
+                <div class="parsedText fmt"><p>很强</p></div>
+            </div>
+            <form class="d-none edit-form edit-reply-form" action="https://segmentfault.com/api/comment/1050000022644358/edit" method="post">
+                <div class="form-group">
+                    <textarea autoheight="true" class="form-control form-control-sm comment-text" rows="1" placeholder="撰写评论 ..." style="overflow: hidden; overflow-wrap: break-word; resize: none;" name="text" data-init="很强"></textarea>
+                </div>
+                <div class="my-3 d-flex align-content-center justify-content-end">
+                    <button type="button" class="btn btn-outline-secondary btn-sm mr-2 edit-top-comment-cancel-btn cancelEdit">
+                        取消
+                    </button>
+                    <button type="button" submit-type="reply-edit" class="btn btn-primary btn-sm">
+                        提交
+                    </button>
+                    <input type="hidden" name="id" value="1050000022644358" autocomplete="off">
+                </div>
+            </form>
+            <div class="handle-bar font-size-14 d-flex justify-content-between ">
+                <div>
+                    <a class="text-secondary" href="Javascript:;">
+                    <span class="mainLike-comment " data-id="1050000022644358">
+                        <svg class="svg-inline--fa fa-thumbs-up fa-w-16 mr-1" aria-hidden="true" focusable="false" data-prefix="far" data-icon="thumbs-up" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M466.27 286.69C475.04 271.84 480 256 480 236.85c0-44.015-37.218-85.58-85.82-85.58H357.7c4.92-12.81 8.85-28.13 8.85-46.54C366.55 31.936 328.86 0 271.28 0c-61.607 0-58.093 94.933-71.76 108.6-22.747 22.747-49.615 66.447-68.76 83.4H32c-17.673 0-32 14.327-32 32v240c0 17.673 14.327 32 32 32h64c14.893 0 27.408-10.174 30.978-23.95 44.509 1.001 75.06 39.94 177.802 39.94 7.22 0 15.22.01 22.22.01 77.117 0 111.986-39.423 112.94-95.33 13.319-18.425 20.299-43.122 17.34-66.99 9.854-18.452 13.664-40.343 8.99-62.99zm-61.75 53.83c12.56 21.13 1.26 49.41-13.94 57.57 7.7 48.78-17.608 65.9-53.12 65.9h-37.82c-71.639 0-118.029-37.82-171.64-37.82V240h10.92c28.36 0 67.98-70.89 94.54-97.46 28.36-28.36 18.91-75.63 37.82-94.54 47.27 0 47.27 32.98 47.27 56.73 0 39.17-28.36 56.72-28.36 94.54h103.99c21.11 0 37.73 18.91 37.82 37.82.09 18.9-12.82 37.81-22.27 37.81 13.489 14.555 16.371 45.236-5.21 65.62zM88 432c0 13.255-10.745 24-24 24s-24-10.745-24-24 10.745-24 24-24 24 10.745 24 24z"></path></svg><!-- <i class="far fa-thumbs-up mr-1"></i> -->
+                    </span>
+                    <span data-icon-count-size="" data-count-hidden="true" class="mainLike-commentNum">
+                        </span> </a>
+                    <span class="split-dot"></span>
+                    <a class="text-secondary btn-reply" href="Javascript:;" data-id="1050000022644358">回复</a>
+                    <span class="split-dot"></span>
+                    <span class="ml-1 text-secondary">5月14日</span>
+                </div>
+                <div class="comment-control-area d-none">
+                    
+                    
+                    
+                </div>
+            </div>
+            <form id="reply-1050000022644358-form" class="d-none my-2 add-comment-form" action="https://segmentfault.com/api/comment/1050000022644358/reply" method="post">
+                <div class="form-group">
+                    <textarea autoheight="true" class="form-control form-control-sm reply-text" rows="1" placeholder="撰写评论 ..." style="overflow: hidden; overflow-wrap: break-word; resize: none;" name="text"></textarea>
+                </div>
+                <div class="mt-y d-flex align-content-center justify-content-end">
+                    <button type="button" submit-type="reply" class="btn btn-primary btn-sm" data-commentid="1050000022644358">
+                        提交评论
+                    </button>
+                    <input type="hidden" name="replyUserId" value="1030000011339090" autocomplete="off">
+                </div>
+            </form>
+        </li><div class="font-size-14 d-flex py-2 my-1 loader d-none"><a class="text-secondary next-page-btn" href="javascript:;">展开显示更多</a></div></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+                                                        <div class="card mb-2 border-0">
+    <div class="media card-body p-lg-30" id="answer-1020000023086635" itemscope="" itemtype="https://schema.org/Answer" itemprop="suggestedAnswer">
+        <div class="media-body w-0">
+            <div class="commentUnit">
+                <div class="mb-4 information d-flex align-items-center">
+                    <a class="d-uname sflex-center mr-1" href="https://segmentfault.com/u/shiyuq" itemprop="author" itemscope="" itemtype="https://schema.org/Person">
+                        <img class="d-inline-block rounded-circle mr-2 " width="32" src="./js如何修改对象的key值？ - SegmentFault 思否_files/user-64.png" alt="avatar" itemprop="image">
+                        <strong itemprop="name">shiyuq</strong></a>
+                    <ul class="list-inline mb-0 authentication-info sflex-center font-size-14">
+                                                <li class="list-inline-item">
+                            <svg class="svg-inline--fa fa-dice-d8 fa-w-16" style="color: #BF7158;" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="dice-d8" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M225.53 2.52L2.36 233.83c-4.21 4.37-2.56 11.71 3.1 13.77l234.13 85.06V8.39c-.01-7.49-8.91-11.21-14.06-5.87zm284.11 231.31L286.47 2.52C281.32-2.82 272.41.9 272.41 8.4v324.27l234.13-85.06c5.66-2.07 7.31-9.42 3.1-13.78zM33.53 310.38l192 199.1c5.15 5.34 14.06 1.62 14.06-5.88V368.29L42.13 296.61c-8.21-2.98-14.72 7.43-8.6 13.77zm436.34-13.77l-197.46 71.68V503.6c0 7.5 8.91 11.22 14.06 5.88l192-199.1c6.12-6.34-.39-16.75-8.6-13.77z"></path></svg><!-- <i class="fas fa-dice-d8" style="color:#BF7158"></i> -->
+                            <span style="color: #BF7158;font-weight:bold">1</span>
+                        </li>
+
+                        
+                                                    <li class="list-inline-item">
+                                <span class="badge badge-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="初来乍到，请多关照">新人请关照</span>
+                            </li>
+                                            </ul>
+
+                </div>
+                <article class="article fmt my-3 parsedText" itemprop="text">
+                    <pre class="hljs javascript"><code><span class="hljs-keyword">var</span> array = [
+    {
+        <span class="hljs-attr">id</span>:<span class="hljs-number">1</span>,
+        <span class="hljs-attr">name</span>:<span class="hljs-string">"小明"</span>
+    },
+    {
+        <span class="hljs-attr">id</span>:<span class="hljs-number">2</span>,
+        <span class="hljs-attr">name</span>:<span class="hljs-string">"小红"</span>
+    }
+];
+<span class="hljs-keyword">const</span> result = array.map(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> ({<span class="hljs-attr">value</span>:item.id, <span class="hljs-attr">name</span>: item.name}))
+<span class="hljs-built_in">console</span>.log(result)
+</code></pre>
+                </article>
+
+                <form class="d-none edit-form edit-top-comment-form" action="https://segmentfault.com/api/comment/1020000023086635/edit" method="post">
+                    <div class="form-group">
+                    <textarea autoheight="true" class="form-control comment-text" rows="1" placeholder="撰写评论 ..." style="overflow: hidden; overflow-wrap: break-word; resize: none;" name="text" data-init="```
+var array = [
+    {
+        id:1,
+        name:&quot;小明&quot;
+    },
+    {
+        id:2,
+        name:&quot;小红&quot;
+    }
+];
+const result = array.map(item =&gt; ({value:item.id, name: item.name}))
+console.log(result)
+
+```"></textarea>
+                    </div>
+                    <div class="my-3 d-flex align-content-center justify-content-end">
+                        <button type="button" class="btn btn-outline-secondary btn-sm mr-2 edit-top-comment-cancel-btn cancelEdit">
+                            取消
+                        </button>
+                        <button type="button" submit-type="comment-edit" class="btn btn-primary btn-sm">
+                            提交
+                        </button>
+                        <input type="hidden" name="objectId" value="1010000015794387" autocomplete="off">
+                        <input type="hidden" name="id" value="1020000023086635" autocomplete="off">
+                    </div>
+                </form>
+
+                                
+                <div class="handle-bar font-size-14 d-flex justify-content-between mt-3 flex-column flex-md-row">
+                    <div class="sflex-center  flex-column flex-md-row">
+                        <div class="sflex-center">
+                            <div class="btn-group like-group" role="group" data-like="-1" data-hate="-1">
+                                <button data-type="answer" class="func-btn mainLike like-btn btn btn-outline-primary " data-id="1020000023086635">
+                                        <svg class="svg-inline--fa fa-thumbs-up fa-w-16" aria-hidden="true" focusable="false" data-prefix="far" data-icon="thumbs-up" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M466.27 286.69C475.04 271.84 480 256 480 236.85c0-44.015-37.218-85.58-85.82-85.58H357.7c4.92-12.81 8.85-28.13 8.85-46.54C366.55 31.936 328.86 0 271.28 0c-61.607 0-58.093 94.933-71.76 108.6-22.747 22.747-49.615 66.447-68.76 83.4H32c-17.673 0-32 14.327-32 32v240c0 17.673 14.327 32 32 32h64c14.893 0 27.408-10.174 30.978-23.95 44.509 1.001 75.06 39.94 177.802 39.94 7.22 0 15.22.01 22.22.01 77.117 0 111.986-39.423 112.94-95.33 13.319-18.425 20.299-43.122 17.34-66.99 9.854-18.452 13.664-40.343 8.99-62.99zm-61.75 53.83c12.56 21.13 1.26 49.41-13.94 57.57 7.7 48.78-17.608 65.9-53.12 65.9h-37.82c-71.639 0-118.029-37.82-171.64-37.82V240h10.92c28.36 0 67.98-70.89 94.54-97.46 28.36-28.36 18.91-75.63 37.82-94.54 47.27 0 47.27 32.98 47.27 56.73 0 39.17-28.36 56.72-28.36 94.54h103.99c21.11 0 37.73 18.91 37.82 37.82.09 18.9-12.82 37.81-22.27 37.81 13.489 14.555 16.371 45.236-5.21 65.62zM88 432c0 13.255-10.745 24-24 24s-24-10.745-24-24 10.745-24 24-24 24 10.745 24 24z"></path></svg><!-- <i class="far fa-thumbs-up"></i> -->
+                                        <span class="ml-1">赞</span>
+                                                                                <span class="mainLikeNum" itemprop="upvoteCount">1</span>
+                                                                            </button>
+                                <button data-type="answer" data-toggle="popover" data-placement="top" data-content="如果该内容有可改进的余地，欢迎通过回复给作者建议。" class="func-btn downLike btn like-btn btn-outline-secondary " data-id="1020000023086635">
+                                    <svg class="svg-inline--fa fa-thumbs-down fa-w-16 fa-flip-horizontal" aria-hidden="true" focusable="false" data-prefix="far" data-icon="thumbs-down" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M466.27 225.31c4.674-22.647.864-44.538-8.99-62.99 2.958-23.868-4.021-48.565-17.34-66.99C438.986 39.423 404.117 0 327 0c-7 0-15 .01-22.22.01C201.195.01 168.997 40 128 40h-10.845c-5.64-4.975-13.042-8-21.155-8H32C14.327 32 0 46.327 0 64v240c0 17.673 14.327 32 32 32h64c11.842 0 22.175-6.438 27.708-16h7.052c19.146 16.953 46.013 60.653 68.76 83.4 13.667 13.667 10.153 108.6 71.76 108.6 57.58 0 95.27-31.936 95.27-104.73 0-18.41-3.93-33.73-8.85-46.54h36.48c48.602 0 85.82-41.565 85.82-85.58 0-19.15-4.96-34.99-13.73-49.84zM64 296c-13.255 0-24-10.745-24-24s10.745-24 24-24 24 10.745 24 24-10.745 24-24 24zm330.18 16.73H290.19c0 37.82 28.36 55.37 28.36 94.54 0 23.75 0 56.73-47.27 56.73-18.91-18.91-9.46-66.18-37.82-94.54C206.9 342.89 167.28 272 138.92 272H128V85.83c53.611 0 100.001-37.82 171.64-37.82h37.82c35.512 0 60.82 17.12 53.12 65.9 15.2 8.16 26.5 36.44 13.94 57.57 21.581 20.384 18.699 51.065 5.21 65.62 9.45 0 22.36 18.91 22.27 37.81-.09 18.91-16.71 37.82-37.82 37.82z"></path></svg><!-- <i class="far fa-thumbs-down fa-flip-horizontal"></i> -->
+                                </button>
+                            </div>
+
+                            
+                                                                                                                </div>
+                        <div class="ml-3">
+                            <a class="text-secondary btn-comment" href="javascript:;" data-id="1020000023086635">评论</a>
+                            <span class="split-dot"></span>
+                            <a class="text-secondary btn-reward" href="javascript:;" data-payid="1020000023086635">赞赏</a>
+                            <span class="split-dot"></span>
+                                                        <a itemprop="url" href="https://segmentfault.com/q/1010000015794387/a-1020000023086635"><time class="text-secondary" itemprop="dateCreated" data-toggle="tooltip" data-placement="top" datetime="2020-07-03T16:51:09+08:00" title="" data-original-title="发布于 7月3日">更新于 7月3日</time></a>
+                                                    </div>
+                        
+                    </div>
+                    <div class="control-area align-self-center d-none">
+                                        </div>
+                </div>
+
+                <div class="card bg-light border-0 mt-3 d-none" id="answer-1020000023086635-form">
+                    <form class="card-body my-2 add-comment-form py-0 pt-3" action="https://segmentfault.com/api/answer/1020000023086635/comments/add" method="post">
+                        <div class="form-group">
+                        <textarea autoheight="true" class="form-control form-control-sm comment-text" rows="1" placeholder="撰写评论 ..." style="overflow: hidden; overflow-wrap: break-word; resize: none;" name="text" aria-placeholder="撰写评论..."></textarea>
+                        </div>
+                        <div class="mt-y d-flex align-content-center justify-content-end">
+                            <button type="button" submit-type="reply" class="btn btn-primary btn-sm">
+                                提交评论
+                            </button>
+                            <input type="hidden" name="objectId" value="1010000015794387" autocomplete="off">
+                            <input type="hidden" name="replyUserId" value="1020000023086635" autocomplete="off">
+                        </div>
+                    </form>
+                </div>
+                            </div>
+            <div class="replies mt-3 d-none" data-content="null" data-id="1020000023086635" data-type="answer" data-hasmore="0" data-user="null">
+                <div class="card bg-light border-0">
+                    <div class="card-body py-0">
+                        <ul class="list-group list-group-flush reply-list" data-page="1"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+                                                        <div class="card mb-2 border-0">
+    <div class="media card-body p-lg-30" id="answer-1020000017889873" itemscope="" itemtype="https://schema.org/Answer" itemprop="suggestedAnswer">
+        <div class="media-body w-0">
+            <div class="commentUnit">
+                <div class="mb-4 information d-flex align-items-center">
+                    <a class="d-uname sflex-center mr-1" href="https://segmentfault.com/u/chaimaoyuan" itemprop="author" itemscope="" itemtype="https://schema.org/Person">
+                        <img class="d-inline-block rounded-circle mr-2 " width="32" src="./js如何修改对象的key值？ - SegmentFault 思否_files/872646709-586e71f187696_big64" alt="avatar" itemprop="image">
+                        <strong itemprop="name">徒言</strong></a>
+                    <ul class="list-inline mb-0 authentication-info sflex-center font-size-14">
+                                                <li class="list-inline-item">
+                            <svg class="svg-inline--fa fa-dice-d8 fa-w-16" style="color: #BF7158;" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="dice-d8" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M225.53 2.52L2.36 233.83c-4.21 4.37-2.56 11.71 3.1 13.77l234.13 85.06V8.39c-.01-7.49-8.91-11.21-14.06-5.87zm284.11 231.31L286.47 2.52C281.32-2.82 272.41.9 272.41 8.4v324.27l234.13-85.06c5.66-2.07 7.31-9.42 3.1-13.78zM33.53 310.38l192 199.1c5.15 5.34 14.06 1.62 14.06-5.88V368.29L42.13 296.61c-8.21-2.98-14.72 7.43-8.6 13.77zm436.34-13.77l-197.46 71.68V503.6c0 7.5 8.91 11.22 14.06 5.88l192-199.1c6.12-6.34-.39-16.75-8.6-13.77z"></path></svg><!-- <i class="fas fa-dice-d8" style="color:#BF7158"></i> -->
+                            <span style="color: #BF7158;font-weight:bold">138</span>
+                        </li>
+
+                                                                                                                                        <li class="list-inline-item">
+                                    <a class="text-body" href="https://github.com/F-loat" target="_blank"><svg class="svg-inline--fa fa-github fa-w-16" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="github" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" data-fa-i2svg=""><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg><!-- <i class="fab fa-github"></i> --></a>
+                                </li>
+                                                                                                                                                                                                                                                                    
+                                            </ul>
+
+                </div>
+                <article class="article fmt my-3 parsedText" itemprop="text">
+                    <pre class="javascript hljs"><code class="js"><span class="hljs-keyword">const</span> transformModel = <span class="hljs-function">(<span class="hljs-params">object = {}, keymap = {}</span>) =&gt;</span> {
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> object !== <span class="hljs-string">'object'</span> || object === <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> object
+
+  <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Array</span>.isArray(object)) {
+    <span class="hljs-keyword">return</span> object.map(<span class="hljs-function"><span class="hljs-params">value</span> =&gt;</span> transformModel(value, keymap))
+  }
+
+  <span class="hljs-keyword">return</span> <span class="hljs-built_in">Object</span>.keys(object).reduce(<span class="hljs-function">(<span class="hljs-params">result, curkey</span>) =&gt;</span> {
+    <span class="hljs-keyword">const</span> rule = keymap[curkey]
+    <span class="hljs-keyword">const</span> value = object[curkey]
+    <span class="hljs-keyword">const</span> [newkey, submap] = <span class="hljs-built_in">Array</span>.isArray(rule) ? rule : [rule]
+
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Object</span>.assign({}, result, {
+      [newkey || curkey]: transformModel(value, submap)
+    })
+  }, {})
+}
+
+<span class="hljs-keyword">const</span> testKeyMap = {
+  <span class="hljs-attr">name</span>: <span class="hljs-string">'title'</span>,
+  <span class="hljs-attr">detail</span>: [, {
+    <span class="hljs-attr">content</span>: <span class="hljs-string">'body'</span>,
+    <span class="hljs-attr">viewCount</span>: <span class="hljs-string">'vc'</span>
+  }],
+  <span class="hljs-attr">imgs</span>: [<span class="hljs-string">'images'</span>, {
+    <span class="hljs-attr">text</span>: <span class="hljs-string">'name'</span>
+  }]
+}
+
+<span class="hljs-keyword">const</span> testOriginObj = {
+  <span class="hljs-attr">name</span>: <span class="hljs-string">'名称'</span>,
+  <span class="hljs-attr">detail</span>: {
+    <span class="hljs-attr">content</span>: <span class="hljs-string">'内容'</span>,
+    <span class="hljs-attr">viewCount</span>: <span class="hljs-string">'浏览量'</span>,
+    <span class="hljs-attr">other</span>: <span class="hljs-string">'未定义项'</span>
+  },
+  <span class="hljs-attr">imgs</span>: [
+    { <span class="hljs-attr">text</span>: <span class="hljs-string">'图片1'</span> },
+    <span class="hljs-string">'图片2'</span>
+  ],
+  <span class="hljs-attr">other</span>: <span class="hljs-string">'未定义项'</span>
+}
+
+<span class="hljs-built_in">console</span>.log(testOriginObj)
+<span class="hljs-built_in">console</span>.log(transformModel(testOriginObj, testKeyMap))</code></pre>
+                </article>
+
+                <form class="d-none edit-form edit-top-comment-form" action="https://segmentfault.com/api/comment/1020000017889873/edit" method="post">
+                    <div class="form-group">
+                    <textarea autoheight="true" class="form-control comment-text" rows="1" placeholder="撰写评论 ..." style="overflow: hidden; overflow-wrap: break-word; resize: none;" name="text" data-init="``` js
+const transformModel = (object = {}, keymap = {}) =&gt; {
+  if (typeof object !== &#39;object&#39; || object === null) return object
+
+  if (Array.isArray(object)) {
+    return object.map(value =&gt; transformModel(value, keymap))
+  }
+
+  return Object.keys(object).reduce((result, curkey) =&gt; {
+    const rule = keymap[curkey]
+    const value = object[curkey]
+    const [newkey, submap] = Array.isArray(rule) ? rule : [rule]
+
+    return Object.assign({}, result, {
+      [newkey || curkey]: transformModel(value, submap)
+    })
+  }, {})
+}
+
+const testKeyMap = {
+  name: &#39;title&#39;,
+  detail: [, {
+    content: &#39;body&#39;,
+    viewCount: &#39;vc&#39;
+  }],
+  imgs: [&#39;images&#39;, {
+    text: &#39;name&#39;
+  }]
+}
+
+const testOriginObj = {
+  name: &#39;名称&#39;,
+  detail: {
+    content: &#39;内容&#39;,
+    viewCount: &#39;浏览量&#39;,
+    other: &#39;未定义项&#39;
+  },
+  imgs: [
+    { text: &#39;图片1&#39; },
+    &#39;图片2&#39;
+  ],
+  other: &#39;未定义项&#39;
+}
+
+console.log(testOriginObj)
+console.log(transformModel(testOriginObj, testKeyMap))
+```"></textarea>
+                    </div>
+                    <div class="my-3 d-flex align-content-center justify-content-end">
+                        <button type="button" class="btn btn-outline-secondary btn-sm mr-2 edit-top-comment-cancel-btn cancelEdit">
+                            取消
+                        </button>
+                        <button type="button" submit-type="comment-edit" class="btn btn-primary btn-sm">
+                            提交
+                        </button>
+                        <input type="hidden" name="objectId" value="1010000015794387" autocomplete="off">
+                        <input type="hidden" name="id" value="1020000017889873" autocomplete="off">
+                    </div>
+                </form>
+
+                                
+                <div class="handle-bar font-size-14 d-flex justify-content-between mt-3 flex-column flex-md-row">
+                    <div class="sflex-center  flex-column flex-md-row">
+                        <div class="sflex-center">
+                            <div class="btn-group like-group" role="group" data-like="-1" data-hate="-1">
+                                <button data-type="answer" class="func-btn mainLike like-btn btn btn-outline-primary " data-id="1020000017889873">
+                                        <svg class="svg-inline--fa fa-thumbs-up fa-w-16" aria-hidden="true" focusable="false" data-prefix="far" data-icon="thumbs-up" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M466.27 286.69C475.04 271.84 480 256 480 236.85c0-44.015-37.218-85.58-85.82-85.58H357.7c4.92-12.81 8.85-28.13 8.85-46.54C366.55 31.936 328.86 0 271.28 0c-61.607 0-58.093 94.933-71.76 108.6-22.747 22.747-49.615 66.447-68.76 83.4H32c-17.673 0-32 14.327-32 32v240c0 17.673 14.327 32 32 32h64c14.893 0 27.408-10.174 30.978-23.95 44.509 1.001 75.06 39.94 177.802 39.94 7.22 0 15.22.01 22.22.01 77.117 0 111.986-39.423 112.94-95.33 13.319-18.425 20.299-43.122 17.34-66.99 9.854-18.452 13.664-40.343 8.99-62.99zm-61.75 53.83c12.56 21.13 1.26 49.41-13.94 57.57 7.7 48.78-17.608 65.9-53.12 65.9h-37.82c-71.639 0-118.029-37.82-171.64-37.82V240h10.92c28.36 0 67.98-70.89 94.54-97.46 28.36-28.36 18.91-75.63 37.82-94.54 47.27 0 47.27 32.98 47.27 56.73 0 39.17-28.36 56.72-28.36 94.54h103.99c21.11 0 37.73 18.91 37.82 37.82.09 18.9-12.82 37.81-22.27 37.81 13.489 14.555 16.371 45.236-5.21 65.62zM88 432c0 13.255-10.745 24-24 24s-24-10.745-24-24 10.745-24 24-24 24 10.745 24 24z"></path></svg><!-- <i class="far fa-thumbs-up"></i> -->
+                                        <span class="ml-1">赞</span>
+                                                                                <span class="mainLikeNum hidden" itemprop="upvoteCount">0</span>
+                                                                            </button>
+                                <button data-type="answer" data-toggle="popover" data-placement="top" data-content="如果该内容有可改进的余地，欢迎通过回复给作者建议。" class="func-btn downLike btn like-btn btn-outline-secondary " data-id="1020000017889873">
+                                    <svg class="svg-inline--fa fa-thumbs-down fa-w-16 fa-flip-horizontal" aria-hidden="true" focusable="false" data-prefix="far" data-icon="thumbs-down" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M466.27 225.31c4.674-22.647.864-44.538-8.99-62.99 2.958-23.868-4.021-48.565-17.34-66.99C438.986 39.423 404.117 0 327 0c-7 0-15 .01-22.22.01C201.195.01 168.997 40 128 40h-10.845c-5.64-4.975-13.042-8-21.155-8H32C14.327 32 0 46.327 0 64v240c0 17.673 14.327 32 32 32h64c11.842 0 22.175-6.438 27.708-16h7.052c19.146 16.953 46.013 60.653 68.76 83.4 13.667 13.667 10.153 108.6 71.76 108.6 57.58 0 95.27-31.936 95.27-104.73 0-18.41-3.93-33.73-8.85-46.54h36.48c48.602 0 85.82-41.565 85.82-85.58 0-19.15-4.96-34.99-13.73-49.84zM64 296c-13.255 0-24-10.745-24-24s10.745-24 24-24 24 10.745 24 24-10.745 24-24 24zm330.18 16.73H290.19c0 37.82 28.36 55.37 28.36 94.54 0 23.75 0 56.73-47.27 56.73-18.91-18.91-9.46-66.18-37.82-94.54C206.9 342.89 167.28 272 138.92 272H128V85.83c53.611 0 100.001-37.82 171.64-37.82h37.82c35.512 0 60.82 17.12 53.12 65.9 15.2 8.16 26.5 36.44 13.94 57.57 21.581 20.384 18.699 51.065 5.21 65.62 9.45 0 22.36 18.91 22.27 37.81-.09 18.91-16.71 37.82-37.82 37.82z"></path></svg><!-- <i class="far fa-thumbs-down fa-flip-horizontal"></i> -->
+                                </button>
+                            </div>
+
+                            
+                                                                                                                </div>
+                        <div class="ml-3">
+                            <a class="text-secondary btn-comment" href="javascript:;" data-id="1020000017889873">评论</a>
+                            <span class="split-dot"></span>
+                            <a class="text-secondary btn-reward" href="javascript:;" data-payid="1020000017889873">赞赏</a>
+                            <span class="split-dot"></span>
+                                                        <a itemprop="url" href="https://segmentfault.com/q/1010000015794387/a-1020000017889873"><time class="text-secondary" itemprop="dateCreated" data-toggle="tooltip" data-placement="top" datetime="2019-01-14T20:03:44+08:00" title="" data-original-title="发布于 2019-01-14 ">更新于 2019-01-14 </time></a>
+                                                    </div>
+                        
+                    </div>
+                    <div class="control-area align-self-center d-none">
+                                        </div>
+                </div>
+
+                <div class="card bg-light border-0 mt-3 d-none" id="answer-1020000017889873-form">
+                    <form class="card-body my-2 add-comment-form py-0 pt-3" action="https://segmentfault.com/api/answer/1020000017889873/comments/add" method="post">
+                        <div class="form-group">
+                        <textarea autoheight="true" class="form-control form-control-sm comment-text" rows="1" placeholder="撰写评论 ..." style="overflow: hidden; overflow-wrap: break-word; resize: none;" name="text" aria-placeholder="撰写评论..."></textarea>
+                        </div>
+                        <div class="mt-y d-flex align-content-center justify-content-end">
+                            <button type="button" submit-type="reply" class="btn btn-primary btn-sm">
+                                提交评论
+                            </button>
+                            <input type="hidden" name="objectId" value="1010000015794387" autocomplete="off">
+                            <input type="hidden" name="replyUserId" value="1020000017889873" autocomplete="off">
+                        </div>
+                    </form>
+                </div>
+                            </div>
+            <div class="replies mt-3 d-none" data-content="null" data-id="1020000017889873" data-type="answer" data-hasmore="0" data-user="null">
+                <div class="card bg-light border-0">
+                    <div class="card-body py-0">
+                        <ul class="list-group list-group-flush reply-list" data-page="1"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+                                                        <div class="card mb-2 border-0">
+    <div class="media card-body p-lg-30" id="answer-1020000020878563" itemscope="" itemtype="https://schema.org/Answer" itemprop="suggestedAnswer">
+        <div class="media-body w-0">
+            <div class="commentUnit">
+                <div class="mb-4 information d-flex align-items-center">
+                    <a class="d-uname sflex-center mr-1" href="https://segmentfault.com/u/wysiwyg_58665d7aa103a" itemprop="author" itemscope="" itemtype="https://schema.org/Person">
+                        <img class="d-inline-block rounded-circle mr-2 " width="32" src="./js如何修改对象的key值？ - SegmentFault 思否_files/4229626385-594a2a6860385_big64" alt="avatar" itemprop="image">
+                        <strong itemprop="name">WYSIWYG</strong></a>
+                    <ul class="list-inline mb-0 authentication-info sflex-center font-size-14">
+                                                <li class="list-inline-item">
+                            <svg class="svg-inline--fa fa-dice-d8 fa-w-16" style="color: #BF7158;" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="dice-d8" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M225.53 2.52L2.36 233.83c-4.21 4.37-2.56 11.71 3.1 13.77l234.13 85.06V8.39c-.01-7.49-8.91-11.21-14.06-5.87zm284.11 231.31L286.47 2.52C281.32-2.82 272.41.9 272.41 8.4v324.27l234.13-85.06c5.66-2.07 7.31-9.42 3.1-13.78zM33.53 310.38l192 199.1c5.15 5.34 14.06 1.62 14.06-5.88V368.29L42.13 296.61c-8.21-2.98-14.72 7.43-8.6 13.77zm436.34-13.77l-197.46 71.68V503.6c0 7.5 8.91 11.22 14.06 5.88l192-199.1c6.12-6.34-.39-16.75-8.6-13.77z"></path></svg><!-- <i class="fas fa-dice-d8" style="color:#BF7158"></i> -->
+                            <span style="color: #BF7158;font-weight:bold">1</span>
+                        </li>
+
+                        
+                                                    <li class="list-inline-item">
+                                <span class="badge badge-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="初来乍到，请多关照">新人请关照</span>
+                            </li>
+                                            </ul>
+
+                </div>
+                <article class="article fmt my-3 parsedText" itemprop="text">
+                    <pre class="hljs javascript"><code><span class="hljs-keyword">var</span> arr = [
+                {
+        <span class="hljs-attr">id</span>:<span class="hljs-number">1</span>,
+        <span class="hljs-attr">name</span>:<span class="hljs-string">"小明"</span>
+    },
+    {
+        <span class="hljs-attr">id</span>:<span class="hljs-number">2</span>,
+        <span class="hljs-attr">name</span>:<span class="hljs-string">"小红"</span>
+    }
+            ];
+            <span class="hljs-keyword">var</span> newArr = arr.map(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">item</span>) </span>{
+                <span class="hljs-keyword">return</span> {
+                    <span class="hljs-attr">value</span>: item[<span class="hljs-string">'id'</span>],
+                    <span class="hljs-attr">lable</span>: item[<span class="hljs-string">'name'</span>]
+                }
+            })
+            <span class="hljs-built_in">console</span>.log(newArr) </code></pre>
+                </article>
+
+                <form class="d-none edit-form edit-top-comment-form" action="https://segmentfault.com/api/comment/1020000020878563/edit" method="post">
+                    <div class="form-group">
+                    <textarea autoheight="true" class="form-control comment-text" rows="1" placeholder="撰写评论 ..." style="overflow: hidden; overflow-wrap: break-word; resize: none;" name="text" data-init="```
+var arr = [
+				{
+        id:1,
+        name:&quot;小明&quot;
+    },
+    {
+        id:2,
+        name:&quot;小红&quot;
+    }
+			];
+			var newArr = arr.map(function(item) {
+				return {
+					value: item[&#39;id&#39;],
+					lable: item[&#39;name&#39;]
+				}
+			})
+			console.log(newArr) 
+```"></textarea>
+                    </div>
+                    <div class="my-3 d-flex align-content-center justify-content-end">
+                        <button type="button" class="btn btn-outline-secondary btn-sm mr-2 edit-top-comment-cancel-btn cancelEdit">
+                            取消
+                        </button>
+                        <button type="button" submit-type="comment-edit" class="btn btn-primary btn-sm">
+                            提交
+                        </button>
+                        <input type="hidden" name="objectId" value="1010000015794387" autocomplete="off">
+                        <input type="hidden" name="id" value="1020000020878563" autocomplete="off">
+                    </div>
+                </form>
+
+                                
+                <div class="handle-bar font-size-14 d-flex justify-content-between mt-3 flex-column flex-md-row">
+                    <div class="sflex-center  flex-column flex-md-row">
+                        <div class="sflex-center">
+                            <div class="btn-group like-group" role="group" data-like="-1" data-hate="-1">
+                                <button data-type="answer" class="func-btn mainLike like-btn btn btn-outline-primary " data-id="1020000020878563">
+                                        <svg class="svg-inline--fa fa-thumbs-up fa-w-16" aria-hidden="true" focusable="false" data-prefix="far" data-icon="thumbs-up" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M466.27 286.69C475.04 271.84 480 256 480 236.85c0-44.015-37.218-85.58-85.82-85.58H357.7c4.92-12.81 8.85-28.13 8.85-46.54C366.55 31.936 328.86 0 271.28 0c-61.607 0-58.093 94.933-71.76 108.6-22.747 22.747-49.615 66.447-68.76 83.4H32c-17.673 0-32 14.327-32 32v240c0 17.673 14.327 32 32 32h64c14.893 0 27.408-10.174 30.978-23.95 44.509 1.001 75.06 39.94 177.802 39.94 7.22 0 15.22.01 22.22.01 77.117 0 111.986-39.423 112.94-95.33 13.319-18.425 20.299-43.122 17.34-66.99 9.854-18.452 13.664-40.343 8.99-62.99zm-61.75 53.83c12.56 21.13 1.26 49.41-13.94 57.57 7.7 48.78-17.608 65.9-53.12 65.9h-37.82c-71.639 0-118.029-37.82-171.64-37.82V240h10.92c28.36 0 67.98-70.89 94.54-97.46 28.36-28.36 18.91-75.63 37.82-94.54 47.27 0 47.27 32.98 47.27 56.73 0 39.17-28.36 56.72-28.36 94.54h103.99c21.11 0 37.73 18.91 37.82 37.82.09 18.9-12.82 37.81-22.27 37.81 13.489 14.555 16.371 45.236-5.21 65.62zM88 432c0 13.255-10.745 24-24 24s-24-10.745-24-24 10.745-24 24-24 24 10.745 24 24z"></path></svg><!-- <i class="far fa-thumbs-up"></i> -->
+                                        <span class="ml-1">赞</span>
+                                                                                <span class="mainLikeNum hidden" itemprop="upvoteCount">0</span>
+                                                                            </button>
+                                <button data-type="answer" data-toggle="popover" data-placement="top" data-content="如果该内容有可改进的余地，欢迎通过回复给作者建议。" class="func-btn downLike btn like-btn btn-outline-secondary " data-id="1020000020878563">
+                                    <svg class="svg-inline--fa fa-thumbs-down fa-w-16 fa-flip-horizontal" aria-hidden="true" focusable="false" data-prefix="far" data-icon="thumbs-down" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M466.27 225.31c4.674-22.647.864-44.538-8.99-62.99 2.958-23.868-4.021-48.565-17.34-66.99C438.986 39.423 404.117 0 327 0c-7 0-15 .01-22.22.01C201.195.01 168.997 40 128 40h-10.845c-5.64-4.975-13.042-8-21.155-8H32C14.327 32 0 46.327 0 64v240c0 17.673 14.327 32 32 32h64c11.842 0 22.175-6.438 27.708-16h7.052c19.146 16.953 46.013 60.653 68.76 83.4 13.667 13.667 10.153 108.6 71.76 108.6 57.58 0 95.27-31.936 95.27-104.73 0-18.41-3.93-33.73-8.85-46.54h36.48c48.602 0 85.82-41.565 85.82-85.58 0-19.15-4.96-34.99-13.73-49.84zM64 296c-13.255 0-24-10.745-24-24s10.745-24 24-24 24 10.745 24 24-10.745 24-24 24zm330.18 16.73H290.19c0 37.82 28.36 55.37 28.36 94.54 0 23.75 0 56.73-47.27 56.73-18.91-18.91-9.46-66.18-37.82-94.54C206.9 342.89 167.28 272 138.92 272H128V85.83c53.611 0 100.001-37.82 171.64-37.82h37.82c35.512 0 60.82 17.12 53.12 65.9 15.2 8.16 26.5 36.44 13.94 57.57 21.581 20.384 18.699 51.065 5.21 65.62 9.45 0 22.36 18.91 22.27 37.81-.09 18.91-16.71 37.82-37.82 37.82z"></path></svg><!-- <i class="far fa-thumbs-down fa-flip-horizontal"></i> -->
+                                </button>
+                            </div>
+
+                            
+                                                                                                                </div>
+                        <div class="ml-3">
+                            <a class="text-secondary btn-comment" href="javascript:;" data-id="1020000020878563">评论</a>
+                            <span class="split-dot"></span>
+                            <a class="text-secondary btn-reward" href="javascript:;" data-payid="1020000020878563">赞赏</a>
+                            <span class="split-dot"></span>
+                                                        <a itemprop="url" href="https://segmentfault.com/q/1010000015794387/a-1020000020878563"><time class="text-secondary" itemprop="dateCreated" datetime="2019-11-01T11:37:43+08:00">发布于 2019-11-01 </time></a>
+                                                    </div>
+                        
+                    </div>
+                    <div class="control-area align-self-center d-none">
+                                        </div>
+                </div>
+
+                <div class="card bg-light border-0 mt-3 d-none" id="answer-1020000020878563-form">
+                    <form class="card-body my-2 add-comment-form py-0 pt-3" action="https://segmentfault.com/api/answer/1020000020878563/comments/add" method="post">
+                        <div class="form-group">
+                        <textarea autoheight="true" class="form-control form-control-sm comment-text" rows="1" placeholder="撰写评论 ..." style="overflow: hidden; overflow-wrap: break-word; resize: none;" name="text" aria-placeholder="撰写评论..."></textarea>
+                        </div>
+                        <div class="mt-y d-flex align-content-center justify-content-end">
+                            <button type="button" submit-type="reply" class="btn btn-primary btn-sm">
+                                提交评论
+                            </button>
+                            <input type="hidden" name="objectId" value="1010000015794387" autocomplete="off">
+                            <input type="hidden" name="replyUserId" value="1020000020878563" autocomplete="off">
+                        </div>
+                    </form>
+                </div>
+                            </div>
+            <div class="replies mt-3 d-none" data-content="null" data-id="1020000020878563" data-type="answer" data-hasmore="0" data-user="null">
+                <div class="card bg-light border-0">
+                    <div class="card-body py-0">
+                        <ul class="list-group list-group-flush reply-list" data-page="1"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+                        
+                        
+                        <div class="d-none ignore-answer">
+                                                    </div>
+                    </div>
+
+                                                                                            <div class="my-4">
+                                <h5 id="answer-question">撰写回答</h5>
+                                <div class="card border-0">
+                                    <div class="card-body">
+                                        <p class="card-text">登录后参与交流、获取后续更新提醒</p>
+                                        <div>
+                                            <a href="https://segmentfault.com/user/login" class="btn btn-primary mr-2 require-login">立即登录</a><a href="https://segmentfault.com/user/register" class="btn btn-outline-primary require-login">免费注册</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                                            
+                                        <div class="mt-4">
+                        <h5>相似问题</h5>
+                        <div class="card border-0 mb-4">
+                            <div class="list-group list-group-flush" id="similar-problem"><a href="https://segmentfault.com/q/1010000004463038?utm_source=sf-similar-question" target="_blank" class="list-group-item list-group-item-action py-3">
+                    <h5 class="text-body">今年31岁，想转行前端，无计算机基础</h5>
+                    <p class="text-secondary text-truncate mb-0 font-size-14">
+                        <span class="text-primary font-weight-bold">1 回答</span>
+                        <span class="split-dot"></span> 课程 目标 课程内容HTML5 基础 熟练掌握各种 HTML 标签，能够手动快速完成各种页面的编写 •HTML 快速入门、文本、图像、链接、表格、列表、表单、框架；CSS3 基础 熟练掌握各种常用 CSS 选择器以及CSS 样式的定义和使用，能够手动完成各种页面样式的定义和编写 •CSS 基础语法、各种选择器（通用选择器、元素选择器、id ...
+                    </p>
+                </a><a href="https://segmentfault.com/q/1010000002663884?utm_source=sf-similar-question" target="_blank" class="list-group-item list-group-item-action py-3">
+                    <h5 class="text-body">请问各位大神，可以用HTML5和javascript和css来开发一款app吗？</h5>
+                    <p class="text-secondary text-truncate mb-0 font-size-14">
+                        <span class="text-primary font-weight-bold">16 回答</span>
+                        <span class="split-dot"></span> 我一个朋友说让我尝试一下开发app，但是我会的只是css和HTML和javascript而已。求解答。如果可以有没有好的网站学习。或者是工具开发！
+                    </p>
+                </a><a href="https://segmentfault.com/q/1010000014325203?utm_source=sf-similar-question" target="_blank" class="list-group-item list-group-item-action py-3">
+                    <h5 class="text-body">html与css的语法区别，以及要不要直接学html5?</h5>
+                    <p class="text-secondary text-truncate mb-0 font-size-14">
+                        <span class="text-primary font-weight-bold">4 回答</span>
+                        <span class="split-dot"></span> 我提问的原因是：最近接触了一点html，花2星期课余时间看了半本书200多页的简单html+css稍微做了点简陋的网页~但是出现一个问题 关系到我接下来该怎么继续。。。css中对于文字、标签等一些列东西的修饰语法与 html有好多不同，比如 同样一个table 设定.
+                    </p>
+                </a><a href="https://segmentfault.com/q/1010000008265308?utm_source=sf-similar-question" target="_blank" class="list-group-item list-group-item-action py-3">
+                    <h5 class="text-body">如何用JavaScript实现如下动画文字</h5>
+                    <p class="text-secondary text-truncate mb-0 font-size-14">
+                        <span class="text-primary font-weight-bold">6 回答</span>
+                        <span class="split-dot"></span> 如上例子，这个使用svg实现的，可是我不知道如何自定义文字(即作者是怎么做出这个特效的？)，或者有没有其他方法(h5/css/js)实现酷炫一点的动画文字？
+                    </p>
+                </a><a href="https://segmentfault.com/q/1010000011429926?utm_source=sf-similar-question" target="_blank" class="list-group-item list-group-item-action py-3">
+                    <h5 class="text-body">网页HTML5播放器如何解析ASS字幕文件?</h5>
+                    <p class="text-secondary text-truncate mb-0 font-size-14">
+                        <span class="text-primary font-weight-bold">1 回答</span>
+                        <span class="split-dot"></span> 现如今,很多网页播放器都带有弹幕功能,而Bilibili采用的是XML文档解析,通过解析XML文档,渲染到CSS中去或者Canvas.从而实现弹幕功能.
+                    </p>
+                </a><a href="https://segmentfault.com/q/1010000000750348?utm_source=sf-similar-question" target="_blank" class="list-group-item list-group-item-action py-3">
+                    <h5 class="text-body">HTML5与Javascript的疑问</h5>
+                    <p class="text-secondary text-truncate mb-0 font-size-14">
+                        <span class="text-primary font-weight-bold">4 回答</span>
+                        <span class="split-dot"></span> 到底HTML5和javascript有什么关系？除了原先的DOM接口，HTML5增加了更多样化的API（应用程序接口），假如浏览器只升级了JS，而不支持HTML5，那像XHR2，canvas能用吗？
+                    </p>
+                </a><a href="https://segmentfault.com/q/1010000002942459?utm_source=sf-similar-question" target="_blank" class="list-group-item list-group-item-action py-3">
+                    <h5 class="text-body">html5页面设置了manifest属性后,在360 chrome中图片加载失败</h5>
+                    <p class="text-secondary text-truncate mb-0 font-size-14">
+                        <span class="text-primary font-weight-bold">1 回答</span>
+                        <span class="split-dot"></span> 不止是图片加载失败，连页面本身都被缓存了，加了 NETWORK: /lofti/api/news 也不起作用，在火狐浏览器下可以正常显示，但是好像没有真正缓存，这是怎么回事？
+                    </p>
+                </a><a href="https://segmentfault.com/q/1010000022183997?utm_source=sf-similar-question" target="_blank" class="list-group-item list-group-item-action py-3">
+                    <h5 class="text-body">web前端、html5、JavaScript这三个区别是什么</h5>
+                    <p class="text-secondary text-truncate mb-0 font-size-14">
+                        <span class="text-primary font-weight-bold">4 回答</span>
+                        <span class="split-dot"></span> web前端、html5、JavaScript这三个区别是什么
+                    </p>
+                </a></div>
+                        </div>
+                    </div>
+                </div>
+
+                                <div class="col-12 col-xl-auto">
+                    <div class="w-xl-300">
+                        
+                        <div class="card border-0 overflow-hidden d-none d-xl-flex justify-content-center align-items-center float-ads mb-4" style="width: 300px; top: 0px; margin-top: 82px;" data-fix="">
+                            <script type="text/javascript">
+                              OA_show(1);
+                            </script><div id="OA_holder_1"><div style="line-height: 0"><script async="" src="./js如何修改对象的key值？ - SegmentFault 思否_files/f(2).txt"></script>
+<!-- 问题详情 - 侧栏矩形 -->
+<ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-6330872677300335" data-ad-slot="7858806007" data-adsbygoogle-status="done"><ins id="aswift_1_expand" style="display:inline-table;border:none;height:250px;margin:0;padding:0;position:relative;visibility:visible;width:300px;background-color:transparent;" tabindex="0" title="Advertisement" aria-label="Advertisement"><ins id="aswift_1_anchor" style="display:block;border:none;height:250px;margin:0;padding:0;position:relative;visibility:visible;width:300px;background-color:transparent;"><iframe id="aswift_1" name="aswift_1" style="left:0;position:absolute;top:0;border:0;width:300px;height:250px;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" width="300" height="250" frameborder="0" src="./js如何修改对象的key值？ - SegmentFault 思否_files/ads(1).html" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" data-google-container-id="a!2" data-google-query-id="CKrk3JrJ9e0CFcEDlgodBOAO_Q" data-load-complete="true"></iframe></ins></ins></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="beacon_626533c02d" style="position: absolute; left: 0px; top: 0px; visibility: hidden;"><img src="./js如何修改对象的key值？ - SegmentFault 思否_files/lg(3).php" width="0" height="0" alt="" style="width: 0px; height: 0px;"></div></div>
+</div>
+                        </div>
+                        <!-- / 矩形广告位 -->
+
+                        <div class="card border-0 mb-4">
+                            <div class="card-body">
+                                <div class="text-center mb-3">
+                                    <div class="mb25 hidden-md hidden-sm hidden-xs">
+    <img src="./js如何修改对象的key值？ - SegmentFault 思否_files/20201230.png" alt="Planets" usemap="#gridsMap" width="255" height="136">
+    <map name="gridsMap" id="gridsMap"><area shape="rect" target="_blank" onmouseover="SFGridAd.d(this)" onmouseout="SFGridAd.e(this)" coords="238,119,255,136" href="https://segmentfault.com/sponsor/1750000022197859/redirect" stitle="萌搜 小众搜索引擎"><area shape="rect" target="_blank" onmouseover="SFGridAd.d(this)" onmouseout="SFGridAd.e(this)" coords="153,85,170,102" href="https://segmentfault.com/sponsor/1750000023948580/redirect" stitle="免费开源的内网穿透软件，支持安卓和iOS，永久免费，欢迎fork，star"><area shape="rect" target="_blank" onmouseover="SFGridAd.d(this)" onmouseout="SFGridAd.e(this)" coords="51,17,119,34" href="https://segmentfault.com/sponsor/1750000038685805/redirect" stitle="蜻蜓映射 - 免费的内网穿透软件"></map>
+    <div style="text-align: center;"><a style="color:#9E9E9E; font-size:12px" href="https://segmentfault.com/sponsor">广告位促销，月曝光三千万，10 元/天</a></div>
+        <script async="" src="./js如何修改对象的key值？ - SegmentFault 思否_files/20201230.js.下载"></script>
+</div>
+                                </div>
+
+                                <div class="side-promote-link">
+                                    <script type="text/javascript">
+                                      OA_show(7);
+                                      OA_show(9);
+                                      OA_show(10);
+                                      OA_show(15);
+                                      OA_show(16);
+                                    </script><div id="OA_holder_7"><a href="https://sponsor.segmentfault.com/ck.php?oaparams=2__bannerid=439__zoneid=7__cb=6398244668__oadest=https%3A%2F%2Fke.sifou.com%2Fcourse%2F1650000037651959%3Futm_source%3Dsegmentfault%26utm_medium%3Dbanner_Tlink" target="_blank"><strong>前端性能优化设计12问</strong><br>
+<small style="color: #6c757d">前端性能优化,面试的必问题目</small></a><div id="beacon_6398244668" style="position: absolute; left: 0px; top: 0px; visibility: hidden;"><img src="./js如何修改对象的key值？ - SegmentFault 思否_files/lg(4).php" width="0" height="0" alt="" style="width: 0px; height: 0px;"></div>
+</div><div id="OA_holder_9"><a href="https://sponsor.segmentfault.com/ck.php?oaparams=2__bannerid=400__zoneid=9__cb=c442545d53__oadest=https%3A%2F%2Fke.sifou.com%2Fcourse%2F1650000023864436%3Futm_source%3Dsegmentfault%26utm_medium%3Dbanner_Tlink" target="_blank"><strong>自顶向下学 React 源码</strong><br>
+<small style="color: #6c757d">从理念到架构到实现到代码，透彻理解 </small></a><div id="beacon_c442545d53" style="position: absolute; left: 0px; top: 0px; visibility: hidden;"><img src="./js如何修改对象的key值？ - SegmentFault 思否_files/lg(5).php" width="0" height="0" alt="" style="width: 0px; height: 0px;"></div>
+</div><div id="OA_holder_10"><a href="https://sponsor.segmentfault.com/ck.php?oaparams=2__bannerid=440__zoneid=10__cb=d474fcb8a0__oadest=https%3A%2F%2Fke.sifou.com%2Fcourse%2F1650000037773462%3Futm_source%3Dsegmentfault%26utm_medium%3Dbanner_Tlink" target="_blank"><strong>Python 业务开发常见错误案例集</strong><br>
+<small style="color: #6c757d">教你避开 Python 开发中的常见坑点</small></a><div id="beacon_d474fcb8a0" style="position: absolute; left: 0px; top: 0px; visibility: hidden;"><img src="./js如何修改对象的key值？ - SegmentFault 思否_files/lg(6).php" width="0" height="0" alt="" style="width: 0px; height: 0px;"></div>
+</div><div id="OA_holder_15"><a href="https://sponsor.segmentfault.com/ck.php?oaparams=2__bannerid=386__zoneid=15__cb=b402a80a72__oadest=https%3A%2F%2Fke.sifou.com%2Fcourse%2F1650000023477528%3Futm_source%3Dsegmentfault%26utm_medium%3Dbanner_Tlink" target="_blank"><strong>带你从零到一全面掌握前端「新宠」</strong><br>
+<small style="color: #6c757d">TypeScript从入门到实践「2020 版」</small></a><div id="beacon_b402a80a72" style="position: absolute; left: 0px; top: 0px; visibility: hidden;"><img src="./js如何修改对象的key值？ - SegmentFault 思否_files/lg(7).php" width="0" height="0" alt="" style="width: 0px; height: 0px;"></div>
+</div><div id="OA_holder_16"><a href="https://sponsor.segmentfault.com/ck.php?oaparams=2__bannerid=387__zoneid=16__cb=16b5a36074__oadest=https%3A%2F%2Fke.sifou.com%2Fcourse%2F1650000023696750%3Futm_source%3Dsegmentfault%26utm_medium%3Dbanner_Tlink" target="_blank"><strong>Node.js高级实战·带你搭建动漫网站</strong><br>
+<small style="color: #6c757d">紧贴业务，扩大前端职能，顺利迈入全栈 </small></a><div id="beacon_16b5a36074" style="position: absolute; left: 0px; top: 0px; visibility: hidden;"><img src="./js如何修改对象的key值？ - SegmentFault 思否_files/lg(8).php" width="0" height="0" alt="" style="width: 0px; height: 0px;"></div>
+</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- / 格子广告、链接广告 -->
+                        <div style="top: 250px; width: 300px; margin-top: 80px;" data-fix="">
+                            <h6 class="mt-4 position-relative font-size-20">推荐文章</h6>
+                            <div class="card border-0 overflow-hidden">
+                                <div class="list-group list-group-flush" id="article-headline"><a class="list-group-item list-group-item-action" href="https://segmentfault.com/a/1190000038662636?utm_source=sf-qa" target="_blank">
+                            <div class="media">
+                                <span class="badge text-white mr-3 mt-1 badge-1">1</span>
+                                <div class="media-body">
+                                    <h6 class="mb-1 text-body">我们对“开源”的力量一无所知，却无限期待</h6>
+                                    <span class="text-secondary font-size-14">阿遂_Asui<span class="split-dot"></span> 阅读 9.6k</span>
+                                </div>
+                            </div>
+                        </a><a class="list-group-item list-group-item-action" href="https://segmentfault.com/a/1190000038684799?utm_source=sf-qa" target="_blank">
+                            <div class="media">
+                                <span class="badge text-white mr-3 mt-1 badge-2">2</span>
+                                <div class="media-body">
+                                    <h6 class="mb-1 text-body">一个20年技术老兵的 2020 年度技术总结</h6>
+                                    <span class="text-secondary font-size-14">kevinwan<span class="split-dot"></span> 阅读 1.4k</span>
+                                </div>
+                            </div>
+                        </a><a class="list-group-item list-group-item-action" href="https://segmentfault.com/a/1190000038619144?utm_source=sf-qa" target="_blank">
+                            <div class="media">
+                                <span class="badge text-white mr-3 mt-1 badge-3">3</span>
+                                <div class="media-body">
+                                    <h6 class="mb-1 text-body">5分钟实现微信云小程序支付功能（含源码）</h6>
+                                    <span class="text-secondary font-size-14">敏哥<span class="split-dot"></span> 阅读 1.4k</span>
+                                </div>
+                            </div>
+                        </a><a class="list-group-item list-group-item-action" href="https://segmentfault.com/a/1190000038690149?utm_source=sf-qa" target="_blank">
+                            <div class="media">
+                                <span class="badge text-white mr-3 mt-1 badge-4">4</span>
+                                <div class="media-body">
+                                    <h6 class="mb-1 text-body">2020 总结 | 21 张图总结我的 2020 年</h6>
+                                    <span class="text-secondary font-size-14">pingan8787<span class="split-dot"></span> 阅读 687</span>
+                                </div>
+                            </div>
+                        </a><a class="list-group-item list-group-item-action" href="https://segmentfault.com/a/1190000037651993?utm_source=sf-qa" target="_blank">
+                            <div class="media">
+                                <span class="badge text-white mr-3 mt-1 badge-5">5</span>
+                                <div class="media-body">
+                                    <h6 class="mb-1 text-body">JavaScript内存管理介绍</h6>
+                                    <span class="text-secondary font-size-14">前端小智<span class="split-dot"></span> 阅读 312</span>
+                                </div>
+                            </div>
+                        </a><a class="list-group-item list-group-item-action" href="https://segmentfault.com/a/1190000038584064?utm_source=sf-qa" target="_blank">
+                            <div class="media">
+                                <span class="badge text-white mr-3 mt-1 badge-6">6</span>
+                                <div class="media-body">
+                                    <h6 class="mb-1 text-body">2020 年 Chrome 开发者峰会的亮点</h6>
+                                    <span class="text-secondary font-size-14">疯狂的技术宅<span class="split-dot"></span> 阅读 247</span>
+                                </div>
+                            </div>
+                        </a>
+                                    <a class="list-group-item list-group-item-action text-center text-primary" href="https://segmentfault.com/">更多推荐文章</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+      var ARTICLE = {
+        articleId: 1010000015794387,
+        draftId: 0,
+        title: "js如何修改对象的key值？",
+        isLiked: false,
+        downLiked: false,
+        isFollowed: false,
+        followers: 7,
+        votes: 0,
+        hate: -1,
+        like: -1,
+        isBookmarked: false,
+        bookmarks: 3,
+        canReward: false
+      }
+    </script>
+
+    
+
+
+
+
+
+
+
+<script type="text/javascript">
+  OA_show(4);
+</script><div id="OA_holder_4"><div id="beacon_60551fdc2f" style="position: absolute; left: 0px; top: 0px; visibility: hidden;"><img src="./js如何修改对象的key值？ - SegmentFault 思否_files/lg(9).php" width="0" height="0" alt="" style="width: 0px; height: 0px;"></div>
+</div>
+
+<footer id="footer" class="bg-white py-5 font-size-14" chrome-app-version="1.3.4">
+    <div class="container">
+        <div class="row">
+            <dl class="col-4 col-md-2">
+                <dt class="h6">产品</dt>
+                                <dd class="my-1"><a class="text-secondary" href="https://segmentfault.com/questions/hottest?utm_source=sf-footer" target="_blank">热门问答</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="https://segmentfault.com/blogs/hottest?utm_source=sf-footer" target="_blank">热门专栏</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="https://segmentfault.com/lives?utm_source=sf-footer" target="_blank">热门课程</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="https://segmentfault.com/events?utm_source=sf-footer" target="_blank">最新活动</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="https://segmentfault.com/groups?utm_source=sf-footer" target="_blank">技术圈</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="https://segmentfault.com/groups?tab=jobs&amp;utm_source=sf-footer" target="_blank">酷工作</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="https://segmentfault.com/app?utm_source=sf-footer" target="_blank">移动客户端</a></dd>
+                            </dl>
+
+            <dl class="col-4 col-md-2">
+                <dt class="h6">课程</dt>
+                                <dd class="my-1"><a class="text-secondary" href="https://segmentfault.com/lives/edu?tag=java&amp;sort=hottest&amp;utm_source=sf-footer" target="_blank">Java 开发课程</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="https://segmentfault.com/lives/edu?tag=php&amp;sort=hottest&amp;utm_source=sf-footer" target="_blank">PHP 开发课程</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="https://segmentfault.com/lives/edu?tag=python&amp;sort=hottest&amp;utm_source=sf-footer" target="_blank">Python 开发课程</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="https://segmentfault.com/lives/edu?category=1&amp;sort=hottest&amp;utm_source=sf-footer" target="_blank">前端开发课程</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="https://segmentfault.com/lives/study?category=3&amp;sort=hottest&amp;utm_source=sf-footer" target="_blank">移动开发课程</a></dd>
+                            </dl>
+
+            <dl class="col-4 col-md-2 ">
+                <dt class="h6">资源</dt>
+                                <dd class="my-1"><a class="text-secondary" href="https://segmentfault.com/weekly?utm_source=sf-footer" target="_blank">每周精选</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="https://segmentfault.com/users?utm_source=sf-footer" target="_blank">用户排行榜</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="https://segmentfault.com/badges?utm_source=sf-footer" target="_blank">徽章</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="https://segmentfault.com/faq?utm_source=sf-footer" target="_blank">帮助中心</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="https://segmentfault.com/repu?utm_source=sf-footer" target="_blank">声望与权限</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="https://segmentfault.com/community?utm_source=sf-footer" target="_blank">社区服务中心</a></dd>
+                            </dl>
+
+            <dl class="col-4 col-md-2">
+                <dt class="h6">合作</dt>
+                                <dd class="my-1"><a class="text-secondary" href="https://about.segmentfault.com/?utm_source=sf-footer" target="_blank">关于我们</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="https://business.segmentfault.com/ads?utm_source=sf-footer" target="_blank">广告投放</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="https://segmentfault.com/groups?tab=jobs&amp;utm_source=sf-footer" target="_blank">职位发布</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="https://jinshuju.net/f/HK5r9K?utm_source=sf-footer" target="_blank">讲师招募</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="https://about.segmentfault.com/contact.html?utm_source=sf-footer" target="_blank">联系我们</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="https://segmentfault.com/link?utm_source=sf-footer" target="_blank">合作伙伴</a></dd>
+                            </dl>
+
+            <dl class="col-4 col-md-2">
+                <dt class="h6">关注</dt>
+                                <dd class="my-1"><a class="text-secondary" href="https://segmentfault.com/blog/segmentfault?utm_source=sf-footer" target="_blank">产品技术日志</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="https://segmentfault.com/blog/community_admin?utm_source=sf-footer" target="_blank">社区运营日志</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="https://segmentfault.com/blog/segmentfault_news?utm_source=sf-footer" target="_blank">市场运营日志</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="https://segmentfault.com/blog/segmentfault_team?utm_source=sf-footer" target="_blank">团队日志</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="https://segmentfault.com/blog/interview?utm_source=sf-footer" target="_blank">社区访谈</a></dd>
+                            </dl>
+
+            <dl class="col-4 col-md-2" id="license">
+                <dt class="h6">条款</dt>
+                                <dd class="my-1"><a class="text-secondary" href="https://segmentfault.com/tos?utm_source=sf-footer" target="_blank">服务条款</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="https://segmentfault.com/privacy?utm_source=sf-footer" target="_blank">隐私政策</a></dd>
+                                <dd class="my-1">
+                    <a class="text-secondary" href="https://segmentfault.com/app?utm_source=sf-footer">下载 App</a>
+                </dd>
+                <dd class="my-1">
+                    <div class="weixin-qrcode ml-n1" title="微信公众号"></div>
+                </dd>
+            </dl>
+        </div>
+        <hr class="mt-2 mb-4">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="text-secondary">
+                    <p class="mb-1">Copyright © 2011-2020 SegmentFault.</p>
+                    <p class="mb-1">
+                        <a class="text-secondary mr-2" target="_blank" href="http://beian.miit.gov.cn/" rel="nofollow">浙ICP备15005796号-2</a>
+                        <a class="text-secondary mr-2" target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=33010602002000" rel="nofollow">浙公网安备33010602002000号</a>
+                        杭州堆栈科技有限公司版权所有
+                    </p>
+                    <div style="width: 100px">
+                        <a id="seal_knowsafe" href="https://www.knowsafe.com/" sid="fa5bfd40493bf2d889a06f32db929207" slang="zh" sdomain="https://seal.knowsafe.com" target="_blank" style="display: none;">iTrust</a><script src="./js如何修改对象的key值？ - SegmentFault 思否_files/itrustcert.js.下载" charset="utf-8" type="text/javascript"></script><a target="_blank" href="https://seal.knowsafe.com/seal/itrustcert?id=fa5bfd40493bf2d889a06f32db929207&amp;lang=zh" title="iTrust"><img style="width: 114px; height: 40px;" border="0" src="./js如何修改对象的key值？ - SegmentFault 思否_files/zh.svg"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 text-right">
+                <div class="shareContent ">
+                <a class="share_weixin" data-share="weixin" href="javascript:;" data-original-title="" title=""><svg class="svg-inline--fa fa-weixin fa-w-18 fa-fw" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="weixin" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg=""><path fill="currentColor" d="M385.2 167.6c6.4 0 12.6.3 18.8 1.1C387.4 90.3 303.3 32 207.7 32 100.5 32 13 104.8 13 197.4c0 53.4 29.3 97.5 77.9 131.6l-19.3 58.6 68-34.1c24.4 4.8 43.8 9.7 68.2 9.7 6.2 0 12.1-.3 18.3-.8-4-12.9-6.2-26.6-6.2-40.8-.1-84.9 72.9-154 165.3-154zm-104.5-52.9c14.5 0 24.2 9.7 24.2 24.4 0 14.5-9.7 24.2-24.2 24.2-14.8 0-29.3-9.7-29.3-24.2.1-14.7 14.6-24.4 29.3-24.4zm-136.4 48.6c-14.5 0-29.3-9.7-29.3-24.2 0-14.8 14.8-24.4 29.3-24.4 14.8 0 24.4 9.7 24.4 24.4 0 14.6-9.6 24.2-24.4 24.2zM563 319.4c0-77.9-77.9-141.3-165.4-141.3-92.7 0-165.4 63.4-165.4 141.3S305 460.7 397.6 460.7c19.3 0 38.9-5.1 58.6-9.9l53.4 29.3-14.8-48.6C534 402.1 563 363.2 563 319.4zm-219.1-24.5c-9.7 0-19.3-9.7-19.3-19.6 0-9.7 9.7-19.3 19.3-19.3 14.8 0 24.4 9.7 24.4 19.3 0 10-9.7 19.6-24.4 19.6zm107.1 0c-9.7 0-19.3-9.7-19.3-19.6 0-9.7 9.7-19.3 19.3-19.3 14.5 0 24.4 9.7 24.4 19.3.1 10-9.9 19.6-24.4 19.6z"></path></svg><!-- <i class="fab fa-weixin fa-fw"></i> --> </a><a class="share_weibo" data-share="weibo" href="http://weibo.com/segmentfault" target="_blank"><svg class="svg-inline--fa fa-weibo fa-w-16 fa-fw" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="weibo" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M407 177.6c7.6-24-13.4-46.8-37.4-41.7-22 4.8-28.8-28.1-7.1-32.8 50.1-10.9 92.3 37.1 76.5 84.8-6.8 21.2-38.8 10.8-32-10.3zM214.8 446.7C108.5 446.7 0 395.3 0 310.4c0-44.3 28-95.4 76.3-143.7C176 67 279.5 65.8 249.9 161c-4 13.1 12.3 5.7 12.3 6 79.5-33.6 140.5-16.8 114 51.4-3.7 9.4 1.1 10.9 8.3 13.1 135.7 42.3 34.8 215.2-169.7 215.2zm143.7-146.3c-5.4-55.7-78.5-94-163.4-85.7-84.8 8.6-148.8 60.3-143.4 116s78.5 94 163.4 85.7c84.8-8.6 148.8-60.3 143.4-116zM347.9 35.1c-25.9 5.6-16.8 43.7 8.3 38.3 72.3-15.2 134.8 52.8 111.7 124-7.4 24.2 29.1 37 37.4 12 31.9-99.8-55.1-195.9-157.4-174.3zm-78.5 311c-17.1 38.8-66.8 60-109.1 46.3-40.8-13.1-58-53.4-40.3-89.7 17.7-35.4 63.1-55.4 103.4-45.1 42 10.8 63.1 50.2 46 88.5zm-86.3-30c-12.9-5.4-30 .3-38 12.9-8.3 12.9-4.3 28 8.6 34 13.1 6 30.8.3 39.1-12.9 8-13.1 3.7-28.3-9.7-34zm32.6-13.4c-5.1-1.7-11.4.6-14.3 5.4-2.9 5.1-1.4 10.6 3.7 12.9 5.1 2 11.7-.3 14.6-5.4 2.8-5.2 1.1-10.9-4-12.9z"></path></svg><!-- <i class="fab fa-weibo fa-fw"></i> --> </a><a class="share_github" data-share="github" href="https://github.com/SegmentFault" target="_blank"><svg class="svg-inline--fa fa-github fa-w-16 fa-fw" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="github" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" data-fa-i2svg=""><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg><!-- <i class="fab fa-github fa-fw"></i> --> </a><a class="share_twitter" data-share="twitter" href="https://twitter.com/segment_fault" target="_blank"><svg class="svg-inline--fa fa-twitter fa-w-16 fa-fw" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="twitter" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path></svg><!-- <i class="fab fa-twitter fa-fw"></i> --> </a></div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+  window.serverTime = 1609326716000;
+</script>
+
+<script>
+  (function (w) {
+    w.SF = {
+      staticUrl: "https://assets.segmentfault.com/v-5feaff84/"
+    };
+    w.SF.token = (function () {
+    var _X0d3 = //'S'
+'225'+'X'//'X'
++'a'//'f7'
++/* 'F0'//'F0' */''+'219'//'4'
++//'Uu'
+'e'+//'zI'
+'zI'+/* '0F4'//'0F4' */''+//'yft'
+'e7'+'33e'//'a'
++'ff'//'l'
++'36'//'QC'
++'dc'//'y'
++'9'//'ZgN'
++'08'//'juO'
++/* '2Zt'//'2Zt' */''+''///*'c'*/'c'
++''///*'pJ4'*/'pJ4'
++//'TUf'
+'199'+//'m'
+'bcb'+'d'//'cb'
++'IjB'//'IjB'
++//'d'
+'d'+'2'//'O'
++''///*'HG1'*/'HG1'
++//'g'
+'5', _yZfieGl = [[3,4],[8,10],[29,32]];
+
+    for (var i = 0; i < _yZfieGl.length; i ++) {
+        _X0d3 = _X0d3.substring(0, _yZfieGl[i][0]) + _X0d3.substring(_yZfieGl[i][1]);
+    }
+
+    return _X0d3;
+})();;
+
+        })(window);
+
+        var lock = {
+    type: "",
+    text: '',
+    table: {"ban_post":[1,"\u4f60\u5df2\u7ecf\u88ab\u7981\u8a00, \u65e0\u6cd5\u8fdb\u884c\u6b64\u64cd\u4f5c, \u5982\u6709\u7591\u4e49\u8bf7\u63d0\u4ea4\u7533\u8bc9, \u6216\u8005\u53d1\u90ae\u4ef6\u5230pr@segmentfault.com"]}
+  };
+
+    var ddosMode = false;
+  
+    (function (currentUrl) {
+    if (typeof URL != 'undefined') {
+      var baseUrl = new URL('https://segmentfault.com');
+
+      if (baseUrl.protocol != currentUrl.protocol || baseUrl.host != currentUrl.host) {
+        window.location.href = baseUrl.protocol + '//' + baseUrl.host
+          + currentUrl.pathname + currentUrl.search + currentUrl.hash;
+      }
+    }
+  })(window.location);
+  </script>
+
+<script src="./js如何修改对象的key值？ - SegmentFault 思否_files/jquery.js.下载"></script>
+<script src="./js如何修改对象的key值？ - SegmentFault 思否_files/vendors.js.下载"></script>
+  <script src="./js如何修改对象的key值？ - SegmentFault 思否_files/qdetail.bundle.js.下载"></script>
+
+    <script>
+      if (!!navigator.userAgent.match(/MicroMessenger/i)) {
+        $.getScript(`https://res.wx.qq.com/open/js/jweixin-1.2.0.js`, function () {
+          var share = {"title":"js\u5982\u4f55\u4fee\u6539\u5bf9\u8c61\u7684key\u503c\uff1f","desc":"\u539f\u6570\u636e\uff1a {\u4ee3\u7801...} \u6211\u8981\u6539\u4e3a\u7684\u6570\u636e\uff1a {\u4ee3\u7801...} \u5bf9\u5e94\u7684\u503c\u4e0d\u53d8\uff0c\u53ea\u662f\u6539key\u7684\u540d\u79f0\uff0c\u7528js\u5982\u4f55\u5b9e\u73b0\u5462\uff1f","link":"https:\/\/segmentfault.com\/q\/1010000015794387","imgUrl":"https:\/\/avatar-static.segmentfault.com\/239\/710\/2397109587-5af6b7357870d_huge256"};
+          share.title += ' - SegmentFault 思否';
+          share.imgUrl = "https://assets.segmentfault.com/v-5feaff84/global/img/static/touch-icon.png";
+          $.getJSON('/api/util/weixin/jsapi', function (o) {
+            methods = o.data.jsApiList.slice();
+
+            wx.config(o.data);
+            wx.error(console.error);
+            wx.ready(function () {
+              methods.forEach(function (method) {
+                wx[method](share);
+              });
+            });
+          });
+        })
+      }
+    </script>
+
+<script>
+  var _hmt = _hmt || [];
+  (function () {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?e23800c454aa573c0ccb16b52665ac26";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+
+
+
+
+<iframe id="p_analyse_iframe" src="./js如何修改对象的key值？ - SegmentFault 思否_files/saved_resource.html" style="display: none;"></iframe>
+    <div class="is-active ImageView p-4" style="display: none;">
+        <div class="ImageView-inner" style="overflow: auto;">
+            <img src="https://segmentfault.com/q/1010000015794387" class="ImageView-img" alt="preview" style="max-width: 100%">
+        </div>
+    </div><div id="fixedTools" class="position-fixed d-none d-xl-flex" style="right: 24px; bottom: 24px">
+            <button type="button" class="btn btn-light" title="回顶部">▲</button>
+        </div><div id="atwho-container"><div id="atwho-ground-f2539dd31609326694776"><div class="atwho-view" id="at-view-64"><ul class="atwho-view-ul"></ul></div></div><div id="atwho-ground-ddb2c4b91609326694777"><div class="atwho-view" id="at-view-64"><ul class="atwho-view-ul"></ul></div></div><div id="atwho-ground-8047b95f1609326694778"><div class="atwho-view" id="at-view-64"><ul class="atwho-view-ul"></ul></div></div><div id="atwho-ground-5e7d52071609326694779"><div class="atwho-view" id="at-view-64"><ul class="atwho-view-ul"></ul></div></div><div id="atwho-ground-e3a10c7b1609326694779"><div class="atwho-view" id="at-view-64"><ul class="atwho-view-ul"></ul></div></div><div id="atwho-ground-ffbe82841609326694780"><div class="atwho-view" id="at-view-64"><ul class="atwho-view-ul"></ul></div></div><div id="atwho-ground-abd9a96f1609326694781"><div class="atwho-view" id="at-view-64"><ul class="atwho-view-ul"></ul></div></div><div id="atwho-ground-bb5563de1609326694781"><div class="atwho-view" id="at-view-64"><ul class="atwho-view-ul"></ul></div></div><div id="atwho-ground-ac55d3791609326694781"><div class="atwho-view" id="at-view-64"><ul class="atwho-view-ul"></ul></div></div><div id="atwho-ground-f34cf1c81609326694782"><div class="atwho-view" id="at-view-64"><ul class="atwho-view-ul"></ul></div></div><div id="atwho-ground-5eba48031609326694782"><div class="atwho-view" id="at-view-64"><ul class="atwho-view-ul"></ul></div></div><div id="atwho-ground-bdbd60201609326694782"><div class="atwho-view" id="at-view-64"><ul class="atwho-view-ul"></ul></div></div><div id="atwho-ground-c6129c4a1609326694783"><div class="atwho-view" id="at-view-64"><ul class="atwho-view-ul"></ul></div></div><div id="atwho-ground-832b7bf11609326694783"><div class="atwho-view" id="at-view-64"><ul class="atwho-view-ul"></ul></div></div><div id="atwho-ground-448c54031609326694784"><div class="atwho-view" id="at-view-64"><ul class="atwho-view-ul"></ul></div></div><div id="atwho-ground-3fd121f01609326694784"><div class="atwho-view" id="at-view-64"><ul class="atwho-view-ul"></ul></div></div><div id="atwho-ground-75fe441d1609326694784"><div class="atwho-view" id="at-view-64"><ul class="atwho-view-ul"></ul></div></div><div id="atwho-ground-512890361609326694785"><div class="atwho-view" id="at-view-64"><ul class="atwho-view-ul"></ul></div></div><div id="atwho-ground-cee51dd41609326694786"><div class="atwho-view" id="at-view-64"><ul class="atwho-view-ul"></ul></div></div><div id="atwho-ground-17a427101609326694787"><div class="atwho-view" id="at-view-64"><ul class="atwho-view-ul"></ul></div></div><div id="atwho-ground-f58db4591609326694787"><div class="atwho-view" id="at-view-64"><ul class="atwho-view-ul"></ul></div></div><div id="atwho-ground-03100bc21609326694788"><div class="atwho-view" id="at-view-64"><ul class="atwho-view-ul"></ul></div></div><div id="atwho-ground-54b13b441609326694788"><div class="atwho-view" id="at-view-64"><ul class="atwho-view-ul"></ul></div></div><div id="atwho-ground-2ac63afa1609326694789"><div class="atwho-view" id="at-view-64"><ul class="atwho-view-ul"></ul></div></div><div id="atwho-ground-7541c4161609326694789"><div class="atwho-view" id="at-view-64"><ul class="atwho-view-ul"></ul></div></div></div><ins class="adsbygoogle adsbygoogle-noablate" data-adsbygoogle-status="done" style="display: none !important;"><ins id="aswift_2_expand" style="display:inline-table;border:none;height:0px;margin:0;padding:0;position:relative;visibility:visible;width:0px;background-color:transparent;" tabindex="0" title="Advertisement" aria-label="Advertisement"><ins id="aswift_2_anchor" style="display:block;border:none;height:0px;margin:0;padding:0;position:relative;visibility:visible;width:0px;background-color:transparent;"><iframe id="aswift_2" name="aswift_2" style="left:0;position:absolute;top:0;border:0;width:undefinedpx;height:undefinedpx;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" frameborder="0" src="./js如何修改对象的key值？ - SegmentFault 思否_files/ads(2).html" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" data-google-container-id="a!2" data-load-complete="true"></iframe></ins></ins></ins><iframe id="google_osd_static_frame_2091017873865" name="google_osd_static_frame" style="display: none; width: 0px; height: 0px;" src="./js如何修改对象的key值？ - SegmentFault 思否_files/saved_resource(1).html"></iframe></body><iframe id="google_esf" name="google_esf" src="./js如何修改对象的key值？ - SegmentFault 思否_files/zrt_lookup.html" data-ad-client="ca-pub-6330872677300335" style="display: none;"></iframe></html>

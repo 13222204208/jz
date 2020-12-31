@@ -48,8 +48,7 @@ class EngineerController extends Controller
     public function list(Request $request)//工程订单列表及详情
     {
 
-        try {
-           
+        try {         
             if($request->long != '' && $request->lat != ''){
                 $long = $request->long;
                 $lat = $request->lat;
@@ -57,6 +56,16 @@ class EngineerController extends Controller
                 if($request->id != ''){//查询订单详情
                     $data= BuildOrder::find(intval($request->id),['id','status','engineer_id','owner_name','owner_phone','owner_address','created_at','order_num','order_name','owner_demand','long','lat']);
                     $data['distance'] = $this->distance($long,$data->long,$lat,$data->lat);
+
+                    $done= DoneConstruction::where('order_num',$data->order_num)->first();
+                    $owner_sign_photo = '';
+                    $engineer_sign_photo = '';
+                    if($done){
+                        $owner_sign_photo = $done->owner_sign_photo;
+                        $engineer_sign_photo = $done->engineer_sign_photo;
+                    }
+                    $data['owner_sign_photo'] = $owner_sign_photo;
+                    $data['engineer_sign_photo'] = $engineer_sign_photo;
                     
                    return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$data]);
                 }
@@ -75,14 +84,39 @@ class EngineerController extends Controller
                 $status = 1;
                 if($request->status != ''){
                     $status = intval($request->get('status'));
-                    $data= BuildOrder::skip($page)->take($size)->where('engineer_id',$this->user->id)->where('status',$status)->get(['id','engineer_id','order_name','owner_name','owner_phone','owner_address','owner_demand']);
-                    return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$data]);
+                    $data= BuildOrder::skip($page)->take($size)->where('engineer_id',$this->user->id)->where('status',$status)->get();
+                    $arr = array();
+                    foreach($data as $d){ 
+                        $done= DoneConstruction::where('order_num',$d->order_num)->first();
+                        $owner_sign_photo = '';
+                        $engineer_sign_photo = '';
+                        if($done){
+                            $owner_sign_photo = $done->owner_sign_photo;
+                            $engineer_sign_photo = $done->engineer_sign_photo;
+                        }
+                        $d->owner_sign_photo = $owner_sign_photo;
+                        $d->engineer_sign_photo = $engineer_sign_photo;
+    
+                        $d->distance= $this->distance($long,$d->long,$lat,$d->lat);
+                        $arr[]= $d;
+                    }
+                    return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$arr]);
                 }
         
-                $data= BuildOrder::skip($page)->take($size)->where('engineer_id',$this->user->id)->orderByRaw(DB::raw('FIELD(status, 1) desc'))->get(['id','engineer_id','order_name','status','owner_name','owner_phone','owner_address','owner_demand']);
+                $data= BuildOrder::skip($page)->take($size)->where('engineer_id',$this->user->id)->orderByRaw(DB::raw('FIELD(status, 1) desc'))->get();
              
                 $arr = array();
                 foreach($data as $d){ 
+                    $done= DoneConstruction::where('order_num',$d->order_num)->first();
+                    $owner_sign_photo = '';
+                    $engineer_sign_photo = '';
+                    if($done){
+                        $owner_sign_photo = $done->owner_sign_photo;
+                        $engineer_sign_photo = $done->engineer_sign_photo;
+                    }
+                    $d->owner_sign_photo = $owner_sign_photo;
+                    $d->engineer_sign_photo = $engineer_sign_photo;
+
                     $d->distance= $this->distance($long,$d->long,$lat,$d->lat);
                     $arr[]= $d;
                 }
@@ -92,6 +126,16 @@ class EngineerController extends Controller
             if($request->id != ''){//查询订单详情
                 $data= BuildOrder::find(intval($request->id),['id','status','engineer_id','owner_name','owner_phone','owner_address','created_at','order_num','order_name','owner_demand','long','lat']);
                 
+                $done= DoneConstruction::where('order_num',$data->order_num)->first();
+
+                $owner_sign_photo = '';
+                $engineer_sign_photo = '';
+                if($done){
+                    $owner_sign_photo = $done->owner_sign_photo;
+                    $engineer_sign_photo = $done->engineer_sign_photo;
+                }
+                $data['owner_sign_photo'] = $owner_sign_photo;
+                $data['engineer_sign_photo'] = $engineer_sign_photo;
                return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$data]);
             }
     
@@ -109,13 +153,43 @@ class EngineerController extends Controller
             $status = 1;
             if($request->status != ''){
                 $status = intval($request->get('status'));
-                $data= BuildOrder::skip($page)->take($size)->where('engineer_id',$this->user->id)->where('status',$status)->get(['id','engineer_id','order_name','owner_name','owner_phone','owner_address','owner_demand']);
-                return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$data]);
+                $data= BuildOrder::skip($page)->take($size)->where('engineer_id',$this->user->id)->where('status',$status)->get();
+
+                $arr = array();
+                foreach($data as $d){ 
+                    $done= DoneConstruction::where('order_num',$d->order_num)->first();
+                    $owner_sign_photo = '';
+                    $engineer_sign_photo = '';
+                    if($done){
+                        $owner_sign_photo = $done->owner_sign_photo;
+                        $engineer_sign_photo = $done->engineer_sign_photo;
+                    }
+                    $d->owner_sign_photo = $owner_sign_photo;
+                    $d->engineer_sign_photo = $engineer_sign_photo;
+    
+                    $arr[]= $d;
+                }
+                return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$arr]);
             }
     
-            $data= BuildOrder::skip($page)->take($size)->where('engineer_id',$this->user->id)->orderByRaw(DB::raw('FIELD(status, 1) desc'))->get(['id','engineer_id','order_name','status','owner_name','owner_phone','owner_address','owner_demand']);
+            $data= BuildOrder::skip($page)->take($size)->where('engineer_id',$this->user->id)->orderByRaw(DB::raw('FIELD(status, 1) desc'))->get();
 
-            return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$data]); 
+            $arr = array();
+            foreach($data as $d){ 
+                $done= DoneConstruction::where('order_num',$d->order_num)->first();
+                $owner_sign_photo = '';
+                $engineer_sign_photo = '';
+                if($done){
+                    $owner_sign_photo = $done->owner_sign_photo;
+                    $engineer_sign_photo = $done->engineer_sign_photo;
+                }
+                $d->owner_sign_photo = $owner_sign_photo;
+                $d->engineer_sign_photo = $engineer_sign_photo;
+
+                $arr[]= $d;
+            }
+
+            return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$arr]); 
         } catch (\Throwable $th) {
             $err = $th->getMessage();
             return response()->json([ 'code' => 0 ,'msg'=>$err]);

@@ -20,7 +20,7 @@ class BuildOrderController extends Controller
     public function index(Request $request)
     {
         $limit = $request->get('limit');
-        $data = BuildOrder::paginate($limit);
+        $data = BuildOrder::orderBy('created_at','desc')->paginate($limit);
         return $data;
     }
 
@@ -63,7 +63,7 @@ class BuildOrderController extends Controller
     public function show(Request $request,$id)
     {
         $limit = $request->get('limit');
-        $data= Userinfo::where('role_id',3)->paginate($limit);
+        $data= Userinfo::where('is_engineer',1)->paginate($limit);
         return $data;
     }
 

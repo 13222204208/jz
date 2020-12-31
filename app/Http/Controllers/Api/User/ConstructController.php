@@ -32,7 +32,7 @@ class ConstructController extends Controller
         try {
             if($request ->id != ''){
                 $id = $request->get('id');       
-                $data= BuildOrder::find(intval($id),['id','status','engineer_id','created_at','order_num']);
+                $data= BuildOrder::find(intval($id),['id','status','engineer_id','created_at','owner_phone','order_num']);
     
                 $goods_id = BuildBetweenGoods::where('build_order_id',intval($id))->pluck('goods_id');
                 $ginfo= Good::whereIn('id',$goods_id)->get(['id','title','cover','price']);//查询套内商品
@@ -62,12 +62,12 @@ class ConstructController extends Controller
 
             if($request->status != ''){
                 $status = intval($request->status);
-                $data = BuildOrder::where('owner_phone',$this->user->phone)->where('status',$status)->skip($page)->take($size)->get(['id','engineer_id','order_name','status','created_at']);
+                $data = BuildOrder::where('owner_phone',$this->user->phone)->where('status',$status)->skip($page)->take($size)->get(['id','engineer_id','owner_phone','order_name','status','created_at']);
 
                 return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$data]);
             }
 
-            $data = BuildOrder::where('owner_phone',$this->user->phone)->skip($page)->take($size)->get(['id','engineer_id','order_name','status','created_at']);
+            $data = BuildOrder::where('owner_phone',$this->user->phone)->skip($page)->take($size)->get(['id','engineer_id','owner_phone','order_name','status','created_at']);
 
             return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$data]);
 

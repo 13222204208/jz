@@ -3,14 +3,15 @@
 namespace App\Http\Controllers\Api\Order;
 
 use App\Models\Good;
+use App\Models\Contract;
 use App\Models\Userinfo;
 use App\Models\BuildOrder;
 use Illuminate\Http\Request;
 use App\Models\BuildBetweenGoods;
 use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Models\PackageBetweenGoods;
 use App\Http\Controllers\Controller;
-use App\Models\Contract;
 use Illuminate\Support\Facades\Validator;
 
 class BuildOrderController extends Controller
@@ -44,7 +45,6 @@ class BuildOrderController extends Controller
                     'functionary_phone' => 'required|regex:/^1[345789][0-9]{9}$/',//负责人联系方式
                     'time' => 'required|max:50',//时间
                     'agreement_id' => 'required',//合同id
-                    //'merchant_id' => 'required',//商家id由后端获取
                     'goods_id' => 'required',//产品Id
                     'order_name' => 'required'//项目名称
                 ],
@@ -70,15 +70,18 @@ class BuildOrderController extends Controller
                 $messages = $validator->errors()->first();
                 return response()->json([ 'code' => 0 ,'msg'=>$messages]);
             }
+
+ 
             unset($data['token']);
             $data['merchant_id'] = $this->user->id;
             $data['order_num'] = 'GC'.time().rand(1000,9999);
             unset($data['goods_id']);
             $id = BuildOrder::create($data)->id;
 
-            $goods_ids = explode(',',$request->goods_id);//获取商品id 
 
-            foreach ($goods_ids as  $goods_id) {//插入工程订单和商品关联的表
+            $gid= PackageBetweenGoods::where('goods_package_id',$request->goods_id)->pluck('goods_id');
+
+            foreach ($gid as  $goods_id) {//插入工程订单和商品关联的表
                     BuildBetweenGoods::create([
                     'build_order_id' => $id,
                     'goods_id' => intval($goods_id)
@@ -101,19 +104,12 @@ class BuildOrderController extends Controller
 
         try {
             if($request->id != ''){//查询订单详情
-                $data= BuildOrder::find(intval($request->id),['id','status','owner_name','owner_phone','owner_address','functionary',
-                        'functionary_phone','time','agreement_id','owner_demand','engineer_id']);
+                $data= BuildOrder::find(intval($request->id));
                 $goods_id = BuildBetweenGoods::where('build_order_id',intval($request->id))->pluck('goods_id');
                 $ginfo= Good::whereIn('id',$goods_id)->get(['id','title','cover','price']);//查询套内商品
     
                 $data['goods_id'] = $ginfo;
-                $data['engineer_name']="";
-                $data['engineer_phone']=""; 
-                if($data['engineer_id'] != null){
-                    $einfo = explode(',',$data['engineer_id']);
-                    $data['engineer_name']=$einfo[0];
-                    $data['engineer_phone']=$einfo[1];
-                } 
+      
                 
                return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$data]);
             }
@@ -133,7 +129,7 @@ class BuildOrderController extends Controller
                 $page = ($request->page -1)*$size;
             }
     
-            $data= BuildOrder::skip($page)->take($size)->where('merchant_id',$this->user->id)->where('status',$status)->get(['id','status','owner_name','owner_phone','owner_address','functionary','functionary_phone','time','agreement_id','owner_demand','engineer_id','order_name']); 
+            $data= BuildOrder::skip($page)->take($size)->where('merchant_id',$this->user->id)->where('status',$status)->get(); 
             return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$data]);
         } catch (\Throwable $th) {
             $err = $th->getMessage();
@@ -144,8 +140,9 @@ class BuildOrderController extends Controller
     public function contract(Request $request)
     {
         try {
-            $status = 1;
-            if($status != ''){
+            $status = 1; 
+
+            if($request->status != ''){
                 $status = $request->status;
             }
 
@@ -158,7 +155,7 @@ class BuildOrderController extends Controller
             if($request->page){
                 $page = ($request->page -1)*$size;
             }
-
+            
             $data= Contract::where('merchant_id',$this->user->id)->where('status',$status)->skip($page)->take($size)->get();
             return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$data]);
         } catch (\Throwable $th) {

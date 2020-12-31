@@ -60,6 +60,26 @@
        
           </div>
 
+          <div class="layui-form-item"> 
+            <div class="layui-inline">
+              <label class="layui-form-label">开始时间：</label>
+              <div class="layui-input-inline">
+      
+                <input type="text" name="start_time" class="layui-input" lay-verify="required"  id="startTime" placeholder="yyyy-MM-dd HH:mm:ss">
+              </div>
+      
+            </div>
+      
+            <div class="layui-inline">
+              <label class="layui-form-label">结束时间：</label>
+              <div class="layui-input-inline">
+                <input type="text" class="layui-input" name="stop_time" lay-verify="required" id="stopTime" placeholder="yyyy-MM-dd HH:mm:ss">
+              </div>
+      
+            </div>
+          </div>
+
+
             <div class="layui-form-item">   
               <textarea  placeholder="合同备注" class="layui-textarea" name="comments" >合同备注  
               </textarea>
@@ -89,6 +109,18 @@
             var $ = layui.jquery;
             var form = layui.form;
             upload = layui.upload;
+
+            laydate.render({
+              elem: '#startTime',
+              type: 'datetime',
+            });
+            //日期时间范围
+            laydate.render({
+              elem: '#stopTime',
+              type: 'datetime',
+             
+            });
+      
 
             form.on('select(cate_demo)', function(data){
                 if(data.value == 'case'){
@@ -231,7 +263,7 @@
                                 time: 1000
                             }, function () {
                                 $(".layui-laypage-btn").click();
-                                window.location.href = "contract";
+                                window.location.href = "contract-list";
                                 layer.closeAll();
                              
                   
