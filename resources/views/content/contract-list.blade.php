@@ -202,7 +202,7 @@
                         }, {
                             field: 'title',
                             title: '合同名称',
-                            width:200
+                            width:100
                         },{
                             field: 'comments',
                             title: '合同备注',
@@ -210,21 +210,37 @@
                         },{
                             field: 'cost',
                             title: '合同费用',
-                            width:250
+                            width:150
                         },{
                             field: 'quantity',
                             title: '合同套数',
                             width:150
                       
                         },{
+                            field: 'done_quantity',
+                            title: '已完成套数',
+                   
+                      
+                        },{
+                            field: 'start_time',
+                            title: '合同开始时间',
+                            width:180
+                      
+                        }, {
+                            field: 'stop_time',
+                            title: '合同结束时间',
+                            width:180
+                      
+                        }, {
                             field: 'created_at',
                             title: '创建时间',
-                            width:180
+                      
                       
                         },  {
                             fixed: 'right',
                             title: "操作",
                             align: 'center',
+                            width:200,
                             toolbar: '#barDemo'
                         }
                     ]

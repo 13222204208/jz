@@ -23,7 +23,7 @@ class BuildOrders extends Migration
             $table->unsignedInteger('build_goods_package_id')->default(0)->comment('套内详单对应的自定义套餐id,
             提供ABC三套预设的产品组合给装修公司快速选择，客户亦有可能在这个ABC套餐基础上增添设备，所以这个工程中的最终产品清单，用一个单独的表保存，简称为S表');
             $table->string('functionary')->default('')->comment('负责人');
-            $table->string('functionary_phone',11)->comment('负责人手机号');
+            $table->string('functionary_phone',11)->nullable()->comment('负责人手机号');
             $table->string('time')->default('')->comment('时间');
             $table->unsignedInteger('agreement_id')->default(0)->comment('合同，合同的id');
             $table->unsignedInteger('user_id')->default(0)->comment('业主的id，有可能业主不是小程序用户');
@@ -36,6 +36,7 @@ class BuildOrders extends Migration
             $table->string('start_work_time')->default('')->comment('开工的时间');
             $table->string('signature_pic')->default('')->comment('当定施工订单完成时，工程师会上传一张合同签字完工的图片');
             $table->tinyInteger('status')->default(1)->comment(' 1：待施工  2：施工中  3：已完成    4：已取消');
+            $table->tinyInteger('order_status')->default(1)->comment(' 1：商家端下的工程订单 2 客户端保存方案下的订单');
             $table->timestamps();
 
             $table->comment="工程订单表";

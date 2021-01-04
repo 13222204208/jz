@@ -163,6 +163,14 @@ Route::prefix('build')->group(function () {
   
     Route::resource('build', 'Build\BuildOrderController');//工程订单
 
+    Route::get('owner-order-list', function () {
+        return view('build.owner-order-list');//工程订单列表
+    });
+  
+    Route::resource('ownerOrder', 'Build\OwnerOrderController');//客户下的工程订单
+
+    Route::get('goods/{id}','Build\OrderGoodsController@goods');
+
     Route::get('design-list', function () {
         return view('build.design-list');//智能设计列表
     });

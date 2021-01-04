@@ -6,7 +6,9 @@ use App\Models\Cart;
 use App\Models\Good;
 use App\Models\Collect;
 use App\Models\CartItem;
+use App\Models\BuildOrder;
 use Illuminate\Http\Request;
+use App\Models\BuildBetweenGoods;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
 
@@ -135,18 +137,38 @@ class CollectController extends Controller
                 }
 
                 if($type == 'create'){
+                    if($this->user->phone == 0){
+                        return response()->json([ 'code' => 0 ,'msg'=>'请先完善资料']);
+                    }
                     $cart = Cart::where('userinfo_id',$this->user->id)->first();
                     if(!$cart){
                         return response()->json([ 'code' => 0 ,'msg'=>'错误']);
                     }
-                    $goods= CartItem::where('cart_id',$cart->id)->whereIn('product_id',$goods_id)->get();
+ /*                    $goods= CartItem::where('cart_id',$cart->id)->whereIn('product_id',$goods_id)->get();
                     foreach ($goods as $good) {
                         Collect::create([
                             'goods_id' => $good->product_id,
                             'userinfo_id' => $this->user->id,
                             'quantity' => $good->quantity
                         ]);
+                    } */
+
+                    $data['order_num'] = 'KH'.time().rand(1000,9999);//客户下的订单
+                    $data['owner_address'] = $this->user->address;//客户的地址
+                    $data['owner_phone'] = $this->user->phone;//客户的手机号
+                    $data['order_status'] = 2;//表示为客户下的订单
+                    $data['owner_name'] = $this->user->nickname;
+                    $order_id= BuildOrder::create($data)->id;
+                    $goods= CartItem::where('cart_id',$cart->id)->whereIn('product_id',$goods_id)->get();
+                 
+                    foreach ($goods as $good) {
+                        BuildBetweenGoods::create([
+                            'goods_id' => $good->product_id,
+                            'build_order_id' => $order_id,
+                            'quantity' => $good->quantity
+                        ]);
                     }
+
                     return response()->json([ 'code' => 1 ,'msg'=>'成功']);
                 }
 

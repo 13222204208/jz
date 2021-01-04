@@ -11,7 +11,7 @@ use App\Models\BeforeConstruction;
 use App\Models\FinishConstruction;
 use App\Http\Controllers\Controller;
 
-class BuildOrderController extends Controller
+class OwnerOrderController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,7 +21,7 @@ class BuildOrderController extends Controller
     public function index(Request $request)
     {
         $limit = $request->get('limit');
-        $data = BuildOrder::orderBy('created_at','desc')->where('order_status',1)->paginate($limit);
+        $data = BuildOrder::orderBy('created_at','desc')->where('order_status',2)->paginate($limit);
         return $data;
     }
 
@@ -109,6 +109,12 @@ class BuildOrderController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $state = BuildOrder::destroy($id);
+        
+        if($state){
+            return response()->json([ 'status' => 200 ,'msg'=>'成功']);
+        } else {
+            return response()->json([ 'status' => 403]);
+        }  
     }
 }

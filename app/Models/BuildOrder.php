@@ -25,6 +25,9 @@ class BuildOrder extends Model
 
     public function getAgreementIdAttribute($value)//获取合同名称
     {
+        if($value == 0 ){
+            return null;
+        }
         $title= Contract::find($value,['title']);
         return $title->title;
     }

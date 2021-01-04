@@ -68,7 +68,8 @@ class UserinfoController extends Controller
                     'nickname' => $request->nickname,
                     'cover' => $request->cover,
                     'wx_id' => $data['openid'],
-                    'wx_session_key' => $data['session_key']
+                    'wx_session_key' => $data['session_key'],
+                    'is_owner' => 1
                 ]);
                 $token = JWTAuth::fromUser($user);
                 $userData['nickname'] = $request->nickname;
@@ -87,6 +88,8 @@ class UserinfoController extends Controller
                 $userData['id_front'] = $user->id_front;
                 $userData['id_the_back'] = $user->id_the_back;
                 $userData['id_in_hand'] = $user->id_in_hand;
+                $userData['lat'] = $user->lat;
+                $userData['long'] = $user->long;
 
              return response()->json([ 'code' => 1 ,'msg'=>'成功','data' =>$userData]);
             }
@@ -107,6 +110,8 @@ class UserinfoController extends Controller
                 $userinfo['id_front'] = $state->id_front;
                 $userinfo['id_the_back'] = $state->id_the_back;
                 $userinfo['id_in_hand'] = $state->id_in_hand;
+                $userinfo['lat'] = $state->lat;
+                $userinfo['long'] = $state->long;
    
         
             return response()->json([ 'code' => 1 ,'msg'=>'成功','data' =>$userinfo]);
@@ -148,14 +153,16 @@ class UserinfoController extends Controller
                 $data,
                 [
                     'phone' => 'required|regex:/^1[345789][0-9]{9}$/',
-                    'token' => 'required'
+                    'token' => 'required',
+                    'address' => 'required'
                 ],
                 [
                     'required' => ':attribute不能为空',
                     'regex' => ':attribute格式不正确'
                 ],
                 [
-                    'phone' => '手机号'
+                    'phone' => '手机号',
+                    'address' => '地址'
                 ]        
             );
             unset($data['token']);
@@ -164,7 +171,7 @@ class UserinfoController extends Controller
                 return response()->json([ 'code' => 0 ,'msg'=>$messages]);
             }
         
-            $state = Userinfo::where('id',$this->user->id)->update($data);//编辑用户资料，暂时为1
+            $state = Userinfo::where('id',$this->user->id)->update($data);//编辑用户资料
     
             if ($state) {
                 return response()->json([ 'code' => 1 ,'msg'=>'成功','data' =>$data]);

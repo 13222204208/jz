@@ -17,7 +17,7 @@ class BuildBetweenGoods extends Migration
             $table->id();
             $table->unsignedInteger('build_order_id')->comment('工程订单id');
             $table->unsignedInteger('goods_id')->comment('商品id');
-
+            $table->unsignedInteger('quantity')->default(1)->comment('数量');
             $table->timestamps();
 
             $table->comment="工程订单和商品的中间表";

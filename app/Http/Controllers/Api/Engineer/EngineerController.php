@@ -55,7 +55,7 @@ class EngineerController extends Controller
 
                 if($request->id != ''){//查询订单详情
                     $data= BuildOrder::find(intval($request->id),['id','status','engineer_id','owner_name','owner_phone','owner_address','created_at','order_num','order_name','owner_demand','long','lat']);
-                    $data['distance'] = $this->distance($long,$data->long,$lat,$data->lat);
+                    $data['distance'] = $this->distance($lat,$data->lat,$long,$data->long);
 
                     $done= DoneConstruction::where('order_num',$data->order_num)->first();
                     $owner_sign_photo = '';
@@ -97,7 +97,7 @@ class EngineerController extends Controller
                         $d->owner_sign_photo = $owner_sign_photo;
                         $d->engineer_sign_photo = $engineer_sign_photo;
     
-                        $d->distance= $this->distance($long,$d->long,$lat,$d->lat);
+                        $d->distance= $this->distance($lat,$d->lat,$long,$d->long);
                         $arr[]= $d;
                     }
                     return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$arr]);
@@ -116,8 +116,8 @@ class EngineerController extends Controller
                     }
                     $d->owner_sign_photo = $owner_sign_photo;
                     $d->engineer_sign_photo = $engineer_sign_photo;
-
-                    $d->distance= $this->distance($long,$d->long,$lat,$d->lat);
+                    
+                    $d->distance= $this->distance($lat,$d->lat,$long,$d->long); 
                     $arr[]= $d;
                 }
                 return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$arr]); 
@@ -411,10 +411,10 @@ class EngineerController extends Controller
     
     public function distance($lat1,$lat2,$lng1,$lng2)
     {
-        $radLat1 = deg2rad($lat1);//deg2rad()函数将角度转换为弧度
-        $radLat2 = deg2rad($lat2);
-        $radLng1 = deg2rad($lng1);
-        $radLng2 = deg2rad($lng2);
+        $radLat1 = deg2rad(floatval($lat1));//deg2rad()函数将角度转换为弧度
+        $radLat2 = deg2rad(floatval($lat2));
+        $radLng1 = deg2rad(floatval($lng1));
+        $radLng2 = deg2rad(floatval($lng2));
         $a = $radLat1 - $radLat2;
         $b = $radLng1 - $radLng2;
         $s = 2 * asin(sqrt(pow(sin($a / 2), 2) + cos($radLat1) * cos($radLat2) * pow(sin($b / 2), 2))) * 6378.137;

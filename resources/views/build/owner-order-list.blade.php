@@ -16,10 +16,10 @@
     <div class="layui-row" id="orderRate" style="display:none;">
         工程进度
     </div>
-
     <div class="layui-row" id="orderGoods" style="display:none;">
         
     </div>
+
     <div class="layui-row" id="popUpdateTest" style="display:none;">
             <table class="layui-hide" id="LAY_table" lay-filter="user"></table>
             <script type="text/html" id="toolbarDemo">
@@ -32,6 +32,7 @@
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="edit">分配工程师</a>
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="showGoods">查看订单产品</a> 
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="show">查看工程进度</a> 
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a> 
 
     </script>
 
@@ -51,7 +52,7 @@
               
 
             table.render({
-                url: "build" //数据接口
+                url: "ownerOrder" //数据接口
                     ,
                 page: true //开启分页
                     ,
@@ -125,13 +126,13 @@
                       
                         },{
                             field: 'created_at',
-                            title: '创建时间',
+                            title: '下单时间',
                             width:150
                       
-                        },{
+                        }, {
                             fixed: 'right',
                             title: "操作",
-                            width: 300,
+                            width: 350,
                             align: 'center',
                             toolbar: '#barDemo'
                         }
@@ -172,7 +173,7 @@
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
-                        url: "build",
+                        url: "ownerOrder",
                         type: 'post',
                         data:{
                             order_num:data.order_num
@@ -241,6 +242,7 @@
                                        ' </div>'+
                                       '</li>';
                                 }
+
                          
                                 html= 
                                   '<br><ul class="layui-timeline">'+
@@ -252,7 +254,7 @@
                                        
                                         '</p>'+
                                      ' </div>'+
-                                    '</li>'+under+  finish+ done+
+                                    '</li>'+under+  finish+done+
                                     
                                   '</ul>'  
 
@@ -274,7 +276,7 @@
                     });
 
                     table.render({
-                        url: "build/3" //数据接口
+                        url: "ownerOrder/3" //数据接口
                             ,
                         toolbar: '#toolbarDemo',
                         page: true, //开启分页
@@ -343,7 +345,7 @@
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
-                        url: "build/"+dataId,
+                        url: "ownerOrder/"+dataId,
                         type: 'patch',
                         data: {engineer_id:id},//工程师id
                         success: function (msg) {
@@ -424,7 +426,36 @@
                     });
 
 
-                } 
+                }else if (obj.event === 'del') {
+
+                    layer.confirm('真的删除此分类么', function (index) {
+                        $.ajax({
+                            url: "ownerOrder/"+data.id,
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                                    'content')
+                            },
+                            type: "delete",
+                            success: function (msg) {
+                                console.log(msg); 
+                                if (msg.status == 200) {
+                                    //删除这一行
+                                    obj.del();
+                                    //关闭弹框
+                                    layer.close(index);
+                                    layer.msg("删除成功", {
+                                        icon: 6
+                                    });
+                                } else {
+                                    layer.msg("删除失败", {
+                                        icon: 5
+                                    });
+                                }
+                            }
+                        });
+                        return false;
+                    });
+                }
 
             });
 

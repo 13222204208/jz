@@ -213,6 +213,7 @@
               </a>
               <dl class="layui-nav-child">
                 <dd><a lay-href="build/list">工程订单</a></dd>
+                <dd><a lay-href="build/owner-order-list">客户订单</a></dd>
                 <dd><a lay-href="build/design-list">智能设计</a></dd>
               </dl>
             </li>
