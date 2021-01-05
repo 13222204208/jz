@@ -6,9 +6,17 @@ use App\Models\Contract;
 use App\Models\Userinfo;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Repositories\ContractRepository;
 
 class ContractController extends Controller
 {
+    protected $contractRepository;
+
+    public function __construct(ContractRepository $contractRepository)
+    {
+        $this->contractRepository = $contractRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +25,7 @@ class ContractController extends Controller
     public function index(Request $request)
     {
         $limit = $request->get('limit');
-        $data = Contract::paginate($limit);
+        $data = $this->contractRepository->all($limit);
         return $data;
     }
 

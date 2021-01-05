@@ -17,7 +17,7 @@ class CaseInfoController extends Controller
     public function index(Request $request)
     {
         $limit = $request->get('limit');
-        $data= CaseInfo::paginate($limit);
+        $data= CaseInfo::orderBy('created_at','desc')->paginate($limit);
         return $data;
     }
 

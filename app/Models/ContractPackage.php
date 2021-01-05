@@ -2,19 +2,19 @@
 
 namespace App\Models;
 
-use App\Models\ContractPackage;
 use App\Models\Traits\Timestamp;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Contract extends Model
+class ContractPackage extends Model
 {
-    use Timestamp,HasFactory;
-
+    use HasFactory;
+    use Timestamp;
+    
     protected $guarded = [];
 
-    public function contractPackage()
+    public function goodsPackage()
     {
-        return $this->hasMany('App\Models\ContractPackage');
+        return $this->belongsTo('App\Models\GoodsPackage');
     }
 }

@@ -46,12 +46,12 @@
                 </div>   
            </div>
 
-           <div class="layui-form-item">
+{{--             <div class="layui-form-item">
                
             <input type="number" name="quantity" lay-verify="required"  autocomplete="off"
                 placeholder="合同套数" value="" class="layui-input">
        
-          </div>
+          </div>  --}}
 
           <div class="layui-form-item">
                

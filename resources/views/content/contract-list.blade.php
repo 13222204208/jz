@@ -13,12 +13,62 @@
 </head>
 <body>
 
-    <div class="demoTable" style="margin:30px;">
+    <div class="demoTable" style="margin:10px;">
         <button class="layui-btn" data-type="reload" value="0" id="admin-management">添加合同</button>
         <div class="layui-inline" style="color:gray" id="lp_address">
         </div>
     </div>
 
+
+    <form class="layui-form" action="">
+        <br>
+        <div class="layui-form-item">
+           <label class="layui-form-label">  合同名称:</label>
+    
+        <div class="layui-inline">
+          <input class="layui-input" name="contract_name"  autocomplete="off">
+        </div>
+        
+      </div>
+    
+    
+        <div class="layui-form-item ">
+          <div class="layui-input-block">
+              <div class="layui-footer" style="left: 0;">
+                  <button class="layui-btn" lay-submit="" lay-filter="searchContract">查询</button>
+              </div>
+          </div>
+      </div>
+    </form>
+
+    <div class="layui-row" id="allotPackage" style="display:none;">
+        <form class="layui-form layui-from-pane" required lay-verify="required" style="margin:20px">
+
+            <div class="layui-form-item">
+               
+                  <select name="goods_package_id" lay-filter="cate_demo" id="GoodsPackage" lay-verify="required" >
+                    
+                  </select>
+              </div>
+
+            <div class="layui-form-item">
+               
+                    <input type="number" name="goods_package_qty" lay-verify="required"  autocomplete="off"
+                        placeholder="数量" value="" class="layui-input">
+               
+            </div>
+
+              <br>      
+
+            <div class="layui-form-item ">
+                <div class="layui-input-block">
+                    <div class="layui-footer" style="left: 0;">
+                        <button class="layui-btn" lay-submit="" lay-filter="createPackage">保存</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
 
     <div class="layui-row" id="popUpdateTest" style="display:none;">
         <table class="layui-hide" id="LAY_table" lay-filter="user"></table>
@@ -31,6 +81,7 @@
     <script type="text/html" id="barDemo">
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="download">下载合同附件</a>
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="edit">关联商家</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="allot">分配套餐</a>
 
     </script>
 
@@ -38,9 +89,7 @@
     <script>
      
         layui.use(['table', 'layer','laydate', 'layedit','upload','jquery', 'form'], function () {
-          
-
-         
+                  
             var table = layui.table;
             var laydate = layui.laydate;
             var $ = layui.jquery;
@@ -144,7 +193,103 @@
                 location.href='create-contract';
             });
 
-
+            form.on('submit(searchContract)', function (data) {
+                data= data.field;
+                
+                table.render({
+                    url: "search_contract"//数据接口
+                        ,
+                    page: true //开启分页
+                        ,
+                    type:'get',
+                    where:{
+                        contract_name:data.contract_name,
+                    },
+                    elem: '#LAY_table_user',
+                    cols: [
+                        [
+    
+                            {
+                                field: 'id',
+                                title: 'ID',
+                                width: 50,
+                                sort: true
+                            }, {
+                                field: 'title',
+                                title: '合同名称',
+                                width:100
+                            },{
+                                field: 'cost',
+                                title: '合同费用',
+                                width:100
+                            },{
+                                field: 'quantity',
+                                title: '合同套数',
+                                width:90
+                          
+                            },{
+                                field: 'contract_package',
+                                title: '剩余套餐详情',
+                                width:250,
+                                templet: function(d) {
+                                    info ='';
+                                    console.log(d.contract_package);
+                                    for(var i=0; i<d.contract_package.length; i++){
+                                        console.log();
+                                        info += ' '+d.contract_package[i]['goods_package'].title+':'+d.contract_package[i]['goods_package_qty']+'套';
+                                    }
+                                    return info;
+                                  },
+                          
+                            },{
+                                field: 'done_quantity',
+                                title: '已完成套数',
+                                width:100,
+                          
+                            },{
+                                field: 'start_time',
+                                title: '合同开始时间',
+                                width:180
+                          
+                            }, {
+                                field: 'stop_time',
+                                title: '合同结束时间',
+                                width:180
+                          
+                            }, {
+                                field: 'comments',
+                                title: '合同备注',
+                                width:200
+                            },{
+                                field: 'created_at',
+                                title: '创建时间',
+                          
+                          
+                            },  {
+                                fixed: 'right',
+                                title: "操作",
+                                align: 'center',
+                                width:300,
+                                toolbar: '#barDemo'
+                            }
+                        ]
+                    ],
+                    parseData: function (res) { //res 即为原始返回的数据
+                        console.log(res);
+                        return {
+                            "code": '0', //解析接口状态
+                            "msg": res.message, //解析提示文本
+                            "count": res.total, //解析数据长度
+                            "data": res.data //解析数据列表
+                        }
+                    },
+                    id: 'testReload',
+                    title: '后台用户',
+                    totalRow: true
+    
+                });
+            return false;
+            });
 
             //监听提交
             form.on('submit(create)', function (data) {
@@ -197,29 +342,39 @@
                         {
                             field: 'id',
                             title: 'ID',
-                            width: 80,
+                            width: 50,
                             sort: true
                         }, {
                             field: 'title',
                             title: '合同名称',
                             width:100
                         },{
-                            field: 'comments',
-                            title: '合同备注',
-                            width:200
-                        },{
                             field: 'cost',
                             title: '合同费用',
-                            width:150
+                            width:100
                         },{
                             field: 'quantity',
                             title: '合同套数',
-                            width:150
+                            width:90
+                      
+                        },{
+                            field: 'contract_package',
+                            title: '剩余套餐详情',
+                            width:250,
+                            templet: function(d) {
+                                info ='';
+                                console.log(d.contract_package);
+                                for(var i=0; i<d.contract_package.length; i++){
+                                    console.log();
+                                    info += ' '+d.contract_package[i]['goods_package'].title+':'+d.contract_package[i]['goods_package_qty']+'套';
+                                }
+                                return info;
+                              },
                       
                         },{
                             field: 'done_quantity',
                             title: '已完成套数',
-                   
+                            width:100,
                       
                         },{
                             field: 'start_time',
@@ -232,6 +387,10 @@
                             width:180
                       
                         }, {
+                            field: 'comments',
+                            title: '合同备注',
+                            width:200
+                        },{
                             field: 'created_at',
                             title: '创建时间',
                       
@@ -240,7 +399,7 @@
                             fixed: 'right',
                             title: "操作",
                             align: 'center',
-                            width:200,
+                            width:300,
                             toolbar: '#barDemo'
                         }
                     ]
@@ -265,8 +424,89 @@
 
             table.on('tool(user)', function (obj) {
                 var data = obj.data;
-               
-                if (obj.event === 'download') {
+                id = data.id;
+                if(obj.event ==='allot'){
+                    layer.open({
+                        //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                        type: 1,
+                        title: "分配套餐",
+                        area: ['500px', '400px'],
+                        content: $("#allotPackage") //引用的弹出层的页面层的方式加载修改界面表单
+                    });
+                    
+            $.ajax({
+                headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: "goods-package",
+                method: 'get',
+                dataType: 'json',
+                success: function(res) {
+          
+                  status = res.status;
+                   role_name = res.data; //console.log( role_name[0].name); return false
+                  if (res.status == 200) {
+                    optionData = "";
+                      for (var i = 0; i < role_name.length; i++) {
+                      var t = role_name[i];
+                      optionData += '<option value="'+t.id +'">'+ t.title+'</option>';
+                    }
+        
+                      $("#GoodsPackage").html(optionData);
+                      form.render('select');
+        
+                    }else if (res.status == 403) {
+                    layer.msg('填写错误或角色名重复', {
+                      offset: '15px',
+                      icon: 2,
+                      time: 3000
+                    }, function() {
+                      location.href = 'contract-list';
+                    })
+                  }
+                }
+              });
+
+                          //监听提交
+            form.on('submit(createPackage)', function (data) {
+                data.field.contract_id = id;
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: "create-contract-package",
+                    method: 'POST',
+                    data: data.field,
+                    dataType: 'json',
+                    success: function (res) {
+                     console.log(res); 
+                        if (res.status == 200) {
+                            layer.msg('创建成功', {
+                                offset: '15px',
+                                icon: 1,
+                                time: 1000
+                            }, function () {
+                                $(".layui-laypage-btn").click();
+                                //window.location.href = "";
+                                layer.closeAll();
+                             
+                  
+                            })
+                        } else if (res.status == 403) {
+                            layer.msg('填写错误或重复', {
+                                offset: '15px',
+                                icon: 2,
+                                time: 3000
+                            }, function () {
+                                location.href = 'created';
+                            })
+                        }
+                    }
+                });
+                return false;
+            });
+
+                }else if (obj.event === 'download') {
                     url = window.location.protocol+"//"+window.location.host+"/";
                     file = url+data.file_name;
                     window.open(file);

@@ -72,8 +72,11 @@ Route::prefix('content')->group(function () {
         return view('content.create-contract');
     });
 
+    Route::get('goods-package','Content\ContractPackageController@getGoodsPackage');
+    Route::post('create-contract-package','Content\ContractPackageController@createContractPackage');
     Route::post('file','UploadFileController@file');//上传合同附件
     
+    Route::get('search_contract','Content\SearchContractController@searchContract');
     Route::resource('contract', 'Content\ContractController');//合同
     
 

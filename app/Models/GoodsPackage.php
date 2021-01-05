@@ -17,12 +17,4 @@ class GoodsPackage extends Model
         return $this->belongsToMany('App\Models\Good', 'package_between_goods', 'goods_package_id', 'goods_id');
     }
 
-    
-/*     public function getCoverAttribute($value)
-    {
-        $d = pathinfo($value);
-        $imgUrl = $d['basename'];
-        return '<img src="'.$imgUrl.'" >';
-    } */
-
 }

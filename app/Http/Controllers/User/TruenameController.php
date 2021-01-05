@@ -16,7 +16,7 @@ class TruenameController extends Controller
     public function index(Request $request)
     {
         $limit = $request->get('limit');
-        $data = Userinfo::where('role_id',3)->where('engineer_status','!=',3)->paginate($limit);
+        $data = Userinfo::where('role_id',3)->where('engineer_status','!=',3)->orderBy('created_at','desc')->paginate($limit);
         return $data;
     }
 

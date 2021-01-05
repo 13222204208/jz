@@ -16,7 +16,7 @@ class DynamicController extends Controller
     public function index(Request $request)
     {
         $limit = $request->get('limit');
-        $data = UserDynamic::paginate($limit);
+        $data = UserDynamic::orderBy('created_at','desc')->paginate($limit);
         return $data;
     }
 

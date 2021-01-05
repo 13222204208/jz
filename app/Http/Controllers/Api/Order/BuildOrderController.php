@@ -6,7 +6,9 @@ use App\Models\Good;
 use App\Models\Contract;
 use App\Models\Userinfo;
 use App\Models\BuildOrder;
+use App\Models\GoodsPackage;
 use Illuminate\Http\Request;
+use App\Models\ContractPackage;
 use App\Models\BuildBetweenGoods;
 use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -70,14 +72,20 @@ class BuildOrderController extends Controller
                 $messages = $validator->errors()->first();
                 return response()->json([ 'code' => 0 ,'msg'=>$messages]);
             }
+            $qty= ContractPackage::where('contract_id',$data['agreement_id'])->where('goods_package_id',$data['goods_id'])->pluck('goods_package_qty')->first();
 
- 
+            if($qty < 1){
+                return response()->json([ 'code' => 0 ,'msg'=>'剩余套数不够']);
+            }
+      
             unset($data['token']);
             $data['merchant_id'] = $this->user->id;
             $data['order_num'] = 'GC'.time().rand(1000,9999);
             unset($data['goods_id']);
             $id = BuildOrder::create($data)->id;
 
+            ContractPackage::where('contract_id',$data['agreement_id'])->where('goods_package_id',$request->goods_id)->decrement('goods_package_qty');//当添加一个工程单，合同分配的套餐数量减一
+            Contract::where('id',$data['agreement_id'])->increment('done_quantity');
 
             $gid= PackageBetweenGoods::where('goods_package_id',$request->goods_id)->pluck('goods_id');
 
@@ -140,6 +148,19 @@ class BuildOrderController extends Controller
     public function contract(Request $request)
     {
         try {
+            if($request->agreement_id != ''){//根据合同ID获取商家剩余的套餐
+                $data= ContractPackage::where('contract_id',$request->agreement_id)->where('goods_package_qty','!=',0)->get();
+                
+                $arr = array();
+                foreach ($data as $value) {
+                    $name = GoodsPackage::where('id',$value->goods_package_id)->pluck('title')->first();
+                    
+                    $value->goods_package_name = $name;
+                    $arr[] = $value;
+                }
+                return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$arr]);
+            }
+
             $status = 1; 
 
             if($request->status != ''){
