@@ -28,7 +28,7 @@ Route::prefix('user')->group(function (){
     
         Route::get('rate','Api\User\ConstructController@rate');//订单进度显示
 
-        Route::post('prot','Api\User\ProtController@prot');//订单进度显示
+        Route::post('prot','Api\User\ProtController@prot');//切换登陆端口
 
     });
 });

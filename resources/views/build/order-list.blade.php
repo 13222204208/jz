@@ -178,11 +178,20 @@
                             order_num:data.order_num
                         },
                         success: function (msg) {
-                           data = msg.data; 
+                            data = msg.data; 
                             if (msg.status == 200) {
+                                url = window.location.protocol+"//"+window.location.host+"/";
                                 if(data.before != null){
+                                    str = data.before.photo;
+                                    var strs= new Array(); //定义一数组
+                                    strs=str.split(","); //字符分割
+                                    photo = '';
+                                    for (i=0;i<strs.length ;i++ ){
+                                        photo +='<img width="500px" src="'+ url+strs[i] + '" >';
+                                    }
+                                    
                                     time = '施工前 '+data.before.created_at;
-                                    photo =data.before.comments +'<br> <img width="500px" src="'+ data.before.photo + '" >';
+                                    photo = data.before.comments+'<br>'+photo;
                                  
                                 }else{
                                     time = '还没有施工图片';
@@ -193,25 +202,46 @@
                                 if(data.under.length == 0){
                                     under = '';
                                 }else{
+                                    uphoto = '';
                                     for(i=0; i<data.under.length; i++){
                                         utime = '施工中 '+ data.under[i].created_at;
-                                        uphoto =data.under[i].comments +'<br> <img width="500px" src="'+ data.under[i].photo + '" >';
+
+                                        str = data.under[i].photo;
+                                        var strs= new Array(); //定义一数组
+                                        strs=str.split(","); //字符分割
+                                      
+                                        for (j=0;j<strs.length ;j++ ){
+                                           uphoto += '<img width="500px" src="'+ url+strs[j] + '" >';
+                                        }
+                                        //console.log(data.under[i].comments); return false;
+                              
+                                        
+                                       //console.log(uphoto); return false;
                                         under +=      '<li class="layui-timeline-item">'+
                                             '<i class="layui-icon layui-timeline-axis"></i>'+
                                             '<div class="layui-timeline-content layui-text">'+
                                               '<h3 class="layui-timeline-title">'+utime+'</h3>'+
-                                            '  <p>'+ uphoto+
+                                            '  <p>'+ data.under[i].comments +'<br>'+uphoto+
                                              
                                               '</p>'+
                                            ' </div>'+
                                           '</li>';
+                                          uphoto = '';
                                     }
                                 }
 
                                 finish = '';
                                 if(data.finish != null){
                                     ftime = '施工完成 '+data.finish.created_at;
-                                    fphoto =data.finish.comments +'<br> <img width="500px" src="'+ data.finish.photo + '" >';
+                                    str = data.finish.photo;
+                                    var strs= new Array(); //定义一数组
+                                    strs=str.split(","); //字符分割
+                                    photo = '';
+                                    for (i=0;i<strs.length ;i++ ){
+                                        photo +='<img width="500px" src="'+ url+strs[i] + '" >';
+                                    }
+                                  
+                                    fphoto =data.finish.comments +'<br> '+photo;
 
                                     finish +=      '<li class="layui-timeline-item">'+
                                         '<i class="layui-icon layui-timeline-axis"></i>'+
@@ -227,9 +257,24 @@
                                 done = ''; 
                                 if(data.done != null){
                                     dtime = '签字完成 '+data.done.created_at;
-                                    owner_sign_photo ='业主签字' +'<br> <img width="500px" src="'+ data.done.owner_sign_photo + '" >';
+                                    str = data.done.owner_sign_photo;
+                                    var strs= new Array(); //定义一数组
+                                    strs=str.split(","); //字符分割
+                                    photo = '';
+                                    for (i=0;i<strs.length ;i++ ){
+                                        photo +='<img width="500px" src="'+ url+strs[i] + '" >';
+                                    }
+                                    owner_sign_photo ='业主签字<br>'+photo;
 
-                                    engineer_sign_photo ='工程师签字' +'<br> <img width="500px" src="'+ data.done.engineer_sign_photo + '" >';
+                                    str = data.done.engineer_sign_photo;
+                                    var strs= new Array(); //定义一数组
+                                    strs=str.split(","); //字符分割
+                                    photo = '';
+                                    for (i=0;i<strs.length ;i++ ){
+                                        photo +='<img width="500px" src="'+ url+strs[i] + '" >';
+                                    }
+
+                                    engineer_sign_photo ='工程师签字<br>'+ photo;
                                  
                                     done +=      '<li class="layui-timeline-item">'+
                                         '<i class="layui-icon layui-timeline-axis"></i>'+
@@ -241,6 +286,7 @@
                                        ' </div>'+
                                       '</li>';
                                 }
+
                          
                                 html= 
                                   '<br><ul class="layui-timeline">'+
@@ -252,7 +298,7 @@
                                        
                                         '</p>'+
                                      ' </div>'+
-                                    '</li>'+under+  finish+ done+
+                                    '</li>'+under+  finish+done+
                                     
                                   '</ul>'  
 

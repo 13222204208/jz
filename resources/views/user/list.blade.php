@@ -254,6 +254,10 @@
                                 width: 80,
                                 sort: true
                             },{
+                                field: 'nickname',
+                                title: '昵称',
+                            
+                            },{
                                 field: 'phone',
                                 title: '手机号',
                             

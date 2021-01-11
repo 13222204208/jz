@@ -175,13 +175,29 @@
                    
                 } else if (obj.event === 'edit') {
                     //location.href="details/"+data.id;
-                    layer.open({
-                        //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
-                        type: 1,
-                        title: "分配订单给安装人员",
-                        area: ['700px', '600px'],
-                        content: $("#popUpdateTest") //引用的弹出层的页面层的方式加载修改界面表单
-                    });
+                   
+                    if(data.engineer_id != 0){
+                        layer.confirm('确定要重新分配吗', function (index) {
+                            layer.open({
+                                //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                                type: 1,
+                                title: "分配订单给安装人员",
+                                area: ['700px', '600px'],
+                                content: $("#popUpdateTest") //引用的弹出层的页面层的方式加载修改界面表单
+                            });
+                        layer.close(index);  
+                         return false;
+                        });
+                    }else{
+                        layer.open({
+                            //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                            type: 1,
+                            title: "分配订单给安装人员",
+                            area: ['700px', '600px'],
+                            content: $("#popUpdateTest") //引用的弹出层的页面层的方式加载修改界面表单
+                        });
+                    }
+
 
                     table.render({
                         url: "after/3" //数据接口
@@ -226,7 +242,7 @@
                         title: '后台用户',
                         totalRow: true
         
-                    });
+                    }); 
                     dataId = data.id;
                     setFormId(obj,dataId);
                     function setFormId(obj,dataId){
@@ -280,9 +296,10 @@
                     return false;
 
                         });
+                        
                     }
 
-                  
+           
                 }
 
             });

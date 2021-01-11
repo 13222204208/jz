@@ -135,101 +135,138 @@
           </div>
 
           <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu" lay-filter="layadmin-system-side-menu">
-
+            @if(in_array('用户列表',$per) || in_array('实名认证',$per) || in_array('报修售后列表',$per) || in_array('用户美图',$per))
             <li data-name="user" class="layui-nav-item">
               <a href="javascript:;" lay-tips="用户管理" lay-direction="2">
                 <i class="layui-icon layui-icon-user"></i>
                 <cite>用户管理</cite>
               </a>
               <dl class="layui-nav-child">
+                @if(in_array('用户列表',$per))
                 <dd>
                   <a lay-href="user/list">用户列表</a>
                 </dd>
+                @endif
+                @if (in_array('实名认证',$per))
                 <dd>
                   <a lay-href="user/true-name">实名认证</a>
                 </dd>
+                @endif
+                @if (in_array('报修售后列表',$per))
                 <dd>
                   <a lay-href="user/after-sale-list">报修售后列表</a>
                 </dd>
+                @endif
+                @if (in_array('用户美图',$per))
                 <dd>
                   <a lay-href="user/dynamic-list">用户美图</a>
                 </dd>
-          
+                @endif
               </dl>
             </li>
+            @endif
 
+            @if(in_array('后台帐号',$per) || in_array('角色管理',$per) || in_array('权限管理',$per))
             <li data-name="user" class="layui-nav-item">
               <a href="javascript:;" lay-tips="后台帐号管理" lay-direction="2">
                 <i class="layui-icon layui-icon-user"></i>
                 <cite>后台帐号管理</cite>
               </a>
               <dl class="layui-nav-child">
+                @if(in_array('后台帐号',$per))
                 <dd>
                   <a lay-href="admin/account">后台帐号</a>
                 </dd>
+                @endif
+                @if(in_array('角色管理',$per))
                 <dd>
                   <a lay-href="admin/role">角色管理</a>
                 </dd>
+                @endif
 
+                @if( in_array('权限管理',$per))
                 <dd>
                   <a lay-href="admin/power">权限管理</a>
                 </dd>
-          
+                @endif
               </dl>
             </li>
-
+            @endif
+            @if(in_array('产品库',$per) || in_array('套餐管理',$per))
             <li data-name="template" class="layui-nav-item">
               <a href="javascript:;" lay-tips="产品管理" lay-direction="2">
                 <i class="layui-icon layui-icon-app"></i>
                 <cite>产品管理</cite>
               </a>
               <dl class="layui-nav-child">
+                @if(in_array('产品库',$per))
                 <dd><a lay-href="goods/list">产品库</a></dd>
+                @endif
+                @if( in_array('套餐管理',$per))
                 <dd><a lay-href="goods/grouplist">套餐管理</a></dd>
+                @endif
               </dl>
             </li>
-            
+            @endif
 
       
-
+            @if(in_array('轮播图',$per) || in_array('案例和资讯',$per) || in_array('案例标签',$per) || in_array('合同列表',$per))
             <li data-name="template" class="layui-nav-item">
               <a href="javascript:;" lay-tips="内容管理" lay-direction="2">
                 <i class="layui-icon layui-icon-template"></i>
                 <cite>内容管理</cite>
               </a>
               <dl class="layui-nav-child">
+                @if(in_array('轮播图',$per))
                 <dd><a lay-href="content/rotation-chart">轮播图</a></dd>
+                @endif
+                @if(in_array('案例和资讯',$per))
                 <dd><a lay-href="content/case-info-list">案例和资讯</a></dd>
+                @endif
+                @if( in_array('案例标签',$per))
                 <dd><a lay-href="content/case-tag">案例标签</a></dd>
+                @endif
+                @if(in_array('合同列表',$per))
                 <dd><a lay-href="content/contract-list">合同列表</a></dd>
-
+                @endif
               </dl>
             </li>
-
+            @endif
+            @if(in_array('工程订单',$per) || in_array('客户订单',$per) || in_array('智能设计',$per))
             <li data-name="template" class="layui-nav-item">
               <a href="javascript:;" lay-tips="工程管理" lay-direction="2">
                 <i class="layui-icon layui-icon-template"></i>
                 <cite>工程管理</cite>
               </a>
               <dl class="layui-nav-child">
+                @if(in_array('工程订单',$per))
                 <dd><a lay-href="build/list">工程订单</a></dd>
+                @endif
+                @if(in_array('客户订单',$per))
                 <dd><a lay-href="build/owner-order-list">客户订单</a></dd>
+                @endif
+                @if(in_array('智能设计',$per))
                 <dd><a lay-href="build/design-list">智能设计</a></dd>
+                @endif
               </dl>
             </li>
-
+            @endif
+            @if(in_array('户型列表',$per) || in_array('类型列表',$per))
             <li data-name="template" class="layui-nav-item">
               <a href="javascript:;" lay-tips="表单管理" lay-direction="2">
                 <i class="layui-icon layui-icon-template"></i>
                 <cite>表单管理</cite>
               </a>
               <dl class="layui-nav-child">
+                @if(in_array('户型列表',$per))
                 <dd><a lay-href="form/house-type">户型列表</a></dd>
+                @endif
+                @if(in_array('类型列表',$per))
                 <dd><a lay-href="form/goods-type">类型列表</a></dd>
-
+                @endif
               </dl>
             </li>
-
+            @endif
         
 
 

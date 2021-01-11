@@ -73,9 +73,9 @@ class BuildOrderController extends Controller
                 return response()->json([ 'code' => 0 ,'msg'=>$messages]);
             }
             $qty= ContractPackage::where('contract_id',$data['agreement_id'])->where('goods_package_id',$data['goods_id'])->pluck('goods_package_qty')->first();
-
+           
             if($qty < 1){
-                return response()->json([ 'code' => 0 ,'msg'=>'剩余套数不够']);
+                return response()->json([ 'code' => 0 ,'msg'=>'剩余套数不够','qty'=>$data]);
             }
       
             unset($data['token']);
@@ -150,14 +150,15 @@ class BuildOrderController extends Controller
         try {
             if($request->agreement_id != ''){//根据合同ID获取商家剩余的套餐
                 $data= ContractPackage::where('contract_id',$request->agreement_id)->where('goods_package_qty','!=',0)->get();
-                
+               
                 $arr = array();
                 foreach ($data as $value) {
-                    $name = GoodsPackage::where('id',$value->goods_package_id)->pluck('title')->first();
+                    $goodsPackage = GoodsPackage::where('id',$value->goods_package_id)->first();
                     
-                    $value->goods_package_name = $name;
+                    $value->id= $goodsPackage->id;
+                    $value->goods_package_name = $goodsPackage->title;
                     $arr[] = $value;
-                }
+                } 
                 return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$arr]);
             }
 

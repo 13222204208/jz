@@ -25,24 +25,8 @@ class ProtController extends Controller
     {
 
         try {
-            if($request->has('type')){ 
-                $type = intval($request->type);
-                if($this->user->role_id != $request->type){
-                    if($type == 1){
-                        $roleName= '业主';
-                    }else if($type == 2){
-                        $roleName= '商家';
-                    }else if($type == 3){
-                        $roleName= '工程师';
-                    }else{
-                        $roleName= '其中的角色'; 
-                    }
-                    
-                    $msg = '你不是'.$roleName;
-                    return response()->json([ 'code' => 0 , 'msg' =>$msg]);
-                } 
-                return response()->json([ 'code' => 1 , 'msg' =>'成功']);
-            }
+                $user= Userinfo::find($this->user->id);
+                return response()->json([ 'code' => 1 , 'msg' =>'成功','data'=> $user]);
             return response()->json([ 'code' => 0 , 'msg' =>'参数错误']);
         } catch (\Throwable $th) {
             $err = $th->getMessage();

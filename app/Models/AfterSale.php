@@ -46,7 +46,7 @@ class AfterSale extends Model
         }else if($status == 2){
             return '处理中';
         }else if($status == 3){
-            return '完成';
+            return '处理完成';
         }
 
         return '未知';

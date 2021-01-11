@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Engineer;
 
 use App\Models\Good;
 use App\Models\News;
+use App\Models\Userinfo;
 use App\Models\AfterSale;
 use App\Models\BuildOrder;
 use Illuminate\Http\Request;
@@ -389,6 +390,17 @@ class EngineerController extends Controller
                     AfterSale::where('order_num',$order_num)->update([
                         'status' => 3
                     ]);
+                    
+/*                     $after = AfterSale::where('order_num',$order_num)->first();
+                    $user= Userinfo::find($after->user_id);
+                    News::create([
+                        'order_id'=> $after->id,
+                        'order_num' => $order_num,
+                        'userinfo_phone' =>$user->phone,
+                        'comments' => '订单已完成',
+                        'order_status' =>3,
+                    ]); */
+
                     return response()->json([ 'code' => 1 ,'msg'=>'成功']);
                 }
 

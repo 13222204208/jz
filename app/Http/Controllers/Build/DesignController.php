@@ -16,7 +16,7 @@ class DesignController extends Controller
     public function index(Request $request)
     {
         $limit = $request->get('limit');
-        $data = Design::paginate($limit);
+        $data = Design::orderBy('created_at','desc')->paginate($limit);
         return $data;
     }
 

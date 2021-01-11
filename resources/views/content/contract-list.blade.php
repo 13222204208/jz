@@ -212,7 +212,7 @@
                             {
                                 field: 'id',
                                 title: 'ID',
-                                width: 50,
+                                width: 60,
                                 sort: true
                             }, {
                                 field: 'title',
@@ -226,6 +226,16 @@
                                 field: 'quantity',
                                 title: '合同套数',
                                 width:90
+                          
+                            },{
+                                field: 'merchant_name',
+                                title: '商家昵称',
+                                width:90
+                          
+                            },{
+                                field: 'merchant_phone',
+                                title: '商家手机号',
+                                width:130
                           
                             },{
                                 field: 'contract_package',
@@ -342,7 +352,7 @@
                         {
                             field: 'id',
                             title: 'ID',
-                            width: 50,
+                            width: 60,
                             sort: true
                         }, {
                             field: 'title',
@@ -356,6 +366,16 @@
                             field: 'quantity',
                             title: '合同套数',
                             width:90
+                      
+                        },{
+                            field: 'merchant_name',
+                            title: '商家昵称',
+                            width:90
+                      
+                        },{
+                            field: 'merchant_phone',
+                            title: '商家手机号',
+                            width:130
                       
                         },{
                             field: 'contract_package',
@@ -535,8 +555,8 @@
                                     width: 80,
                                     sort: true
                                 }, {
-                                    field: 'truename',
-                                    title: '姓名',
+                                    field: 'nickname',
+                                    title: '昵称',
                                     width:150
                                 },{
                                     field: 'phone',

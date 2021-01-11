@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,8 +15,24 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('index');
-});
+    if (session('id')==1) {
+        $per = array('用户管理','后台帐号管理','产品管理','内容管理','工程管理','表单管理','用户列表','实名认证','报修售后列表','用户美图','后台帐号','角色管理','权限管理','产品库','套餐管理','轮播图','案例和资讯',
+        '案例标签','合同列表','工程订单','客户订单','智能设计','户型列表','类型列表');
+
+        return view('index',['per'=>$per]);
+    }else if (session('id')) {
+       $user= User::find(session('id'));
+       $permission= $user->getAllPermissions();
+       $data= json_decode($permission);
+       $per = array();
+   
+       foreach($data as $d){
+           $per[] = $d->{'name'};
+       }
+        //dd($per);exit;
+       return view('index',['per'=>$per]);
+   }
+})->middleware('adminLogin');
 
 Route::get('login', function () {//登陆
     return view('login.login');
@@ -39,7 +56,7 @@ Route::prefix('content')->group(function () {
     //轮播图
     Route::get('rotation-chart', function () {
         return view('content.rotation-chart');
-    });
+    })->name('lunbo')->middleware('adminRoute');
 
     Route::post('/upload/rotation/img','Content\RotationChartController@uploadRotationImg');//上传轮播图片
     Route::post('create/chart','Content\RotationChartController@createChart');//创建轮播图片
@@ -49,7 +66,7 @@ Route::prefix('content')->group(function () {
 
     Route::get('case-tag', function () {//案例的标签
         return view('content.case-tag');
-    });
+    })->name('casetag')->middleware('adminRoute');
     Route::resource('casetag', 'Content\CaseTagController');//案例标签
 
     Route::get('create-case-info', function () {//创建案例和资讯
@@ -61,13 +78,13 @@ Route::prefix('content')->group(function () {
 
     Route::get('case-info-list', function () {//案例和资讯列表
         return view('content.case-info-list');
-    });
+    })->name('caseinfo')->middleware('adminRoute');
 
     Route::resource('caseinfo', 'Content\CaseInfoController');//案例和资讯    
 
     Route::get('contract-list', function () {//合同列表
         return view('content.contract-list');
-    });
+    })->name('contract')->middleware('adminRoute');
     Route::get('create-contract', function () {//合同列表
         return view('content.create-contract');
     });
@@ -86,7 +103,7 @@ Route::prefix('admin')->group(function () {//经纪人管理
 
     Route::get('account', function () {
         return view('admin.account');//帐号管理
-    })->name('account');
+    })->name('adminaccount')->middleware('adminRoute');
 
     Route::post('add/account','Admin\AdminController@addAccount');//添加后台帐号
     Route::post('have/branch','Admin\AdminController@haveBranch');//选择部门
@@ -121,13 +138,13 @@ Route::prefix('admin')->group(function () {//经纪人管理
     
     Route::get('power', function () {
         return view('admin.power');//权限管理
-    })->name('power');
+    })->name('permission')->middleware('adminRoute');
 
 
 
     Route::get('role', function () {
         return view('admin.role');//角色管理
-    })->name('role');
+    })->name('role')->middleware('adminRoute');
 });
 
 
@@ -136,7 +153,7 @@ Route::prefix('goods')->group(function () {
 
     Route::get('list', function () {
         return view('goods.goods');//产品列表
-    });
+    })->name('glist')->middleware('adminRoute');
 
     Route::get('create', function () {
         return view('goods.create-goods');//产品
@@ -149,7 +166,7 @@ Route::prefix('goods')->group(function () {
 
     Route::get('grouplist', function () {
         return view('goods.goods-group');//套餐列表
-    });
+    })->name('goodspackage')->middleware('adminRoute');
 
     Route::get('addgroup', function () {
         return view('goods.addgroup');//添加套餐
@@ -162,13 +179,13 @@ Route::prefix('build')->group(function () {
 
     Route::get('list', function () {
         return view('build.order-list');//工程订单列表
-    });
+    })->name('order')->middleware('adminRoute');
   
     Route::resource('build', 'Build\BuildOrderController');//工程订单
 
     Route::get('owner-order-list', function () {
         return view('build.owner-order-list');//工程订单列表
-    });
+    })->name('ownerorder')->middleware('adminRoute');
   
     Route::resource('ownerOrder', 'Build\OwnerOrderController');//客户下的工程订单
 
@@ -176,7 +193,7 @@ Route::prefix('build')->group(function () {
 
     Route::get('design-list', function () {
         return view('build.design-list');//智能设计列表
-    });
+    })->name('design')->middleware('adminRoute');
     
     Route::resource('design', 'Build\DesignController');//智能设计
     
@@ -187,14 +204,14 @@ Route::prefix('user')->group(function () {
 
     Route::get('list', function () {
         return view('user.list');//用户列表
-    });
+    })->name('userlist')->middleware('adminRoute');
     
     Route::resource('userinfo', 'User\UserInfoController');
     Route::get('search','User\SearchUserController@search');
 
     Route::get('true-name', function () {
         return view('user.true-name');//实名认证
-    });
+    })->name('truename')->middleware('adminRoute');
     
     Route::resource('truename', 'User\TruenameController');
     
@@ -202,13 +219,13 @@ Route::prefix('user')->group(function () {
 
     Route::get('after-sale-list', function () {
         return view('user.after-sale-list');//报修售后列表
-    });
+    })->name('aftersale')->middleware('adminRoute');
     
     Route::resource('after', 'User\AfterSaleController');//报修和售后
 
     Route::get('dynamic-list', function () {
         return view('user.dynamic-list');//用户美图
-    });
+    })->name('userdynamic')->middleware('adminRoute');
     
     Route::resource('dynamic', 'User\DynamicController');//用户美图
     
@@ -219,13 +236,13 @@ Route::prefix('form')->group(function () {
 
     Route::get('house-type', function () {
         return view('form.house-type');//户型
-    });
+    })->name('housetype')->middleware('adminRoute');
     
     Route::resource('housetype', 'Form\HouseTypeController');//户型
 
     Route::get('goods-type', function () {
         return view('form.goods-type');//类型
-    });
+    })->name('goodstype')->middleware('adminRoute');
     
     Route::resource('goodstype', 'Form\GoodsTypeController');//表单类型
     

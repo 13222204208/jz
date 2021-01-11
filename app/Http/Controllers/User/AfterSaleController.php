@@ -17,7 +17,7 @@ class AfterSaleController extends Controller
     public function index(Request $request)
     {
         $limit = $request->get('limit');
-        $data = AfterSale::orderBy('created_at','desc')->paginate($limit);
+        $data = AfterSale::orderBy('created_at','desc')->where('status','!=',4)->paginate($limit);
         return $data;
     }
 
