@@ -62,7 +62,18 @@ class UserInfoController extends Controller
      */
     public function edit($id)
     {
-        //
+        $state= Userinfo::where('id',$id)->update([
+            'status' => request('status')
+        ]);
+
+        
+        if ($state) {
+            return response()->json([ 'status' => 200]);
+
+        } else {
+
+            return response()->json([ 'status' => 403]);
+        }   
     }
 
     /**

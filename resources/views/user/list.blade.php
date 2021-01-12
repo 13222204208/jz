@@ -139,6 +139,13 @@
                         },{
                             field: 'sex',
                             title: '姓别',
+                            templet:function(d){
+                                if(d.sex == 1){
+                                    return '男';
+                                }else{
+                                    return '女';
+                                }
+                            }
                         
                         },{
                             field: 'role_name',
@@ -154,15 +161,15 @@
                             //width:150,
                             templet: function(d) {
                                 if (d.status == 1) {
-                                  return '<input type="checkbox" class="switch_checked" lay-filter="switchGoodsID"'+ 'switch_goods_id="'+ d.id+
-                                     '" lay-skin="switch" lay-text="正常|已禁用">';
+                                     return '<input type="checkbox" class="switch_checked" lay-filter="switchGoodsID"'+ 'switch_goods_id="'+ d.id+
+                                     '" lay-skin="switch" checked '+ 'lay-text="正常|已禁用">';
                                   
                                 }else{
-                                return '<input type="checkbox" class="switch_checked" lay-filter="switchGoodsID"'+ 'switch_goods_id="'+ d.id+
-                                         '" lay-skin="switch" checked '+ 'lay-text="正常|已禁用">';
-                                   
-                                }
+                                    return '<input type="checkbox" class="switch_checked" lay-filter="switchGoodsID"'+ 'switch_goods_id="'+ d.id+
+                                    '" lay-skin="switch" lay-text="正常|已禁用">';
                               }
+                                                             
+                            }
                         },{
                             fixed: 'right',
                             title: "操作",
@@ -194,21 +201,21 @@
                 var checked = data.elem.checked;
 
                 if(checked === false){
-                    checked = 1;
-                }else{
                     checked = 2;
+                }else{
+                    checked = 1;
                 }
 
                 //获取所需属性值
                 var switch_goods_id = data.elem.attributes['switch_goods_id'].nodeValue;
-                console.log(checked);
-                console.log(switch_goods_id);
+                //console.log(checked);
+                //console.log(switch_goods_id);return false;
                 $.ajax({
                     headers: {
                       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    url: "design"+'/'+switch_goods_id ,
-                    type: 'patch',
+                    url: "userinfo/"+switch_goods_id +'/edit',
+                    type: 'get',
                     data: {
                         status:checked
                     },
@@ -272,6 +279,13 @@
                             },{
                                 field: 'sex',
                                 title: '姓别',
+                                templet:function(d){
+                                    if(d.sex == 1){
+                                        return '男';
+                                    }else{
+                                        return '女';
+                                    }
+                                }
                             
                             },{
                                 field: 'role_name',

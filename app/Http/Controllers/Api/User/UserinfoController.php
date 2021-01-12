@@ -93,6 +93,9 @@ class UserinfoController extends Controller
 
              return response()->json([ 'code' => 1 ,'msg'=>'成功','data' =>$userData]);
             }
+            if($state->status == 2){
+                return response()->json([ 'code' => 0 ,'msg'=>'你的帐号已禁用']);
+            }
             $token = JWTAuth::fromUser($state);
             $userinfo['token'] = $token;
             $userinfo['nickname'] = $state->nickname;

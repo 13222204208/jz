@@ -35,6 +35,7 @@ class Userinfo extends Migration
             $table->string('id_front')->default('')->comment('身份证正面');
             $table->string('id_the_back')->default('')->comment('身份反面');
             $table->string('id_in_hand')->default('')->comment('手持身份证');
+            $table->tinyInteger('status')->default(1)->comment('1正常，2禁用');
             $table->tinyInteger('engineer_status')->default(3)->comment('安装师傅状态，2为未审核，1为审核通过,3未提交实名认证信息');
             $table->string('long')->default('')->comment('经度');
             $table->string('lat')->default('')->comment('纬度');

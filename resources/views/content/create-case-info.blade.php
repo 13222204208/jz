@@ -107,6 +107,8 @@
             form.on('select(cate_demo)', function(data){
                 if(data.value == 'case'){
                     $('#tags').show();
+                }else{
+                  $('#tags').hide();
                 }
             });
                         //获取角色名称
