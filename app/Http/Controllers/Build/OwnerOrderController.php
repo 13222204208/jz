@@ -117,4 +117,16 @@ class OwnerOrderController extends Controller
             return response()->json([ 'status' => 403]);
         }  
     }
+
+    public function updateOrder(Request $request,$id)
+    {
+        $data = $request->all();
+        $data = array_filter($data);
+        $state=  BuildOrder::where('id',$id)->update($data);
+        if($state){
+            return response()->json([ 'status' => 200 ,'msg'=>'成功']);
+        } else {
+            return response()->json([ 'status' => 403]);
+        }  
+    }
 }

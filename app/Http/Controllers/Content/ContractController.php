@@ -110,6 +110,11 @@ class ContractController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $state = $this->contractRepository->delContract($id);
+        if($state){
+            return response()->json([ 'status' => 200 ,'msg'=>'成功']);
+        } else {
+            return response()->json([ 'status' => 403]);
+        }  
     }
 }

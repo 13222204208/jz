@@ -90,7 +90,11 @@
    
 
     </script>  
-
+    <script type="text/html" id="listbarDemo">
+        <div class="layui-btn-container">
+        
+        </div>
+      </script>
     <script src="/layuiadmin/layui/layui.js"></script>
     <script>
      
@@ -112,6 +116,7 @@
                 page: true //开启分页
                     ,
                 elem: '#LAY_table_user',
+                toolbar: '#listbarDemo',
                 cols: [
                     [
 

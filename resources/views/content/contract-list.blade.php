@@ -12,6 +12,46 @@
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
 </head>
 <body>
+    <div class="layui-row" id="popUpdateTask" style="display:none;">
+        <form class="layui-form layui-from-pane" required lay-verify="required" lay-filter="formUpdate"  style="margin:20px">
+    
+         <div class="layui-form-item">
+            <label class="layui-form-label">合同名称</label>
+            <div class="layui-input-block">
+              <input type="text" name="title" required lay-verify="required" autocomplete="off" placeholder="" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <input type="hidden" name="cover" lay-verify="required"  class="image" >
+              <div class="layui-upload" >
+              <button type="button" class="layui-btn" id="test-upload-normal">封面图片上传</button>
+                        <div class="layui-upload-list">
+                          <img class="layui-upload-img" src="" id="test-upload-normal-img" style="width:150px" alt="图片预览">
+                        </div>
+                </div>   
+           </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">合同标的</label>
+            <div class="layui-input-block">
+              <input type="number" name="cost" required lay-verify="required" autocomplete="off" placeholder="" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">合同备注</label>
+            <div class="layui-input-block">
+              <input type="text" name="comments" required lay-verify="required" autocomplete="off" placeholder="" class="layui-input">
+            </div>
+          </div>
+    
+          <div class="layui-form-item">
+            <div class="layui-input-block">
+              <button type="submit" class="layui-btn" lay-submit="" lay-filter="editOrder">立即提交</button>
+              <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+          </div>
+
+        </form>
+      </div>
 
     <div class="demoTable" style="margin:10px;">
         <button class="layui-btn" data-type="reload" value="0" id="admin-management">添加合同</button>
@@ -79,12 +119,18 @@
 
     <table class="layui-hide" id="LAY_table_user" lay-filter="user"></table>
     <script type="text/html" id="barDemo">
-        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="download">下载合同附件</a>
-        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="edit">关联商家</a>
-        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="allot">分配套餐</a>
+        <a class="layui-btn  layui-btn-xs" lay-event="update">编辑</a>
+        <a class="layui-btn  layui-btn-xs" lay-event="download">下载合同附件</a>
+        <a class="layui-btn  layui-btn-xs" lay-event="edit">关联商家</a>
+        <a class="layui-btn  layui-btn-xs" lay-event="allot">分配套餐</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 
     </script>
-
+    <script type="text/html" id="listbarDemo">
+        <div class="layui-btn-container">
+        
+        </div>
+      </script>
     <script src="/layuiadmin/layui/layui.js"></script>
     <script>
      
@@ -206,6 +252,7 @@
                         contract_name:data.contract_name,
                     },
                     elem: '#LAY_table_user',
+                    toolbar: '#listbarDemo',
                     cols: [
                         [
     
@@ -220,7 +267,7 @@
                                 width:100
                             },{
                                 field: 'cost',
-                                title: '合同费用',
+                                title: '合同标的',
                                 width:100
                             },{
                                 field: 'quantity',
@@ -279,7 +326,7 @@
                                 fixed: 'right',
                                 title: "操作",
                                 align: 'center',
-                                width:300,
+                                width:380,
                                 toolbar: '#barDemo'
                             }
                         ]
@@ -346,6 +393,7 @@
                 page: true //开启分页
                     ,
                 elem: '#LAY_table_user',
+                toolbar: '#listbarDemo',
                 cols: [
                     [
 
@@ -360,7 +408,7 @@
                             width:100
                         },{
                             field: 'cost',
-                            title: '合同费用',
+                            title: '合同标的',
                             width:100
                         },{
                             field: 'quantity',
@@ -419,7 +467,7 @@
                             fixed: 'right',
                             title: "操作",
                             align: 'center',
-                            width:300,
+                            width:380,
                             toolbar: '#barDemo'
                         }
                     ]
@@ -439,13 +487,71 @@
 
             });
 
-
+        
 
 
             table.on('tool(user)', function (obj) {
                 var data = obj.data;
                 id = data.id;
-                if(obj.event ==='allot'){
+                function setFormValue(obj, data) {
+        
+                    form.on('submit(editOrder)', function(data){
+                       message = data.field;
+                       //console.log(obj.data.id); return false;
+                       $.ajax({
+                           headers: {
+                               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                           },
+                           url: "updateContract/"+obj.data.id,
+                           method: 'post',
+                           data: message,
+                           success: function (msg) {
+                               console.log(msg);
+                               if (msg.status == 200) {
+                                   layer.closeAll('loading');
+                                   layer.load(2);
+                                   layer.msg("修改成功", {
+                                       icon: 6
+                                   });
+                                   setTimeout(function () {
+   
+                                     obj.update({
+                                           title:message.title,
+                                           cover:message.cover,
+                                           cost:message.cost,
+                                           comments:message.comments
+                                       });  
+   
+   
+                                       layer.closeAll(); //关闭所有的弹出层
+                                       //window.location.href = "/edit/horse-info";
+   
+                                   }, 1000);
+   
+                               } else {
+                                   layer.msg("修改失败", {
+                                       icon: 5
+                                   });
+                               }
+                           }
+                       });
+                       return false;
+                     });
+               }
+               if(obj.event === 'update'){
+                layer.open({
+                    //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                    type: 1,
+                    title: "编辑合同",
+                    area: ['620px', '450px'],
+                    content: $("#popUpdateTask") //引用的弹出层的页面层的方式加载修改界面表单
+                  });
+                  url = window.location.protocol+"//"+window.location.host+"/";
+                  str = data.photo;
+                  $('#test-upload-normal-img').attr('src', url+data.cover); 
+                  form.val("formUpdate", data);
+                  setFormValue(obj, data);
+            }else if(obj.event ==='allot'){
                     layer.open({
                         //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
                         type: 1,
@@ -636,6 +742,35 @@
                         });
                     }
 
+                }else if (obj.event === 'del') {
+
+                    layer.confirm('真的删除此合同么', function (index) {
+                        $.ajax({
+                            url: "contract/"+data.id,
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                                    'content')
+                            },
+                            type: "delete",
+                            success: function (msg) {
+                                console.log(msg); 
+                                if (msg.status == 200) {
+                                    //删除这一行
+                                    obj.del();
+                                    //关闭弹框
+                                    layer.close(index);
+                                    layer.msg("删除成功", {
+                                        icon: 6
+                                    });
+                                } else {
+                                    layer.msg("删除失败", {
+                                        icon: 5
+                                    });
+                                }
+                            }
+                        });
+                        return false;
+                    });
                 }
 
             });

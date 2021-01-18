@@ -29,7 +29,10 @@ class BuildOrder extends Model
             return null;
         }
         $title= Contract::find($value,['title']);
-        return $title->title;
+        if($title){
+            return $title->title;
+        }
+        return null;
     }
 
     public function getGoodsListNameAttribute()

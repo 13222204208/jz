@@ -56,7 +56,7 @@
           <div class="layui-form-item">
                
             <input type="number" name="cost" lay-verify="required"  autocomplete="off"
-                placeholder="合同价值" value="" class="layui-input">
+                placeholder="合同标的" value="" class="layui-input">
        
           </div>
 

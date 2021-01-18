@@ -95,7 +95,7 @@ Route::prefix('content')->group(function () {
     
     Route::get('search_contract','Content\SearchContractController@searchContract');
     Route::resource('contract', 'Content\ContractController');//合同
-    
+    Route::post('updateContract/{id}','Content\SearchContractController@updateContract');
 
 });
 
@@ -188,6 +188,7 @@ Route::prefix('build')->group(function () {
     })->name('ownerorder')->middleware('adminRoute');
   
     Route::resource('ownerOrder', 'Build\OwnerOrderController');//客户下的工程订单
+    Route::post('updateOrder/{id}', 'Build\OwnerOrderController@updateOrder');//修改客户下的工程订单
 
     Route::get('goods/{id}','Build\OrderGoodsController@goods');
 

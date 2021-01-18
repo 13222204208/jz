@@ -32,4 +32,9 @@ class ContractRepository
             $query->select(DB::raw("sum(goods_package_qty) as goods_package_sum"));
         }])->orderBy('created_at','desc')->paginate($limit);
     }
+
+    public function delContract($id)
+    {
+        return $this->contract::destroy($id);
+    }
 }

@@ -109,6 +109,12 @@ class BuildOrderController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $state = BuildOrder::destroy($id);
+
+        if($state){
+            return response()->json([ 'status' => 200 ,'msg'=>'成功']);
+        } else {
+            return response()->json([ 'status' => 403]);
+        }  
     }
 }
