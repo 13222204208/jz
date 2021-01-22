@@ -19,6 +19,7 @@ class Contracts extends Migration
             $table->string('title',200)->default('')->comment('合同的名称');
             $table->string('cover')->default('')->comment('合同封面图');
             $table->string('file_name')->default('')->comment('合同文件');
+            $table->string('partner')->default('')->comment('合作方名称');
             $table->string('first_name')->nullable()->comment('甲方抬头');
             $table->string('second_name')->nullable()->comment('乙方抬头');
             $table->string('contract_num')->nullable()->comment('合同编号');

@@ -31,9 +31,21 @@
         <form class="layui-form layui-from-pane" required lay-verify="required" lay-filter="formUpdate"  style="margin:20px">
     
          <div class="layui-form-item">
-            <label class="layui-form-label">项目名称</label>
+            <label class="layui-form-label">订单名称</label>
             <div class="layui-input-block">
               <input type="text" name="order_name" required lay-verify="required" autocomplete="off" placeholder="" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">订单金额</label>
+            <div class="layui-input-block">
+              <input type="number" name="total_money" required lay-verify="required" autocomplete="off" placeholder="" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">积分值</label>
+            <div class="layui-input-block">
+              <input type="number" name="integral" required lay-verify="required" autocomplete="off" placeholder="" class="layui-input">
             </div>
           </div>
           <div class="layui-form-item">
@@ -129,6 +141,21 @@
                             width: 80,
                             sort: true
                         }, {
+                            field: 'order_name',
+                            title: '订单名称',
+                            width:150
+                      
+                        },{
+                            field: 'total_money',
+                            title: '订单金额',
+                            width:100
+                      
+                        },{
+                            field: 'integral',
+                            title: '积分值',
+                            width:100
+                      
+                        },{
                             field: 'owner_name',
                             title: '业主名称',
                             width:120
@@ -165,11 +192,6 @@
                         },{
                             field: 'owner_demand',
                             title: '业主需求',
-                            width:150
-                      
-                        },{
-                            field: 'order_name',
-                            title: '订单名称',
                             width:150
                       
                         }, {
@@ -252,6 +274,8 @@
                                             functionary_phone: message.functionary_phone,
                                             owner_demand: message.owner_demand,
                                             order_name: message.order_name,
+                                            total_money: message.total_money,
+                                            integral: message.integral
                                         });  
     
     
@@ -286,7 +310,7 @@
                         //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
                         type: 1,
                         title: "施工进度",
-                        area: ['700px', '600px'],
+                        area: ['700px', '450px'],
                         content: $("#orderRate") //引用的弹出层的页面层的方式加载修改界面表单
                     });
 
@@ -439,7 +463,7 @@
                                 //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
                                 type: 1,
                                 title: "分配订单给安装人员",
-                                area: ['700px', '600px'],
+                                area: ['700px', '450px'],
                                 content: $("#popUpdateTest") //引用的弹出层的页面层的方式加载修改界面表单
                             });
                             layer.close(index);  
@@ -450,7 +474,7 @@
                             //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
                             type: 1,
                             title: "分配订单给安装人员",
-                            area: ['700px', '600px'],
+                            area: ['700px', '450px'],
                             content: $("#popUpdateTest") //引用的弹出层的页面层的方式加载修改界面表单
                         });
                     }
@@ -561,7 +585,7 @@
                         //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
                         type: 1,
                         title: "订单内产品",
-                        area: ['700px', '600px'],
+                        area: ['700px', '450px'],
                         content: $("#orderGoods") //引用的弹出层的页面层的方式加载修改界面表单
                     });
 

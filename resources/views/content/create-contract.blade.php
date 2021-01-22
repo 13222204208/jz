@@ -26,7 +26,12 @@
                         placeholder="合同名称" value="" class="layui-input">
                
             </div>
-
+            <div class="layui-form-item">
+               
+              <input type="text" name="partner" lay-verify="required"  autocomplete="off"
+                  placeholder="合作方全称" value="" class="layui-input">
+         
+           </div>
   
            
             <div class="layui-form-item">

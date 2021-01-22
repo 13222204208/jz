@@ -104,7 +104,7 @@ class EngineerController extends Controller
                     return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$arr]);
                 }
         
-                $data= BuildOrder::skip($page)->take($size)->where('engineer_id',$this->user->id)->orderByRaw(DB::raw('FIELD(status, 1) desc'))->get();
+                $data= BuildOrder::skip($page)->take($size)->where('engineer_id',$this->user->id)->orderByRaw(DB::raw('FIELD(status, 1,2) desc'))->get();
              
                 $arr = array();
                 foreach($data as $d){ 
@@ -173,7 +173,7 @@ class EngineerController extends Controller
                 return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$arr]);
             }
     
-            $data= BuildOrder::skip($page)->take($size)->where('engineer_id',$this->user->id)->orderByRaw(DB::raw('FIELD(status, 1) desc'))->get();
+            $data= BuildOrder::skip($page)->take($size)->where('engineer_id',$this->user->id)->orderByRaw(DB::raw('FIELD(status, 1,2) desc'))->get();
 
             $arr = array();
             foreach($data as $d){ 

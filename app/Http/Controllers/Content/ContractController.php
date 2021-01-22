@@ -6,6 +6,7 @@ use App\Models\Contract;
 use App\Models\Userinfo;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\BuildOrder;
 use App\Repositories\ContractRepository;
 
 class ContractController extends Controller
@@ -110,6 +111,11 @@ class ContractController extends Controller
      */
     public function destroy($id)
     {
+        $status = BuildOrder::where('agreement_id',$id)->first();
+        if($status){
+            return response()->json([ 'status' => 403]);
+        }
+        
         $state = $this->contractRepository->delContract($id);
         if($state){
             return response()->json([ 'status' => 200 ,'msg'=>'成功']);

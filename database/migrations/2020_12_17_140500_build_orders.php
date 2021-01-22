@@ -30,7 +30,8 @@ class BuildOrders extends Migration
             $table->unsignedInteger('merchant_id')->default(0)->comment('商家的id');
             $table->unsignedInteger('engineer_id')->default(0)->comment('工程师的id');
             $table->string('owner_demand')->default('')->comment('业主要求');
-            $table->decimal('total_money',2)->default(0)->comment('订单金额');
+            $table->decimal('total_money',11,2)->default(0)->comment('订单金额');
+            $table->integer('integral')->default(0)->comment('积分值');
             $table->string('order_num')->unqiue()->comment('订单号');
             $table->string('order_name')->default('')->comment('订单名称');
             $table->string('start_work_time')->default('')->comment('开工的时间');

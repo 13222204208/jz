@@ -22,6 +22,12 @@
             </div>
           </div>
           <div class="layui-form-item">
+            <label class="layui-form-label">合作方全称</label>
+            <div class="layui-input-block">
+              <input type="text" name="partner" required lay-verify="required" autocomplete="off" placeholder="" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-form-item">
             <input type="hidden" name="cover" lay-verify="required"  class="image" >
               <div class="layui-upload" >
               <button type="button" class="layui-btn" id="test-upload-normal">封面图片上传</button>
@@ -53,33 +59,28 @@
         </form>
       </div>
 
-    <div class="demoTable" style="margin:10px;">
+    <div class="demoTable" style="margin:5px;">
         <button class="layui-btn" data-type="reload" value="0" id="admin-management">添加合同</button>
         <div class="layui-inline" style="color:gray" id="lp_address">
         </div>
     </div>
 
-
     <form class="layui-form" action="">
-        <br>
         <div class="layui-form-item">
-           <label class="layui-form-label">  合同名称:</label>
-    
-        <div class="layui-inline">
-          <input class="layui-input" name="contract_name"  autocomplete="off">
+
+            <div class="layui-inline"></div>
+                <label class="layui-form-label"> 合同名称：</label>
+                <div class="layui-input-inline">
+                    <input class="layui-input" name="contract_name"  autocomplete="off">
+                </div>
+                <div class="layui-input-inline">
+                    <button class="layui-btn" lay-submit="" lay-filter="searchContract">查询</button>
+                </div>
+            </div>
         </div>
-        
-      </div>
-    
-    
-        <div class="layui-form-item ">
-          <div class="layui-input-block">
-              <div class="layui-footer" style="left: 0;">
-                  <button class="layui-btn" lay-submit="" lay-filter="searchContract">查询</button>
-              </div>
-          </div>
-      </div>
+
     </form>
+
 
     <div class="layui-row" id="allotPackage" style="display:none;">
         <form class="layui-form layui-from-pane" required lay-verify="required" style="margin:20px">
@@ -265,6 +266,10 @@
                                 field: 'title',
                                 title: '合同名称',
                                 width:100
+                            }, {
+                                field: 'partner',
+                                title: '合作方全称',
+                                width:150
                             },{
                                 field: 'cost',
                                 title: '合同标的',
@@ -407,6 +412,10 @@
                             title: '合同名称',
                             width:100
                         },{
+                            field: 'partner',
+                            title: '合作方全称',
+                            width:150
+                        },{
                             field: 'cost',
                             title: '合同标的',
                             width:100
@@ -517,6 +526,7 @@
    
                                      obj.update({
                                            title:message.title,
+                                           partner:message.partner,
                                            cover:message.cover,
                                            cost:message.cost,
                                            comments:message.comments
@@ -556,7 +566,7 @@
                         //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
                         type: 1,
                         title: "分配套餐",
-                        area: ['500px', '400px'],
+                        area: ['500px', '300px'],
                         content: $("#allotPackage") //引用的弹出层的页面层的方式加载修改界面表单
                     });
                     
@@ -641,7 +651,7 @@
                         //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
                         type: 1,
                         title: "关联商家",
-                        area: ['700px', '600px'],
+                        area: ['700px', '450px'],
                         content: $("#popUpdateTest") //引用的弹出层的页面层的方式加载修改界面表单
                     });
 
@@ -763,7 +773,7 @@
                                         icon: 6
                                     });
                                 } else {
-                                    layer.msg("删除失败", {
+                                    layer.msg("删除失败,此合同已存在工程", {
                                         icon: 5
                                     });
                                 }

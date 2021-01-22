@@ -17,7 +17,7 @@ class GoodsController extends Controller
     public function index(Request $request)
     {
         $limit= $request->get('limit');
-        $data= Good::paginate($limit);
+        $data= Good::orderBy('created_at','desc')->paginate($limit);
         return $data;
     }
 
@@ -46,9 +46,15 @@ class GoodsController extends Controller
             $good ->title =$request->title;
             $good->description = $request->description;
             $good->photo = $request->photo;
-            $good->number = $request->number;
+         
+            if($request->number != ''){
+                $good->number = $request->number;
+            }
             $good->price = $request->price;
-            $good->package_price = $request->package_price;//套餐单价
+            if($request->package_price != ''){
+                $good->package_price = $request->package_price;//套餐单价
+            }
+           
             $good->content = $request->content;
             $good->cover = $request->cover;
             $state= $good->save(); 

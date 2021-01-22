@@ -9,6 +9,7 @@ use App\Models\DoneConstruction;
 use App\Models\BuildBetweenGoods;
 use App\Models\UnderConstruction;
 use App\Models\BeforeConstruction;
+use App\Models\FinishConstruction;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
 
@@ -41,7 +42,7 @@ class ConstructController extends Controller
         
                 $before = BeforeConstruction::where('order_num',$data['order_num'])->get(['photo','comments','created_at'])->first();
                 $under = UnderConstruction::where('order_num',$data['order_num'])->get(['photo','comments','created_at']);
-                $finish = BeforeConstruction::where('order_num',$data['order_num'])->get(['photo','comments','created_at'])->first();
+                $finish = FinishConstruction::where('order_num',$data['order_num'])->get(['photo','comments','created_at'])->first();
         
                 $data['before'] = $before;
                 $data['under'] = $under;

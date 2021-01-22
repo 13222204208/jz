@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\User;
 
 use App\Models\Userinfo;
+use App\Models\AfterSale;
+use App\Models\BuildOrder;
+use App\Models\UserDynamic;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -17,7 +20,7 @@ class UserInfoController extends Controller
     {
         if($request->ajax()){
             $limit = $request->get('limit');
-            $data= Userinfo::paginate($limit);
+            $data= Userinfo::orderBy('created_at','desc')->paginate($limit);
             return $data;
          }
     }
@@ -52,6 +55,20 @@ class UserInfoController extends Controller
     public function show($id)
     {
         //
+    }
+
+    public function updateInfo(Request $request,$id)
+    {
+        $data = $request->all();
+        $state= Userinfo::where('id',$id)->update($data);
+        
+        if ($state) {
+            return response()->json([ 'status' => 200]);
+
+        } else {
+
+            return response()->json([ 'status' => 403]);
+        }
     }
 
     /**
@@ -125,6 +142,21 @@ class UserInfoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $status = BuildOrder::where('engineer_id',$id)->first();
+        if($status){
+            return response()->json([ 'status' => 403]);
+        }
+        
+        $state= Userinfo::destroy($id);
+        
+        if ($state) {
+            UserDynamic::where('user_id',$id)->delete();
+            AfterSale::where('user_id',$id)->delete();
+            return response()->json([ 'status' => 200]);
+
+        } else {
+
+            return response()->json([ 'status' => 403]);
+        }  
     }
 }

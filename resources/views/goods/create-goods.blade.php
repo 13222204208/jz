@@ -16,7 +16,7 @@
 
 
     <div class="layui-row" id="layuiadmin-form-admin" >
-        <form class="layui-form layui-from-pane" required lay-verify="required" style="margin:20px">
+        <form class="layui-form layui-from-pane" required lay-verify="required" style="margin:25px">
 
             <div class="layui-form-item">
                
@@ -61,7 +61,7 @@
             </div>
             
             <div class="layui-form-item">
-                <input type="number" name="number" lay-verify="required"  autocomplete="off"
+                <input type="number" name="number"   autocomplete="off"
                     placeholder="库存" value="" class="layui-input">
             </div>
 
@@ -72,7 +72,7 @@
             </div>
 
             <div class="layui-form-item">
-                <input type="number" name="package_price" lay-verify="required"  autocomplete="off"
+                <input type="number" name="package_price"  autocomplete="off"
                     placeholder="套餐单价" value="" class="layui-input">
             </div>
 

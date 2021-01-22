@@ -13,7 +13,7 @@
 </head>
 <body>
 
-    <div class="demoTable" style="margin:30px;">
+    <div class="demoTable" style="margin:5px;">
         <button class="layui-btn" data-type="reload" value="0" id="admin-management">添加案例或资讯</button>
         <div class="layui-inline" style="color:gray" id="lp_address">
         </div>
@@ -344,7 +344,7 @@
                         //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
                         type: 1,
                         title: "编辑产品",
-                        area: ['700px', '600px'],
+                        area: ['700px', '450px'],
                         content: $("#popUpdateTest") //引用的弹出层的页面层的方式加载修改界面表单
                     });
                    

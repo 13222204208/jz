@@ -13,7 +13,7 @@
 </head>
 <body>
 
-    <div class="demoTable" style="margin:30px;">
+    <div class="demoTable" style="margin:5px;">
         <button class="layui-btn" data-type="reload" value="0" id="admin-management">添加产品</button>
         <div class="layui-inline" style="color:gray" id="lp_address">
         </div>
@@ -62,7 +62,7 @@
         </div>
         
         <div class="layui-form-item">
-            <input type="number" name="number" lay-verify="required"  autocomplete="off"
+            <input type="number" name="number"  autocomplete="off"
                 placeholder="库存" value="" class="layui-input">
         </div>
 
@@ -73,7 +73,7 @@
         </div>
 
         <div class="layui-form-item">
-            <input type="number" name="package_price" lay-verify="required"  autocomplete="off"
+            <input type="number" name="package_price"  autocomplete="off"
                 placeholder="套餐单价" value="" class="layui-input">
         </div>
 
@@ -99,7 +99,7 @@
 
     <table class="layui-hide" id="LAY_table_user" lay-filter="user"></table>
     <script type="text/html" id="barDemo">
-        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 
     </script>
@@ -361,7 +361,7 @@
                         //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
                         type: 1,
                         title: "编辑产品",
-                        area: ['700px', '600px'],
+                        area: ['700px', '450px'],
                         content: $("#popUpdateTest") //引用的弹出层的页面层的方式加载修改界面表单
                     });
                    

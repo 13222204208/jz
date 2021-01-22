@@ -11,42 +11,78 @@
         content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
 </head>
-<body>
-
+<style>
+.mainTop .layui-form-label { width: auto; padding-right: 5px; }
+.dateIcon { display: inline-block; background: url(images/dateIcon.png) no-repeat 210px center; }
+</style>
+<body><br>
     <form class="layui-form" action="">
-        <br>
         <div class="layui-form-item">
-           <label class="layui-form-label">  用户:</label>
-    
-        <div class="layui-inline">
-          <input class="layui-input" name="name" id="demoReload" autocomplete="off">
+            <div class="layui-inline">
+                <label class="layui-form-label">角色名称：</label>
+                <div class="layui-input-inline">
+                    <select name="role_id" id="isNo" lay-filter="stateIsNo">
+                        <option value=""></option>
+                        <option value="1">业主</option>
+                        <option value="2">商家</option>
+                        <option value="3">工程师</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-inline">
+                <label class="layui-form-label">昵称：</label>
+                <div class="layui-input-inline">
+                    <input class="layui-input" name="name" id="demoReload" autocomplete="off">
+                </div>
+                <div class="layui-input-inline">
+                    <button class="layui-btn" lay-submit="" lay-filter="create">查询</button>
+                </div>
+            </div>
         </div>
-        
-      </div>
-     
-    
-        <div class="layui-form-item">
-          <label class="layui-form-label">角色名称:</label>
-          <div class="layui-input-block">
-              <select name="role_id" id="isNo" lay-filter="stateIsNo">
-                  <option value=""></option>
-                  <option value="1">业主</option>
-                  <option value="2">商家</option>
-                  <option value="3">工程师</option>
-              </select>
-          </div>
-      </div>
-    
-    
-        <div class="layui-form-item ">
-          <div class="layui-input-block">
-              <div class="layui-footer" style="left: 0;">
-                  <button class="layui-btn" lay-submit="" lay-filter="create">查询</button>
-              </div>
-          </div>
-      </div>
+
     </form>
 
+
+
+    <div class="layui-row" id="popUpdateTask" style="display:none;">
+        <form class="layui-form layui-from-pane" required lay-verify="required" lay-filter="formUpdate"  style="margin:20px">
+    
+         <div class="layui-form-item">
+            <label class="layui-form-label">昵称</label>
+            <div class="layui-input-block">
+              <input type="text" name="nickname" required lay-verify="required" autocomplete="off" placeholder="" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">真实姓名</label>
+            <div class="layui-input-block">
+              <input type="text" name="truename" required lay-verify="required" autocomplete="off" placeholder="" class="layui-input">
+            </div>
+          </div>
+
+          <div class="layui-form-item">
+            <label class="layui-form-label">地址</label>
+            <div class="layui-input-block">
+              <input type="text" name="address" required lay-verify="required" autocomplete="off" placeholder="" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">公司名称</label>
+            <div class="layui-input-block">
+              <input type="text" name="company" required lay-verify="required" autocomplete="off" placeholder="" class="layui-input">
+            </div>
+          </div>
+    
+          <div class="layui-form-item">
+            <div class="layui-input-block">
+              <button type="submit" class="layui-btn" lay-submit="" lay-filter="editOrder">立即提交</button>
+              <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+          </div>
+
+        </form>
+      </div>
 
     <div class="layui-row" id="popUpdateTest" style="display:none;">
         <form class="layui-form" action="">
@@ -86,9 +122,9 @@
 
     <table class="layui-hide" id="LAY_table_user" lay-filter="user"></table>
      <script type="text/html" id="barDemo">
-        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="edit">分配角色</a>
-   
-
+        <a class="layui-btn layui-btn-xs" lay-event="edit">分配角色</a>
+        <a class="layui-btn layui-btn-xs" lay-event="update">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
     </script>  
     <script type="text/html" id="listbarDemo">
         <div class="layui-btn-container">
@@ -346,42 +382,13 @@
             table.on('tool(user)', function (obj) {
                  data = obj.data;
              
-                if (obj.event === 'del') {
-
-                    layer.confirm('真的删除此分类么', function (index) {
-                        $.ajax({
-                            url: "goods/"+data.id,
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                                    'content')
-                            },
-                            type: "delete",
-                            success: function (msg) {
-                                console.log(msg); 
-                                if (msg.status == 200) {
-                                    //删除这一行
-                                    obj.del();
-                                    //关闭弹框
-                                    layer.close(index);
-                                    layer.msg("删除成功", {
-                                        icon: 6
-                                    });
-                                } else {
-                                    layer.msg("删除失败", {
-                                        icon: 5
-                                    });
-                                }
-                            }
-                        });
-                        return false;
-                    });
-                } else if (obj.event === 'edit') {
+              if (obj.event === 'edit') {
                     //location.href="details/"+data.id;
                     layer.open({
                         //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
                         type: 1,
                         title: "更换角色",
-                        area: ['400px', '300px'],
+                        area: ['400px', '250px'],
                         content: $("#popUpdateTest") //引用的弹出层的页面层的方式加载修改界面表单
                     });
                     console.log(data);
@@ -449,9 +456,94 @@
                     }
 
                   
+                }else if(obj.event === 'update'){
+                    layer.open({
+                        //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                        type: 1,
+                        title: "编辑用户",
+                        area: ['620px', '370px'],
+                        content: $("#popUpdateTask") //引用的弹出层的页面层的方式加载修改界面表单
+                      });
+                    
+                      form.val("formUpdate", data);
+                      setFormValue(obj, data);
+                }else if (obj.event === 'del') {
+
+                    layer.confirm('真的删除此用户么', function (index) {
+                        $.ajax({
+                            url: "userinfo/"+data.id,
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                                    'content')
+                            },
+                            type: "delete",
+                            success: function (msg) {
+                                console.log(msg); 
+                                if (msg.status == 200) {
+                                    //删除这一行
+                                    obj.del();
+                                    //关闭弹框
+                                    layer.close(index);
+                                    layer.msg("删除成功", {
+                                        icon: 6
+                                    });
+                                } else {
+                                    layer.msg("删除失败,此工程师名下有订单", {
+                                        icon: 5
+                                    });
+                                }
+                            }
+                        });
+                        return false;
+                    });
                 }
 
             });
+
+            function setFormValue(obj, data) {
+        
+                form.on('submit(editOrder)', function(data){
+                   message = data.field;
+                   //console.log(obj.data.id); return false;
+                   $.ajax({
+                       headers: {
+                           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                       },
+                       url: "updateInfo/"+obj.data.id,
+                       method: 'post',
+                       data: message,
+                       success: function (msg) {
+                           console.log(msg);
+                           if (msg.status == 200) {
+                               layer.closeAll('loading');
+                               layer.load(2);
+                               layer.msg("修改成功", {
+                                   icon: 6
+                               });
+                               setTimeout(function () {
+
+                                 obj.update({
+                                       nickname:message.nickname,
+                                       truename:message.truename,
+                                       address:message.address,
+                                       company:message.company
+                                   });  
+
+                                   layer.closeAll(); //关闭所有的弹出层
+                                   //window.location.href = "/edit/horse-info";
+
+                               }, 1000);
+
+                           } else {
+                               layer.msg("修改失败", {
+                                   icon: 5
+                               });
+                           }
+                       }
+                   });
+                   return false;
+                 });
+           }
 
         })
 

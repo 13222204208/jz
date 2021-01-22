@@ -208,6 +208,7 @@ Route::prefix('user')->group(function () {
     })->name('userlist')->middleware('adminRoute');
     
     Route::resource('userinfo', 'User\UserInfoController');
+    Route::post('updateInfo/{id}','User\UserInfoController@updateInfo');//更新用户信息
     Route::get('search','User\SearchUserController@search');
 
     Route::get('true-name', function () {

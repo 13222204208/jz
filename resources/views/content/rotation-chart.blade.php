@@ -9,29 +9,12 @@
 </head>
 
 <body>
-  <div class="layui-fluid">
-    <div class="layui-row layui-col-space15">
-      <div class="layui-col-md12">
-        <div class="layui-card">
-
-          <div class="layui-card-body" pad15>
-
-            <div class="layui-form" lay-filter="">
-              <div class="layui-card-body">
-                <div class="layui-upload">
-                  <button type="button" class="layui-btn" id="task-management">新建轮播图</button>
-
-                </div>
-
-              </div>
-
-            </div>
-
-          </div>
-        </div>
-      </div>
+  <div class="demoTable" style="margin:5px;">
+    <button class="layui-btn" data-type="reload" value="0" id="task-management">新建轮播图</button>
+    <div class="layui-inline" style="color:gray" id="lp_address">
     </div>
-  </div>
+</div>
+
   <table id="LAY_table_user" lay-filter="test"></table>
   <script type="text/html" id="barDemo">
 

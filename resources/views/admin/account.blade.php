@@ -25,7 +25,7 @@
       <form class="layui-form" action="">
         <div class="layui-form-item">
 
-          <div class="layui-inline" style="margin:20px">
+          <div class="layui-inline" style="margin:5px">
             <div class="layui-input-inline">
               <button type="button" class="layui-btn layui-btn-blue" id="admin-management">新建帐号</button>
             </div>
@@ -164,7 +164,7 @@
           //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
           type: 1,
           title: "新建帐号",
-          area: ['620px', '400px'],
+          area: ['620px', '350px'],
           content: $("#layuiadmin-form-admin") //引用的弹出层的页面层的方式加载修改界面表单
         });
       });
