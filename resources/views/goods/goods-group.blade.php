@@ -19,13 +19,59 @@
      
     </div>
 
+    <div class="layui-row" id="popUpdateTest" style="display:none;">
+        <form class="layui-form layui-from-pane" required lay-verify="required" lay-filter="formUpdate"
+            style="margin:20px">
 
+            <div class="layui-form-item">
+               
+                <input type="text" name="title" lay-verify="required"  autocomplete="off"
+                    placeholder="产品名称" value="" class="layui-input">
+           
+        </div>
+ 
+        <div class="layui-form-item">
+        <input type="hidden" name="cover" lay-verify="required"  class="image" >
+          <div class="layui-upload" >
+          <button type="button" class="layui-btn" id="test-upload-normal">产品封面图片上传</button>
+                    <div class="layui-upload-list">
+                      <img class="layui-upload-img" src="" id="test-upload-normal-img" style="width:150px" alt="图片预览">
+                    </div>
+            </div>   
+       </div>
+
+       
+        <div class="layui-form-item">
+            <input type="number" name="package_price"  autocomplete="off"
+                placeholder="套餐单价" value="" class="layui-input">
+        </div>
+
+        <div class="layui-form-item">   
+          <textarea class="layui-textarea" name="content"    id="LAY_demo1" style="display: none">  
+            产品详情介绍
+          </textarea>
+        </div>  
+
+
+
+
+<br>
+            <div class="layui-form-item ">
+                <div class="layui-input-block">
+                    <div class="layui-footer" style="left: 0;">
+                        <button class="layui-btn" lay-submit="" lay-filter="editAccount">保存</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
 
 
 
     <table class="layui-hide" id="LAY_table_user" lay-filter="myuser"></table>
     <script type="text/html" id="barDemo">
-        <a class="layui-btn layui-btn-xs" lay-event="show">查看详情</a>
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-xs" lay-event="show">查看套内详情</a>
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 
     </script>
@@ -38,7 +84,7 @@
     <script src="/layuiadmin/layui/layui.js"></script>
     <script>
        
-        layui.use(['table', 'layer','laydate', 'upload','jquery', 'form'], function () {
+        layui.use(['table', 'layer','laydate','layedit', 'upload','jquery', 'form'], function () {
           
 
          
@@ -46,13 +92,55 @@
              laydate = layui.laydate;
              $ = layui.jquery;
              form = layui.form;
-        
-
+             layedit = layui.layedit;
+             upload = layui.upload;
 
             $(document).on('click', '#admin-management', function () {
                 location.href='addgroup';
             });
 
+            var uploadInst = upload.render({
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                elem: '#test-upload-normal',
+                accept:'images',
+                size:3000,
+                url: 'upload/imgs',
+                before: function(obj) {      
+                  //预读本地文件示例，不支持ie8
+                  obj.preview(function(index, file, result) {
+                    $('#test-upload-normal-img').attr('src', result); //图片链接（base64）
+                  });
+                },
+                done: function(res) {
+                  if (res.code == 0) { 
+                    var img_url=res.data.src;
+                    $(" input[ name='cover' ] ").val(img_url);
+                    return layer.msg('图片上传成功',{
+                        offset: '15px',
+                        icon: 1,
+                        time: 2000
+                      });            
+                  }
+                  //如果上传失败
+                  if (res.code == 403) {
+                    return layer.msg('上传失败',{
+                        offset: '15px',
+                        icon: 2,
+                        time: 2000
+                      });
+                  }
+                  //上传成功
+                },
+                error: function(error) {
+                  console.log(error);
+                  //演示失败状态，并实现重传
+                  var demoText = $('#test-upload-demoText');
+                  demoText.html('<span style="color: #FF5722;">图片上传失败</span> <a class="layui-btn layui-btn-mini demo-reload">重试</a>');
+                  demoText.find('.demo-reload').on('click', function() {
+                    uploadInst.upload();
+                  });
+                }
+              });
 
             table.render({
                 url: "group" //数据接口
@@ -269,9 +357,87 @@
                         });
                         return false;
                     });
+                }else if (obj.event === 'edit') {
+                    //location.href="details/"+data.id;
+                    layer.open({
+                        //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                        type: 1,
+                        title: "编辑套餐",
+                        area: ['700px', '450px'],
+                        content: $("#popUpdateTest") //引用的弹出层的页面层的方式加载修改界面表单
+                    });
+                   
+                    url = window.location.protocol+"//"+window.location.host+"/";
+                    str = data.photo;
+                    $('#test-upload-normal-img').attr('src', url+data.cover); 
+           
+
+                    index= layedit.build('LAY_demo1');
+                    layedit.setContent(index, data.content);
+                   
+              
+                  
+                    form.val("formUpdate", data);
+                    setFormValue(obj, data);
                 }
 
             });
+
+            layedit.set({
+                uploadImage: {
+                 
+                 url: 'content/img' //接口url
+                  ,type: 'post' //默认post
+                }
+              });
+
+            function setFormValue(obj, data) {
+                form.on('submit(editAccount)', function (massage) {
+                    
+                    massage = massage.field;
+                    layedit.sync(index);
+                    content= $('#LAY_demo1').val();
+                    massage['content'] = content;
+
+
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        url: "updateGroup/"+data.id,
+                        type: 'patch',
+                        data: massage,
+                        success: function (msg) {
+                            console.log(msg);
+                            if (msg.status == 200) {
+                                layer.closeAll('loading');
+                                layer.load(2);
+                                layer.msg("修改成功", {
+                                    icon: 6
+                                });
+                                setTimeout(function () {
+
+                                    obj.update({
+                                        title: massage.title,
+                                        package_price: massage.package_price
+                                    }); //修改成功修改表格数据不进行跳转 
+
+
+                                    layer.closeAll(); //关闭所有的弹出层
+                                    //window.location.href = "/edit/horse-info";
+
+                                }, 1000);
+
+                            } else {
+                                layer.msg("修改失败", {
+                                    icon: 5
+                                });
+                            }
+                        }
+                    })
+                    return false;
+                })
+            }
 
         })
 

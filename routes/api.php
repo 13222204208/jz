@@ -91,6 +91,7 @@ Route::prefix('order')->group(function (){//商家端工程订单
         Route::get('list','Api\Order\BuildOrderController@list');//商家端工程订单列表 
         Route::get('contract','Api\Order\BuildOrderController@contract');//商家合同列表 
         Route::get('done_contract','Api\Order\BuildOrderController@doneContract');//商家合同完成统计
+        Route::get('done_engineer','Api\Order\BuildOrderController@doneEngineer');//商家工程统计
     });
 
 });

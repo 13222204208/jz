@@ -208,4 +208,26 @@ class BuildOrderController extends Controller
         }
     }
 
+    public function doneEngineer(Request $request)
+    {
+        try {
+
+            $size = 10;
+            if($request->size){
+                $size = $request->size;
+            }
+    
+            $page = 0;
+            if($request->page){
+                $page = ($request->page -1)*$size;
+            }
+
+            $data= BuildOrder::where('merchant_id',$this->user->id)->where('status',4)->skip($page)->take($size)->get();
+            return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$data]);
+        } catch (\Throwable $th) {
+            $err = $th->getMessage();
+            return response()->json([ 'code' => 0 ,'msg'=>$err]);
+        }
+    }
+
 }

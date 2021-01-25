@@ -55,25 +55,6 @@ class CollectController extends Controller
             return response()->json([ 'code' => 0 ,'msg'=>$err]);
         }  
 
-/*           try {
-            if(!$request->has('id')){
-                return response()->json([ 'code' => 0 ,'msg'=>'缺少商品id']);
-            }
-            $id = $request->id;//商品id
-            $state= Collect::where('id',$this->user->id)->where('goods_id',$id)->where('status',1)->first();
-            if($state == null){
-                Collect::create([
-                    'goods_id' => $id,
-                    'userinfo_id' => $this->user->id
-                ]);
-                return response()->json([ 'code' => 1 ,'msg'=>'收藏成功']);
-            }
-            return response()->json([ 'code' => 0 ,'msg'=>'你已收藏过这个产品']);
-
-        } catch (\Throwable $th) {
-            $err = $th->getMessage();
-            return response()->json([ 'code' => 0 ,'msg'=>$err]);
-        }   */
     }
 
     public function collectList(Request $request)//产品收藏列表
@@ -160,7 +141,7 @@ class CollectController extends Controller
                     $data['owner_name'] = $this->user->nickname;
                     $order_id= BuildOrder::create($data)->id;
                     $goods= CartItem::where('cart_id',$cart->id)->whereIn('product_id',$goods_id)->get();
-                 
+
                     foreach ($goods as $good) {
                         BuildBetweenGoods::create([
                             'goods_id' => $good->product_id,
@@ -168,7 +149,7 @@ class CollectController extends Controller
                             'quantity' => $good->quantity
                         ]);
                     }
-
+                    CartItem::where('cart_id',$cart->id)->whereIn('product_id',$goods_id)->delete();//删除已保存的商品
                     return response()->json([ 'code' => 1 ,'msg'=>'成功']);
                 }
 

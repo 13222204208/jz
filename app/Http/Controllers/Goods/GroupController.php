@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\PackageBetweenGoods;
 use App\Http\Controllers\Controller;
 use Facade\Ignition\Support\Packagist\Package;
+use PHPUnit\TextUI\XmlConfiguration\Group;
 
 class GroupController extends Controller
 {
@@ -47,7 +48,7 @@ class GroupController extends Controller
             $goodsPackage->title = $request->title;
             $goodsPackage->cover = $request->cover;
             $goodsPackage->package_price = $request->package_price;
-
+            $goodsPackage->content = $request->content;
             if($goodsPackage->save()){ 
                 $goodsId= array_filter(explode(',',$request->goods_id));
                 
@@ -132,6 +133,21 @@ class GroupController extends Controller
     public function destroy($id)
     {
         $state= GoodsPackage::destroy($id);
+
+        if ($state) {
+            return response()->json([ 'status' => 200]);
+
+        } else {
+
+            return response()->json([ 'status' => 403]);
+        }   
+    }
+
+    public function updateGroup(Request $request,$id)
+    {
+        $data = json_decode(json_encode($request->except('file')), true);
+      
+        $state= GoodsPackage::where('id',$id)->update($data);
 
         if ($state) {
             return response()->json([ 'status' => 200]);

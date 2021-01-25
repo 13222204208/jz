@@ -173,6 +173,7 @@ Route::prefix('goods')->group(function () {
     });
 
     Route::resource('group', 'Goods\GroupController');//套餐
+    Route::patch('updateGroup/{id}', 'Goods\GroupController@updateGroup');//套餐
 });
 
 Route::prefix('build')->group(function () {
@@ -189,6 +190,8 @@ Route::prefix('build')->group(function () {
   
     Route::resource('ownerOrder', 'Build\OwnerOrderController');//客户下的工程订单
     Route::post('updateOrder/{id}', 'Build\OwnerOrderController@updateOrder');//修改客户下的工程订单
+    Route::get('merchant', 'Build\OwnerOrderController@merchant');//获取商家列表
+    Route::patch('relevance/{id}', 'Build\OwnerOrderController@relevance');//关联商家
 
     Route::get('goods/{id}','Build\OrderGoodsController@goods');
 

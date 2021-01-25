@@ -197,6 +197,11 @@
                             width:150
                       
                         }, {
+                            field: 'company',
+                            title: '商家公司名称',
+                            width:150
+                      
+                        },{
                             field: 'status',
                             title: '状态',
                             templet: function(d) {
@@ -206,6 +211,8 @@
                                   return '施工中';
                                 }else if(d.status ==3){
                                     return '施工完成';
+                                }else if(d.status ==4){
+                                    return '已签字';
                                 }
                                
                               },

@@ -27,6 +27,13 @@
               </script>       
     </div>
 
+    <div class="layui-row" id="merchantUpdateTest" style="display:none;">
+        <table class="layui-hide" id="LAY_table_merchant" lay-filter="userMerchant"></table>
+        <script type="text/html" id="toolbarDemo_merchant">
+            <div  style="text-align: center">  <button class="layui-btn layui-btn-sm" lay-event="getCheckMerchantData">确定选择</button></div>
+          </script>       
+</div>
+
     <div class="layui-row" id="popUpdateTask" style="display:none;">
         <form class="layui-form layui-from-pane" required lay-verify="required" lay-filter="formUpdate"  style="margin:20px">
     
@@ -100,7 +107,8 @@
     <script type="text/html" id="barDemo">
         <a class="layui-btn  layui-btn-xs" lay-event="update">编辑订单</a>
         <a class="layui-btn  layui-btn-xs" lay-event="edit">分配工程师</a>
-        <a class="layui-btn  layui-btn-xs" lay-event="showGoods">查看产品</a> 
+        <a class="layui-btn  layui-btn-xs" lay-event="relevance">关联工程订单</a>
+        <a class="layui-btn  layui-btn-xs" lay-event="showGoods">订单产品</a> 
         <a class="layui-btn  layui-btn-xs" lay-event="show">查看进度</a> 
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a> 
 
@@ -194,6 +202,11 @@
                             title: '业主需求',
                             width:150
                       
+                        },{
+                            field: 'company',
+                            title: '商家公司名称',
+                            width:150
+                      
                         }, {
                             field: 'status',
                             title: '状态',
@@ -204,6 +217,8 @@
                                   return '施工中';
                                 }else if(d.status ==3){
                                     return '施工完成';
+                                }else if(d.status ==4){
+                                    return '已签字';
                                 }
                                
                               },
@@ -217,14 +232,14 @@
                         }, {
                             fixed: 'right',
                             title: "操作",
-                            width: 380,
+                            width: 460,
                             align: 'center',
                             toolbar: '#barDemo'
                         }
                     ]
                 ],
                 parseData: function (res) { //res 即为原始返回的数据
-                    
+                    console.log(res);
                     return {
                         "code": '0', //解析接口状态
                         "msg": res.message, //解析提示文本
@@ -457,7 +472,7 @@
 
                 } else if (obj.event === 'edit') {
 
-                    if(data.engineer_id != 0){
+  /**                  if(data.engineer_id != 0){
                         layer.confirm('确定要重新分配吗', function (index) {
                             layer.open({
                                 //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
@@ -469,7 +484,7 @@
                             layer.close(index);  
                             return false;
                         });
-                    }else{
+                    }else{ */
                         layer.open({
                             //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
                             type: 1,
@@ -477,7 +492,7 @@
                             area: ['700px', '450px'],
                             content: $("#popUpdateTest") //引用的弹出层的页面层的方式加载修改界面表单
                         });
-                    }
+                    
 
                     table.render({
                         url: "ownerOrder/3" //数据接口
@@ -659,6 +674,168 @@
                         });
                         return false;
                     });
+                }else if (obj.event === 'relevance') {
+
+ /**                   if(data.merchant_id != 0){
+                        layer.confirm('确定要重新分配吗', function (index) {
+                            layer.open({
+                                //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                                type: 1,
+                                title: "关联商家",
+                                area: ['700px', '450px'],
+                                content: $("#merchantUpdateTest") //引用的弹出层的页面层的方式加载修改界面表单
+                            });
+                            layer.close(index);  
+                            return false;
+                        });
+                    }else{ */
+                        layer.open({
+                            //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                            type: 1,
+                            title: "关联工程订单",
+                            area: ['700px', '450px'],
+                            content: $("#merchantUpdateTest") //引用的弹出层的页面层的方式加载修改界面表单
+                        });
+                
+
+                    table.render({
+                        url: "merchant" //数据接口
+                            ,
+                        toolbar: '#toolbarDemo_merchant',
+                        page: true, //开启分页
+                            
+                        elem: '#LAY_table_merchant',
+                        cols: [
+                            [
+                                {type:'checkbox'},
+                                {
+                                    field: 'id',
+                                    title: 'ID',
+                                    width: 60,
+                                    sort: true
+                                },{
+                                    field: 'order_num',
+                                    title: '订单号',
+                                    width: 170,
+                                    sort: true
+                                }, {
+                                    field: 'order_name',
+                                    title: '订单名称',
+                                    width:150
+                              
+                                },{
+                                    field: 'total_money',
+                                    title: '订单金额',
+                                    width:100
+                              
+                                },{
+                                    field: 'integral',
+                                    title: '积分值',
+                                    width:100
+                              
+                                },{
+                                    field: 'owner_name',
+                                    title: '业主名称',
+                                    width:120
+                                },{
+                                    field: 'owner_phone',
+                                    title: '业主手机号',
+                                    width:150
+                                },{
+                                    field: 'owner_address',
+                                    title: '业主地址',
+                                    width:150
+                              
+                                },{
+                                    field: 'functionary',
+                                    title: '负责人',
+                                    width:120
+                              
+                                },{
+                                    field: 'functionary_phone',
+                                    title: '负责人手机号',
+                                    width:120
+                              
+                                },
+                               {
+                                    field: 'company',
+                                    title: '商家公司名称',
+                                    width:150
+                              
+                                }
+                            ]
+                        ],
+                        parseData: function (res) { //res 即为原始返回的数据
+                            console.log(res);
+                            return {
+                                "code": '0', //解析接口状态
+                                "msg": res.message, //解析提示文本
+                                "count": res.total, //解析数据长度
+                                "data": res.data //解析数据列表
+                            }
+                        },
+                        id: 'testReload',
+                        title: '后台用户',
+                        totalRow: true
+        
+                    });
+                    dataId = data.id;
+                    setFormId(obj,dataId);
+                    function setFormId(obj,dataId){
+                        table.on('toolbar(userMerchant)', function(obj){
+                            var checkStatus = table.checkStatus(obj.config.id);
+                        
+                            switch(obj.event){
+                            case 'getCheckMerchantData':
+                                var data = checkStatus.data;
+                               // layer.alert(JSON.stringify(data));
+                            break;
+                            };
+    
+                            if(data.length >1 ){
+                                layer.msg("只能选择一个工程", {
+                                    icon: 5
+                                });
+                                return false;
+                            }
+            
+                            id = data[0]['id'];
+
+                            
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        url: "relevance/"+dataId,
+                        type: 'patch',
+                        data: {order_id:id},
+                        success: function (msg) {
+                            if (msg.status == 200) {
+                                layer.closeAll('loading');
+                                layer.load(2);
+                                layer.msg("分配成功", {
+                                    icon: 6
+                                });
+                                setTimeout(function () {
+                                    window.location.reload()
+                                    layer.closeAll(); //关闭所有的弹出层
+                                    //window.location.href = "/edit/horse-info";
+
+                                }, 1000);
+
+                            } else {
+                                layer.msg("修改失败", {
+                                    icon: 5
+                                });
+                            }
+                        }
+                    })
+                    return false;
+
+                        });
+                    }
+
+                  
                 }
 
             });

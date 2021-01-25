@@ -129,4 +129,28 @@ class OwnerOrderController extends Controller
             return response()->json([ 'status' => 403]);
         }  
     }
+
+    public function merchant(Request $request)
+    {
+        $limit = $request->get('limit');
+        //$data= Userinfo::where('is_seller',1)->paginate($limit);
+        $data= BuildOrder::where('order_status',1)->paginate($limit);
+        return $data;
+    }
+
+    public function relevance(Request $request , $id)
+    {
+        $order_id = $request->order_id;
+        $order= BuildOrder::find($order_id);
+        $state= BuildOrder::where('id',intval($id))->update([
+            'merchant_id' => $order->merchant_id,
+            'agreement_id' => $order->contract_id
+        ]);
+
+        if($state){
+            return response()->json([ 'status' => 200 ,'msg'=>'成功']);
+        } else {
+            return response()->json([ 'status' => 403]);
+        }  
+    }
 }

@@ -42,6 +42,12 @@
             </div>   
        </div>
 
+       <div class="layui-form-item">   
+        <textarea class="layui-textarea" name="content"  lay-verify="content"   id="LAY_demo1" style="display: none">  
+          套餐介绍
+        </textarea>
+      </div> 
+
        <table class="layui-hide" id="LAY_table" lay-filter="group"></table>
        <div class="layui-form-item ">
         <div class="layui-input-block">
@@ -72,15 +78,31 @@
     <script src="/layuiadmin/layui/layui.js"></script>
     <script>
         var layedit;
-        layui.use(['table', 'layer','laydate', 'upload','jquery', 'form'], function () {
+        layui.use(['table', 'layer','laydate', 'upload','jquery', 'form', 'layedit'], function () {
          
             var table = layui.table;
             var laydate = layui.laydate;
             var $ = layui.jquery;
             var form = layui.form;
             upload = layui.upload;
-           
+            layedit = layui.layedit;
+
+            layedit.set({
+                uploadImage: {
                  
+                 url: 'content/img' //接口url
+                  ,type: 'post' //默认post
+                }
+              });
+        
+            index=  layedit.build('LAY_demo1'); //建立编辑器
+         
+            form.verify({
+              content: function(value) { 
+                   return layedit.sync(index);
+                  }
+          });
+
                   //套餐封面图片上传
       var uploadInst = upload.render({
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },

@@ -284,7 +284,7 @@ class EngineerController extends Controller
         }
     }
 
-    public function done(Request $request)//竣工
+    public function done(Request $request)//签字完成
     {
         try {
                 $data = $request->all();
@@ -306,7 +306,7 @@ class EngineerController extends Controller
                 unset($data['token']);
                 DoneConstruction::create($data);
                 $state = BuildOrder::where('order_num',$data['order_num'])->update([
-                    'status' =>3
+                    'status' =>4
                 ]);
 
                 if($state){
