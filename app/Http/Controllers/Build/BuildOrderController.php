@@ -9,6 +9,7 @@ use App\Models\DoneConstruction;
 use App\Models\UnderConstruction;
 use App\Models\BeforeConstruction;
 use App\Models\FinishConstruction;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
 class BuildOrderController extends Controller
@@ -21,6 +22,10 @@ class BuildOrderController extends Controller
     public function index(Request $request)
     {
         $limit = $request->get('limit');
+        if($request->has('order_num')){
+            $data = BuildOrder::orderBy('created_at','desc')->where('order_status',1)->where('order_num',$request->order_num)->paginate($limit);
+            return $data;
+        }
         $data = BuildOrder::orderBy('created_at','desc')->where('order_status',1)->paginate($limit);
         return $data;
     }

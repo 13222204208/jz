@@ -15,6 +15,11 @@ class BuildOrder extends Model
     protected $guarded = [];
     protected $appends = ['goods_list','engineer_name','engineer_phone','owner_cover','goods_list_name','company','contract_id'];
 
+    public function contract()
+    {
+        return $this->belongsTo('App\Models\Contract','id','agreement_id');
+    }
+
     public function userinfo()
     {   
         if($this->attributes['engineer_id'] != 0 ){

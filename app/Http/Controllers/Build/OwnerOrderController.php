@@ -21,6 +21,12 @@ class OwnerOrderController extends Controller
     public function index(Request $request)
     {
         $limit = $request->get('limit');
+
+        if($request->has('order_num')){
+            $data = BuildOrder::orderBy('created_at','desc')->where('order_status',2)->where('order_num',$request->order_num)->paginate($limit);
+            return $data;
+        }
+
         $data = BuildOrder::orderBy('created_at','desc')->where('order_status',2)->paginate($limit);
         return $data;
     }

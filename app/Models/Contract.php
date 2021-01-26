@@ -16,6 +16,11 @@ class Contract extends Model
 
     protected $appends = ['merchant_name','merchant_phone'];
 
+    public function order()
+    {
+        return $this->hasMany('App\Models\BuildOrder','agreement_id','id');
+    }
+
     public function contractPackage()
     {
         return $this->hasMany('App\Models\ContractPackage');

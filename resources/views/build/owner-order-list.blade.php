@@ -12,6 +12,21 @@
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
 </head>
 <body>
+    <br>
+    <form class="layui-form" action="">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">订单号：</label>
+                <div class="layui-input-inline">
+                    <input class="layui-input" name="order_num" id="demoReload" autocomplete="off">
+                </div>
+                <div class="layui-input-inline">
+                    <button class="layui-btn" lay-submit="" lay-filter="create">查询</button>
+                </div>
+            </div>
+        </div>
+
+    </form>
 
     <div class="layui-row" id="orderRate" style="display:none;">
         工程进度
@@ -132,6 +147,145 @@
             upload = layui.upload;
             layedit = layui.layedit;
               
+            form.on('submit(create)', function (data) {
+                console.log(data.field);
+                table.render({
+                    url: "ownerOrder/"//数据接口
+                        ,
+                    page: true //开启分页
+                        ,
+                    where:{
+                    order_num:data.field.order_num 
+                    },
+                    elem: '#LAY_table_user',
+                    toolbar: '#listbarDemo',
+                    cols: [
+                        [
+    
+                            {
+                                field: 'id',
+                                title: 'ID',
+                                width: 80,
+                                sort: true
+                            },{
+                                field: 'order_num',
+                                title: '订单号',
+                                width:170
+                          
+                            },{
+                                field: 'order_name',
+                                title: '订单名称',
+                                width:150
+                          
+                            },{
+                                field: 'total_money',
+                                title: '订单金额',
+                                width:100
+                          
+                            },{
+                                field: 'integral',
+                                title: '积分值',
+                                width:100
+                          
+                            }, {
+                                field: 'owner_name',
+                                title: '业主名称',
+                                width:120
+                            },{
+                                field: 'owner_phone',
+                                title: '业主手机号',
+                                width:150
+                            },{
+                                field: 'owner_address',
+                                title: '业主地址',
+                                width:150
+                          
+                            },{
+                                field: 'functionary',
+                                title: '负责人',
+                                width:120
+                          
+                            },{
+                                field: 'functionary_phone',
+                                title: '负责人手机号',
+                                width:120
+                          
+                            },
+                            {
+                                field: 'engineer_name',
+                                title: '施工人员名称',
+                                width:180
+                          
+                            },{
+                                field: 'engineer_phone',
+                                title: '施工人员手机号',
+                                width:200
+                          
+                            },{
+                                field: 'agreement_id',
+                                title: '合同',
+                                width:150
+                          
+                            },{
+                                field: 'owner_demand',
+                                title: '业主需求',
+                                width:150
+                          
+                            }, {
+                                field: 'company',
+                                title: '商家公司名称',
+                                width:150
+                          
+                            },{
+                                field: 'status',
+                                title: '状态',
+                                templet: function(d) {
+                                    if(d.status ==1){
+                                      return '待施工';
+                                    }else if(d.status ==2){
+                                      return '施工中';
+                                    }else if(d.status ==3){
+                                        return '施工完成';
+                                    }else if(d.status ==4){
+                                        return '已签字';
+                                    }
+                                   
+                                  },
+                                width:100
+                          
+                            },{
+                                field: 'created_at',
+                                title: '创建时间',
+                                width:150
+                          
+                            },{
+                                fixed: 'right',
+                                title: "操作",
+                                width: 370,
+                                align: 'center',
+                                toolbar: '#barDemo'
+                            }
+                        ]
+                    ],
+                    parseData: function (res) { //res 即为原始返回的数据
+                        console.log(res);
+                        return {
+                            "code": '0', //解析接口状态
+                            "msg": res.message, //解析提示文本
+                            "count": res.total, //解析数据长度
+                            "data": res.data //解析数据列表
+                        }
+                    },
+                    id: 'testReload',
+                    title: '后台用户',
+                    totalRow: true
+    
+                });
+    
+                   
+         
+                 return false;
+             });
 
             table.render({
                 url: "ownerOrder" //数据接口
@@ -149,6 +303,11 @@
                             width: 80,
                             sort: true
                         }, {
+                            field: 'order_num',
+                            title: '订单号',
+                            width:170
+                      
+                        },{
                             field: 'order_name',
                             title: '订单名称',
                             width:150
