@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Content;
 
 use App\Models\Contract;
 use App\Models\Userinfo;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Models\BuildOrder;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use App\Repositories\ContractRepository;
 
 class ContractController extends Controller
@@ -24,7 +25,7 @@ class ContractController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
+    {//DB::select('alter table contracts add partner varchar(60)  null ');
         $limit = $request->get('limit');
         $data = $this->contractRepository->all($limit);
         return $data;

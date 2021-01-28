@@ -162,6 +162,12 @@
                   <a lay-href="user/dynamic-list">用户美图</a>
                 </dd>
                 @endif
+
+                @if (in_array('用户协议',$per))
+                <dd>
+                  <a lay-href="user/protocol">用户协议</a>
+                </dd>
+                @endif
               </dl>
             </li>
             @endif

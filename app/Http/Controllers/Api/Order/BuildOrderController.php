@@ -203,9 +203,9 @@ class BuildOrderController extends Controller
             $contract= Contract::withCount(['order as integral_sum' =>function($query){
                 $query->select(DB::raw("sum(integral) as integralsum"));
             }])->where('merchant_id',$this->user->id)->skip($page)->take($size)->get();
-            return $contract;
-            $data= Contract::where('merchant_id',$this->user->id)->with('order:id,integral')->skip($page)->take($size)->get();
-            return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$data]);
+           
+       /*      $data= Contract::where('merchant_id',$this->user->id)->with('order:id,integral')->skip($page)->take($size)->get(); */
+            return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$contract]);
         } catch (\Throwable $th) {
             $err = $th->getMessage();
             return response()->json([ 'code' => 0 ,'msg'=>$err]);
@@ -226,7 +226,7 @@ class BuildOrderController extends Controller
                 $page = ($request->page -1)*$size;
             }
 
-            $data= BuildOrder::where('merchant_id',$this->user->id)->where('status',3)->skip($page)->take($size)->get();
+            $data= BuildOrder::where('merchant_id',$this->user->id)->where('status',4)->skip($page)->take($size)->get();
             return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$data]);
         } catch (\Throwable $th) {
             $err = $th->getMessage();

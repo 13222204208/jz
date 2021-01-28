@@ -17,4 +17,7 @@ class GoodsPackage extends Model
         return $this->belongsToMany('App\Models\Good', 'package_between_goods', 'goods_package_id', 'goods_id');
     }
 
+    
+   
+
 }

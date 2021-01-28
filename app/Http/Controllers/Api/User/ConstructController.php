@@ -33,7 +33,7 @@ class ConstructController extends Controller
         try {
             if($request ->id != ''){
                 $id = $request->get('id');       
-                $data= BuildOrder::find(intval($id),['id','status','engineer_id','created_at','owner_phone','order_num']);
+                $data= BuildOrder::find(intval($id));
     
                 $goods_id = BuildBetweenGoods::where('build_order_id',intval($id))->pluck('goods_id');
                 $ginfo= Good::whereIn('id',$goods_id)->get(['id','title','cover','price']);//查询套内商品
@@ -43,10 +43,13 @@ class ConstructController extends Controller
                 $before = BeforeConstruction::where('order_num',$data['order_num'])->get(['photo','comments','created_at'])->first();
                 $under = UnderConstruction::where('order_num',$data['order_num'])->get(['photo','comments','created_at']);
                 $finish = FinishConstruction::where('order_num',$data['order_num'])->get(['photo','comments','created_at'])->first();
+
+                $done = DoneConstruction::where('order_num',$data['order_num'])->first();
         
                 $data['before'] = $before;
                 $data['under'] = $under;
                 $data['finish'] = $finish;
+                $data['done'] = $done;
 
                 return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$data]);
             }
@@ -63,12 +66,12 @@ class ConstructController extends Controller
 
             if($request->status != ''){
                 $status = intval($request->status);
-                $data = BuildOrder::where('owner_phone',$this->user->phone)->where('status',$status)->skip($page)->take($size)->get(['id','engineer_id','owner_phone','order_name','status','created_at']);
+                $data = BuildOrder::where('owner_phone',$this->user->phone)->orderByDesc('created_at')->where('status',$status)->skip($page)->take($size)->get();
 
                 return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$data]);
             }
 
-            $data = BuildOrder::where('owner_phone',$this->user->phone)->skip($page)->take($size)->get(['id','engineer_id','owner_phone','order_name','status','created_at']);
+            $data = BuildOrder::where('owner_phone',$this->user->phone)->skip($page)->take($size)->get();
 
             return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$data]);
 

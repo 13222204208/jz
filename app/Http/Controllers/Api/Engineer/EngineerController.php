@@ -55,7 +55,7 @@ class EngineerController extends Controller
                 $lat = $request->lat;
 
                 if($request->id != ''){//查询订单详情
-                    $data= BuildOrder::find(intval($request->id),['id','status','engineer_id','owner_name','owner_phone','owner_address','created_at','order_num','order_name','owner_demand','long','lat']);
+                    $data= BuildOrder::find(intval($request->id));
                     $data['distance'] = $this->distance($lat,$data->lat,$long,$data->long);
 
                     $done= DoneConstruction::where('order_num',$data->order_num)->first();
@@ -84,8 +84,9 @@ class EngineerController extends Controller
     
                 $status = 1;
                 if($request->status != ''){
-                    $status = intval($request->get('status'));
-                    $data= BuildOrder::skip($page)->take($size)->where('engineer_id',$this->user->id)->where('status',$status)->get();
+                    $status = $request->get('status');
+                    $status = explode(',',$status);
+                    $data= BuildOrder::skip($page)->take($size)->where('engineer_id',$this->user->id)->whereIn('status',$status)->get();
                     $arr = array();
                     foreach($data as $d){ 
                         $done= DoneConstruction::where('order_num',$d->order_num)->first();
@@ -125,7 +126,7 @@ class EngineerController extends Controller
             }
         
             if($request->id != ''){//查询订单详情
-                $data= BuildOrder::find(intval($request->id),['id','status','engineer_id','owner_name','owner_phone','owner_address','created_at','order_num','order_name','owner_demand','long','lat']);
+                $data= BuildOrder::find(intval($request->id));
                 
                 $done= DoneConstruction::where('order_num',$data->order_num)->first();
 
@@ -153,8 +154,9 @@ class EngineerController extends Controller
 
             $status = 1;
             if($request->status != ''){
-                $status = intval($request->get('status'));
-                $data= BuildOrder::skip($page)->take($size)->where('engineer_id',$this->user->id)->where('status',$status)->get();
+                $status = $request->get('status');
+                $status = explode(',',$status);
+                $data= BuildOrder::skip($page)->take($size)->where('engineer_id',$this->user->id)->whereIn('status',$status)->get();
 
                 $arr = array();
                 foreach($data as $d){ 

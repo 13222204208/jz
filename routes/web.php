@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     if (session('id')==1) {
-        $per = array('用户管理','后台帐号管理','产品管理','内容管理','工程管理','表单管理','用户列表','实名认证','报修售后列表','用户美图','后台帐号','角色管理','权限管理','产品库','套餐管理','轮播图','案例和资讯',
+        $per = array('用户管理','后台帐号管理','产品管理','内容管理','工程管理','表单管理','用户列表','用户协议','实名认证','报修售后列表','用户美图','后台帐号','角色管理','权限管理','产品库','套餐管理','轮播图','案例和资讯',
         '案例标签','合同列表','工程订单','客户订单','智能设计','户型列表','类型列表');
 
         return view('index',['per'=>$per]);
@@ -220,6 +220,12 @@ Route::prefix('user')->group(function () {
     
     Route::resource('truename', 'User\TruenameController');
     
+    Route::get('protocol', function () {
+        return view('user.protocol');//用户协议
+    })->name('protocol')->middleware('adminRoute');
+    Route::post('create/protocol','User\ProtocolController@createProtocol');//创建用户协议
+    Route::post('edit/protocol','User\ProtocolController@editProtocol');//修改用户协议
+    Route::get('gain/protocol','User\ProtocolController@gainProtocol');//查看合同期限
     
 
     Route::get('after-sale-list', function () {
