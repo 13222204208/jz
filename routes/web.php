@@ -198,6 +198,11 @@ Route::prefix('build')->group(function () {
     Route::get('design-list', function () {
         return view('build.design-list');//智能设计列表
     })->name('design')->middleware('adminRoute');
+
+    Route::get('integral', function () {
+        return view('build.integral');//积分参数页面
+    });
+    Route::resource('integral-data', 'Build\IntegralController');//积分参数
     
     Route::resource('design', 'Build\DesignController');//智能设计
     

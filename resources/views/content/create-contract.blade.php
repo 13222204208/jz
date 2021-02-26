@@ -274,12 +274,12 @@
                   
                             })
                         } else if (res.status == 403) {
-                            layer.msg('填写错误或重复', {
+                            layer.msg(res.msg, {
                                 offset: '15px',
                                 icon: 2,
                                 time: 3000
                             }, function () {
-                                location.href = 'create';
+                                //location.href = 'create';
                             })
                         }
                     }

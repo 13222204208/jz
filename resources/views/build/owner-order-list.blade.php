@@ -122,7 +122,7 @@
     <script type="text/html" id="barDemo">
         <a class="layui-btn  layui-btn-xs" lay-event="update">编辑订单</a>
         <a class="layui-btn  layui-btn-xs" lay-event="edit">分配工程师</a>
-        <a class="layui-btn  layui-btn-xs" lay-event="relevance">关联工程订单</a>
+        <a class="layui-btn  layui-btn-xs" lay-event="relevance">关联合同</a>
         <a class="layui-btn  layui-btn-xs" lay-event="showGoods">订单产品</a> 
         <a class="layui-btn  layui-btn-xs" lay-event="show">查看进度</a> 
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a> 
@@ -310,6 +310,11 @@
                         },{
                             field: 'order_name',
                             title: '订单名称',
+                            width:150
+                      
+                        },{
+                            field: 'agreement_id',
+                            title: '已关联合同名称',
                             width:150
                       
                         },{
@@ -778,12 +783,12 @@
                                 url = window.location.protocol+"//"+window.location.host+"/";
                                 under ='';
                                     for(i=0; i<data.length; i++){
-                                        img = url + data[i]['cover'];
+                                       // img = url + data[i]['cover'];
                                         goods= data[i]['title']; 
                                         price = data[i]['price'];
                                         under += '<div class="ayui-col-xs3" style="margin:10px">'+
                                           
-                                           ' <img src=" '+ img+ '" width="215px">'+
+                                          // ' <img src=" '+ img+ '" width="215px">'+
                                          
                                              '  <p class="info">产品名称：'+goods+'</p>'+
                                        
@@ -851,7 +856,7 @@
                         layer.open({
                             //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
                             type: 1,
-                            title: "关联工程订单",
+                            title: "关联合同",
                             area: ['700px', '450px'],
                             content: $("#merchantUpdateTest") //引用的弹出层的页面层的方式加载修改界面表单
                         });
@@ -872,54 +877,70 @@
                                     title: 'ID',
                                     width: 60,
                                     sort: true
-                                },{
-                                    field: 'order_num',
-                                    title: '订单号',
-                                    width: 170,
-                                    sort: true
                                 }, {
-                                    field: 'order_name',
-                                    title: '订单名称',
-                                    width:150
-                              
-                                },{
-                                    field: 'total_money',
-                                    title: '订单金额',
+                                    field: 'title',
+                                    title: '合同名称',
                                     width:100
-                              
+                                }, {
+                                    field: 'partner',
+                                    title: '合作方全称',
+                                    width:150
                                 },{
-                                    field: 'integral',
-                                    title: '积分值',
+                                    field: 'cost',
+                                    title: '合同标的',
                                     width:100
+                                },{
+                                    field: 'quantity',
+                                    title: '合同套数',
+                                    width:90
                               
                                 },{
-                                    field: 'owner_name',
-                                    title: '业主名称',
-                                    width:120
-                                },{
-                                    field: 'owner_phone',
-                                    title: '业主手机号',
-                                    width:150
-                                },{
-                                    field: 'owner_address',
-                                    title: '业主地址',
-                                    width:150
+                                    field: 'merchant_name',
+                                    title: '商家昵称',
+                                    width:90
                               
                                 },{
-                                    field: 'functionary',
-                                    title: '负责人',
-                                    width:120
+                                    field: 'merchant_phone',
+                                    title: '商家手机号',
+                                    width:130
                               
                                 },{
-                                    field: 'functionary_phone',
-                                    title: '负责人手机号',
-                                    width:120
+                                    field: 'contract_package',
+                                    title: '剩余套餐详情',
+                                    width:250,
+                                    templet: function(d) {
+                                        info ='';
+                                        console.log(d.contract_package);
+                                        for(var i=0; i<d.contract_package.length; i++){
+                                     
+                                            info += ' '+d.contract_package[i]['goods_package'].title+':'+d.contract_package[i]['goods_package_qty']+'套';
+                                        }
+                                        return info;
+                                      },
                               
-                                },
-                               {
-                                    field: 'company',
-                                    title: '商家公司名称',
-                                    width:150
+                                },{
+                                    field: 'done_quantity',
+                                    title: '已完成套数',
+                                    width:100,
+                              
+                                },{
+                                    field: 'start_time',
+                                    title: '合同开始时间',
+                                    width:180
+                              
+                                }, {
+                                    field: 'stop_time',
+                                    title: '合同结束时间',
+                                    width:180
+                              
+                                }, {
+                                    field: 'comments',
+                                    title: '合同备注',
+                                    width:200
+                                },{
+                                    field: 'created_at',
+                                    title: '创建时间',
+                              
                               
                                 }
                             ]
@@ -952,7 +973,7 @@
                             };
     
                             if(data.length >1 ){
-                                layer.msg("只能选择一个工程", {
+                                layer.msg("只能选择一个合同", {
                                     icon: 5
                                 });
                                 return false;

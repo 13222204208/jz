@@ -133,12 +133,18 @@ class CollectController extends Controller
                             'quantity' => $good->quantity
                         ]);
                     } */
+                    $today= date('Y-m-d',time());
+                    $num= BuildOrder::whereDate('created_at',$today)->where('order_status',2)->count();
+                    $num = $num+1;
+                    $number= sprintf ( "%02d",$num);//不足两位带前导0
 
-                    $data['order_num'] = 'KH'.time().rand(1000,9999);//客户下的订单
+                    $data['order_num'] = 'K'.date("Ymd",time()).$number;
                     $data['owner_address'] = $this->user->address;//客户的地址
                     $data['owner_phone'] = $this->user->phone;//客户的手机号
                     $data['order_status'] = 2;//表示为客户下的订单
                     $data['owner_name'] = $this->user->nickname;
+                    $data['total_money'] = Good::whereIn('id',$goods_id)->sum('price');//计算增项商品金额
+                    //$data['integral'] =   intval($data['total_money'])* 0.15;
                     $order_id= BuildOrder::create($data)->id;
                     $goods= CartItem::where('cart_id',$cart->id)->whereIn('product_id',$goods_id)->get();
 

@@ -251,6 +251,7 @@
                 @if(in_array('客户订单',$per))
                 <dd><a lay-href="build/owner-order-list">客户订单</a></dd>
                 @endif
+                <dd><a lay-href="build/integral">积分参数</a></dd>
                 @if(in_array('智能设计',$per))
                 <dd><a lay-href="build/design-list">智能设计</a></dd>
                 @endif

@@ -59,7 +59,7 @@ class UserInfoController extends Controller
 
     public function updateInfo(Request $request,$id)
     {
-        $data = $request->all();
+        $data = array_filter($request->all());
         $state= Userinfo::where('id',$id)->update($data);
         
         if ($state) {

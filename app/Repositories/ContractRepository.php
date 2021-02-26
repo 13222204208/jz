@@ -24,9 +24,15 @@ class ContractRepository
         }])->orderBy('created_at','desc')->paginate($limit);
     }
 
-    public function searchContract($contract_name,$limit)
+    public function searchContract($data,$limit)
     {
-       return $this->contract->where('title','like','%'.$contract_name.'%')->with(['contractPackage' =>function($query){
+        $contract_name= $data['contract_name'];
+        $partner= $data['partner'];
+       return $this->contract->when($contract_name,function($query) use($contract_name){
+            return $query->where('title','like','%'.$contract_name.'%');
+       })->when($partner,function($query) use($partner){
+        return $query->where('partner','like','%'.$partner.'%');
+   })->with(['contractPackage' =>function($query){
         $query->with('goodsPackage');
         }])->withCount(['contractPackage as contractPackage_sum' =>function($query){
             $query->select(DB::raw("sum(goods_package_qty) as goods_package_sum"));

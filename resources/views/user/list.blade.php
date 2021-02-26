@@ -57,7 +57,7 @@
           <div class="layui-form-item">
             <label class="layui-form-label">真实姓名</label>
             <div class="layui-input-block">
-              <input type="text" name="truename" required lay-verify="required" autocomplete="off" placeholder="" class="layui-input">
+              <input type="text" name="truename"   autocomplete="off" placeholder="" class="layui-input">
             </div>
           </div>
 
@@ -70,7 +70,7 @@
           <div class="layui-form-item">
             <label class="layui-form-label">公司名称</label>
             <div class="layui-input-block">
-              <input type="text" name="company" required lay-verify="required" autocomplete="off" placeholder="" class="layui-input">
+              <input type="text" name="company"  autocomplete="off" placeholder="" class="layui-input">
             </div>
           </div>
     

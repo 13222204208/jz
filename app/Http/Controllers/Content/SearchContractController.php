@@ -22,7 +22,7 @@ class SearchContractController extends Controller
     
         $data = $request->all();
         
-        return $this->contractRepository->searchContract($data['contract_name'],$limit);
+        return $this->contractRepository->searchContract($data,$limit);
     }
 
     public function updateContract(Request $request , $id)

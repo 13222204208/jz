@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Build;
 
+use App\Models\Contract;
 use App\Models\Userinfo;
 use App\Models\BuildOrder;
 use Illuminate\Http\Request;
@@ -10,9 +11,16 @@ use App\Models\UnderConstruction;
 use App\Models\BeforeConstruction;
 use App\Models\FinishConstruction;
 use App\Http\Controllers\Controller;
+use App\Repositories\ContractRepository;
 
 class OwnerOrderController extends Controller
 {
+    protected $contractRepository;
+
+    public function __construct(ContractRepository $contractRepository)
+    {
+        $this->contractRepository = $contractRepository;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -140,17 +148,18 @@ class OwnerOrderController extends Controller
     {
         $limit = $request->get('limit');
         //$data= Userinfo::where('is_seller',1)->paginate($limit);
-        $data= BuildOrder::where('order_status',1)->paginate($limit);
+        //$data= BuildOrder::where('order_status',1)->paginate($limit);
+        $data = $this->contractRepository->all($limit);
         return $data;
     }
 
     public function relevance(Request $request , $id)
     {
         $order_id = $request->order_id;
-        $order= BuildOrder::find($order_id);
+        $order= Contract::find($order_id);
         $state= BuildOrder::where('id',intval($id))->update([
             'merchant_id' => $order->merchant_id,
-            'agreement_id' => $order->contract_id
+            'agreement_id' => $order->id
         ]);
 
         if($state){

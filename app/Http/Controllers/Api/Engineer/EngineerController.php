@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Engineer;
 
 use App\Models\Good;
 use App\Models\News;
+use App\Models\Contract;
 use App\Models\Userinfo;
 use App\Models\AfterSale;
 use App\Models\BuildOrder;
@@ -307,12 +308,23 @@ class EngineerController extends Controller
                 }
                 unset($data['token']);
                 DoneConstruction::create($data);
-                $state = BuildOrder::where('order_num',$data['order_num'])->update([
-                    'status' =>4
-                ]);
+                $order = BuildOrder::where('order_num',$data['order_num'])->first();
+
+                $contract= Contract::find($order->agreement_id);
+                if($contract->quantity == $contract->done_quantity){//判断合同内订单是否都完成
+                    $contract->status= 2;
+                    $contract->save();
+                }
+
+                $order->status= 4;
+                if($order->order_status == 2){
+                    $order->integral= intval($order->total_money)*0.15;
+                }else{
+                    $order->integral= 2500;
+                }
+                $state= $order->save();
 
                 if($state){
-                    $order = BuildOrder::where('order_num',$data['order_num'])->first();
                     News::create([
                         'order_id'=> $order->id,
                         'order_num' => $order->order_num,

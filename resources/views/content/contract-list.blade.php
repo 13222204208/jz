@@ -73,6 +73,11 @@
                 <div class="layui-input-inline">
                     <input class="layui-input" name="contract_name"  autocomplete="off">
                 </div>
+
+                <label class="layui-form-label"> 合作方：</label>
+                <div class="layui-input-inline">
+                    <input class="layui-input" name="partner"  autocomplete="off">
+                </div>
                 <div class="layui-input-inline">
                     <button class="layui-btn" lay-submit="" lay-filter="searchContract">查询</button>
                 </div>
@@ -87,8 +92,16 @@
 
             <div class="layui-form-item">
                
+                <select name="type" lay-verify="required" >
+                    <option value="add">增加套餐</option>
+                    <option value="del">减少套餐</option>
+                </select>
+            </div>
+
+            <div class="layui-form-item">
+               
                   <select name="goods_package_id" lay-filter="cate_demo" id="GoodsPackage" lay-verify="required" >
-                    
+
                   </select>
               </div>
 
@@ -251,6 +264,7 @@
                     type:'get',
                     where:{
                         contract_name:data.contract_name,
+                        partner:data.partner
                     },
                     elem: '#LAY_table_user',
                     toolbar: '#listbarDemo',
@@ -297,7 +311,7 @@
                                     info ='';
                                     console.log(d.contract_package);
                                     for(var i=0; i<d.contract_package.length; i++){
-                                        console.log();
+                                 
                                         info += ' '+d.contract_package[i]['goods_package'].title+':'+d.contract_package[i]['goods_package_qty']+'套';
                                     }
                                     return info;
@@ -442,7 +456,7 @@
                                 info ='';
                                 console.log(d.contract_package);
                                 for(var i=0; i<d.contract_package.length; i++){
-                                    console.log();
+                                
                                     info += ' '+d.contract_package[i]['goods_package'].title+':'+d.contract_package[i]['goods_package_qty']+'套';
                                 }
                                 return info;

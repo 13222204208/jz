@@ -78,17 +78,26 @@ class BuildOrderController extends Controller
             if($qty < 1){
                 return response()->json([ 'code' => 0 ,'msg'=>'剩余套数不够','qty'=>$data]);
             }
-      
+            $gid= PackageBetweenGoods::where('goods_package_id',$request->goods_id)->pluck('goods_id');
+            //$data['total_money'] = Good::whereIn('id',$gid)->sum('price');//计算增项商品金额
+            //$data['integral'] =   '-'.intval($data['total_money']);
+
+            $data['total_money'] = 2500;
+            //$data['integral'] =   -2500;
+            $today= date('Y-m-d',time());
+            $num= BuildOrder::whereDate('created_at',$today)->count();
+            $num = $num+1;
+            $number= sprintf ( "%02d",$num);//不足两位带前导0
             unset($data['token']);
             $data['merchant_id'] = $this->user->id;
-            $data['order_num'] = 'GC'.time().rand(1000,9999);
+            $data['order_num'] = 'G'.date("Ymd",time()).$number;
             unset($data['goods_id']);
             $id = BuildOrder::create($data)->id;
 
             ContractPackage::where('contract_id',$data['agreement_id'])->where('goods_package_id',$request->goods_id)->decrement('goods_package_qty');//当添加一个工程单，合同分配的套餐数量减一
             Contract::where('id',$data['agreement_id'])->increment('done_quantity');
 
-            $gid= PackageBetweenGoods::where('goods_package_id',$request->goods_id)->pluck('goods_id');
+  
 
             foreach ($gid as  $goods_id) {//插入工程订单和商品关联的表
                     BuildBetweenGoods::create([
@@ -202,9 +211,23 @@ class BuildOrderController extends Controller
             }
             $contract= Contract::withCount(['order as integral_sum' =>function($query){
                 $query->select(DB::raw("sum(integral) as integralsum"));
-            }])->where('merchant_id',$this->user->id)->skip($page)->take($size)->get();
-           
-       /*      $data= Contract::where('merchant_id',$this->user->id)->with('order:id,integral')->skip($page)->take($size)->get(); */
+            }])->where('merchant_id',$this->user->id)->skip($page)->take($size)->get()->toArray();
+          
+            $arr = array();
+            $arr['cost'] = 0;
+            $arr['done_quantity'] = 0;
+            $arr['quantity'] = 0;
+            $arr['integral_sum'] = 0;
+            $arr['title'] = '合计';
+            foreach ($contract as  $value) { 
+                $arr['cost'] += $value['cost'];
+                $arr['done_quantity'] += $value['done_quantity'];
+                $arr['quantity'] += $value['quantity'];
+                $arr['integral_sum'] += $value['integral_sum'];
+            }
+     
+             
+            array_unshift($contract,$arr);
             return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$contract]);
         } catch (\Throwable $th) {
             $err = $th->getMessage();
