@@ -27,6 +27,7 @@ class Userinfo extends Migration
             $table->tinyInteger('is_owner')->default(1)->comment('是否是业主默认为是');
             $table->tinyInteger('is_seller')->default(0)->comment('是否是商家，默认0  1代表是');
             $table->tinyInteger('is_engineer')->default(0)->comment('是否是工程师，默认不是 1代表是');
+            $table->bigInteger('integral')->default(0)->comment('积分值');
             $table->string('role')->default('')->comment('角色名称');
             $table->string('cover')->default('')->comment('头像');
             $table->string('company')->default('')->comment('公司');

@@ -214,7 +214,13 @@ Route::prefix('user')->group(function () {
     Route::get('list', function () {
         return view('user.list');//用户列表
     })->name('userlist')->middleware('adminRoute');
-    
+
+    Route::get('seller-list', function () {
+        return view('user.seller-list');//商家列表
+    })->name('userlist')->middleware('adminRoute');
+    Route::resource('seller', 'User\SellerListController');
+    Route::get('seller-order/{id}', 'User\SellerListController@sellerOrder');
+
     Route::resource('userinfo', 'User\UserInfoController');
     Route::post('updateInfo/{id}','User\UserInfoController@updateInfo');//更新用户信息
     Route::get('search','User\SearchUserController@search');

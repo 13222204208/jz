@@ -48,11 +48,14 @@ Route::prefix('homepage')->group(function (){
 Route::prefix('goods')->group(function (){
 
     Route::get('list','Api\Goods\GoodsListController@list');//获取产品列表 
-    Route::group(['middleware' => 'auth.jwt'], function () {
-        
-      
-    });
 
+
+});
+
+Route::prefix('integral')->group(function (){
+    Route::group(['middleware' => 'auth.jwt'], function () {     
+        Route::post('exchanges','Api\Integral\IntegralController@integralExchanges');//兑换积分
+    });
 
 });
 

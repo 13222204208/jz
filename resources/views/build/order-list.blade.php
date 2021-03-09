@@ -777,7 +777,7 @@
                                         price = data[i]['price'];
                                         under += '<div class="ayui-col-xs3" style="margin:10px">'+
                                           
-                                           ' <img src=" '+ img+ '" width="215px">'+
+                                     //      ' <img src=" '+ img+ '" width="215px">'+
                                          
                                              '  <p class="info">产品名称：'+goods+'</p>'+
                                        

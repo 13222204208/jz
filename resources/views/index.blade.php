@@ -147,6 +147,9 @@
                   <a lay-href="user/list">用户列表</a>
                 </dd>
                 @endif
+                <dd>
+                  <a lay-href="user/seller-list">商家列表</a>
+                </dd>
                 @if (in_array('实名认证',$per))
                 <dd>
                   <a lay-href="user/true-name">实名认证</a>

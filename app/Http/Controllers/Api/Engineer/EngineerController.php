@@ -17,6 +17,7 @@ use App\Models\FinishConstruction;
 use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
+use App\Models\Integral;
 use Illuminate\Support\Facades\Validator;
 
 class EngineerController extends Controller
@@ -317,10 +318,19 @@ class EngineerController extends Controller
                 }
 
                 $order->status= 4;
-                if($order->order_status == 2){
-                    $order->integral= intval($order->total_money)*0.15;
+                $integral= Integral::find(1);//查询后台设置的积分参数
+                if($integral){
+                    $owner_parameter= $integral->owner_parameter /100;
+                    $engineer_parameter= $integral->engineer_parameter /100;
                 }else{
-                    $order->integral= 2500;
+                    $owner_parameter= 0.15;
+                    $engineer_parameter= 1;
+                }
+
+                if($order->order_status == 2){
+                    $order->integral= intval($order->total_money)* $owner_parameter;
+                }else{
+                    $order->integral= 2500 * $engineer_parameter;
                 }
                 $state= $order->save();
 

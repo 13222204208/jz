@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers\Api\User;
 
+use App\Models\Good;
+use App\Models\News;
 use EasyWeChat\Factory;
+
 use App\Models\Userinfo;
 use Illuminate\Http\Request;
-
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\UploadController;
-use App\Models\News;
 
 class UserinfoController extends Controller
 {
@@ -52,7 +55,7 @@ class UserinfoController extends Controller
                 $messages = $validator->errors()->first();
                 return response()->json([ 'code' => 0 ,'msg'=>$messages]);
             }
-
+            
             $code = $request->code;
             // 根据 code 获取微信 openid 和 session_key
             $miniProgram = \EasyWeChat::miniProgram();
@@ -115,7 +118,7 @@ class UserinfoController extends Controller
                 $userinfo['id_in_hand'] = $state->id_in_hand;
                 $userinfo['lat'] = $state->lat;
                 $userinfo['long'] = $state->long;
-   
+        
         
             return response()->json([ 'code' => 1 ,'msg'=>'成功','data' =>$userinfo]);
         } catch (\Throwable $th) {
