@@ -6,12 +6,16 @@ use App\Models\BuildOrder;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
+use App\Models\Integral;
+use App\Models\IntegralExchange;
+use App\Traits\OrderNum;
 use Illuminate\Support\Facades\Validator;
 
 class IntegralController extends Controller
 {
+    use OrderNum;
     
-    public function integralExchanges(Request $request)
+    public function integralExchanges(Request $request)//积分兑换
     {
         try {
             $data = $request->all();
@@ -35,10 +39,23 @@ class IntegralController extends Controller
             }
 
             $user= JWTAuth::parseToken()->authenticate();
-            $integralSum= BuildOrder::where('merchant_id',$user->id)->where('status',4)->sum('integral');
+            $integralSum= $user->integral;
             if($data['integral'] > $integralSum){
-                return $this->failed('你最多只能兑换'.$integralSum.'积分');
+                return $this->failed('你最多还能兑换'.$integralSum.'积分');
             }
+        
+            $today= date('Y-m-d',time());
+            $num= IntegralExchange::whereDate('created_at',$today)->count();
+            
+            $user->decrement('integral', $data['integral']);
+            $user->save();
+
+            $integralExchange= new IntegralExchange;
+            $integralExchange->order_num= $this->createOrderNum($num, 'E');
+            $integralExchange->integral= $data['integral'];
+            $integralExchange->user_id= $user->id;
+            $integralExchange->save();
+
             return $this->success();
         } catch (\Throwable $th) {
             return $this->failed($th->getMessage());

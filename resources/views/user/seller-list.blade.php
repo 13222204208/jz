@@ -170,6 +170,10 @@
                             title: '地址',
                         
                         },{
+                            field: 'integral',
+                            title: '剩余积分',
+                        
+                        },{
                             field: 'sex',
                             title: '姓别',
                             templet:function(d){
@@ -258,6 +262,10 @@
                             },{
                                 field: 'address',
                                 title: '地址',
+                            
+                            },{
+                                field: 'integral',
+                                title: '剩余积分',
                             
                             },{
                                 field: 'sex',

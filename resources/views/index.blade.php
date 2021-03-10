@@ -147,9 +147,11 @@
                   <a lay-href="user/list">用户列表</a>
                 </dd>
                 @endif
+                @if(in_array('商家列表',$per))
                 <dd>
                   <a lay-href="user/seller-list">商家列表</a>
                 </dd>
+                @endif
                 @if (in_array('实名认证',$per))
                 <dd>
                   <a lay-href="user/true-name">实名认证</a>
@@ -254,9 +256,14 @@
                 @if(in_array('客户订单',$per))
                 <dd><a lay-href="build/owner-order-list">客户订单</a></dd>
                 @endif
+                @if(in_array('积分参数',$per))
                 <dd><a lay-href="build/integral">积分参数</a></dd>
+                @endif
                 @if(in_array('智能设计',$per))
                 <dd><a lay-href="build/design-list">智能设计</a></dd>
+                @endif
+                @if(in_array('积分兑换',$per))
+                <dd><a lay-href="build/integral-exchange">积分兑换</a></dd>
                 @endif
               </dl>
             </li>

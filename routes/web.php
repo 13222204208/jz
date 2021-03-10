@@ -16,8 +16,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     if (session('id')==1) {
-        $per = array('用户管理','后台帐号管理','产品管理','内容管理','工程管理','表单管理','用户列表','用户协议','实名认证','报修售后列表','用户美图','后台帐号','角色管理','权限管理','产品库','套餐管理','轮播图','案例和资讯',
-        '案例标签','合同列表','工程订单','客户订单','智能设计','户型列表','类型列表');
+        $per = array('用户管理','后台帐号管理','产品管理','内容管理','工程管理','表单管理','用户列表','商家列表','用户协议','实名认证','报修售后列表','用户美图','后台帐号','角色管理','权限管理','产品库','套餐管理','轮播图','案例和资讯',
+        '案例标签','合同列表','工程订单','积分参数','积分兑换','客户订单','智能设计','户型列表','类型列表');
 
         return view('index',['per'=>$per]);
     }else if (session('id')) {
@@ -187,6 +187,13 @@ Route::prefix('build')->group(function () {
     Route::get('owner-order-list', function () {
         return view('build.owner-order-list');//工程订单列表
     })->name('ownerorder')->middleware('adminRoute');
+
+    Route::get('integral-exchange', function () {
+        return view('build.integral-exchange');//积分兑换
+    })->name('integralexchange')->middleware('adminRoute');
+    
+    Route::resource('exchange', 'Build\IntegralExchangeController');
+    
   
     Route::resource('ownerOrder', 'Build\OwnerOrderController');//客户下的工程订单
     Route::post('updateOrder/{id}', 'Build\OwnerOrderController@updateOrder');//修改客户下的工程订单
@@ -194,14 +201,14 @@ Route::prefix('build')->group(function () {
     Route::patch('relevance/{id}', 'Build\OwnerOrderController@relevance');//关联商家
 
     Route::get('goods/{id}','Build\OrderGoodsController@goods');
-
+    Route::post('upload/imgs','UploadController@uploadImgs');//上传图片
     Route::get('design-list', function () {
         return view('build.design-list');//智能设计列表
     })->name('design')->middleware('adminRoute');
 
     Route::get('integral', function () {
         return view('build.integral');//积分参数页面
-    });
+    })->name('integralparameter')->middleware('adminRoute');;
     Route::resource('integral-data', 'Build\IntegralController');//积分参数
     
     Route::resource('design', 'Build\DesignController');//智能设计
@@ -217,7 +224,7 @@ Route::prefix('user')->group(function () {
 
     Route::get('seller-list', function () {
         return view('user.seller-list');//商家列表
-    })->name('userlist')->middleware('adminRoute');
+    })->name('sellerlist')->middleware('adminRoute');
     Route::resource('seller', 'User\SellerListController');
     Route::get('seller-order/{id}', 'User\SellerListController@sellerOrder');
 
@@ -233,7 +240,7 @@ Route::prefix('user')->group(function () {
     
     Route::get('protocol', function () {
         return view('user.protocol');//用户协议
-    })->name('protocol')->middleware('adminRoute');
+    })->name('agreement')->middleware('adminRoute');
     Route::post('create/protocol','User\ProtocolController@createProtocol');//创建用户协议
     Route::post('edit/protocol','User\ProtocolController@editProtocol');//修改用户协议
     Route::get('gain/protocol','User\ProtocolController@gainProtocol');//查看合同期限
