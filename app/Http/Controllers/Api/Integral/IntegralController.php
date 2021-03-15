@@ -14,6 +14,19 @@ use Illuminate\Support\Facades\Validator;
 class IntegralController extends Controller
 {
     use OrderNum;
+
+    protected $user;
+
+    public function __construct()
+    {
+
+        try {
+            $this->user = JWTAuth::parseToken()->authenticate();
+        } catch (\Throwable $th) {
+            
+            return response()->json([ 'code' => 0 , 'msg' =>$th->getMessage()]);
+        }
+    }
     
     public function integralExchanges(Request $request)//积分兑换
     {
@@ -57,6 +70,28 @@ class IntegralController extends Controller
             $integralExchange->save();
 
             return $this->success();
+        } catch (\Throwable $th) {
+            return $this->failed($th->getMessage());
+        }
+    }
+
+    public function integralRecord(Request $request)
+    {
+
+        try {
+            $size = 10;
+            if($request->size){
+                $size = $request->size;
+            }
+    
+            $page = 0;
+            if($request->page){
+                $page = ($request->page -1)*$size;
+            }
+    
+            $data= IntegralExchange::skip($page)->take($size)->where('user_id',$this->user->id)->get();
+    
+            return $this->success($data);  
         } catch (\Throwable $th) {
             return $this->failed($th->getMessage());
         }

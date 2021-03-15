@@ -93,6 +93,7 @@ class UserinfoController extends Controller
                 $userData['id_in_hand'] = $user->id_in_hand;
                 $userData['lat'] = $user->lat;
                 $userData['long'] = $user->long;
+                $userData['integral'] = $user->integral;
 
              return response()->json([ 'code' => 1 ,'msg'=>'成功','data' =>$userData]);
             }
@@ -118,7 +119,7 @@ class UserinfoController extends Controller
                 $userinfo['id_in_hand'] = $state->id_in_hand;
                 $userinfo['lat'] = $state->lat;
                 $userinfo['long'] = $state->long;
-        
+                $userinfo['integral'] = $state->integral;
         
             return response()->json([ 'code' => 1 ,'msg'=>'成功','data' =>$userinfo]);
         } catch (\Throwable $th) {

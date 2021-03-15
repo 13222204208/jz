@@ -158,7 +158,7 @@ class BuildOrderController extends Controller
     public function contract(Request $request)
     {
         try {
-            if($request->agreement_id != ''){//根据合同ID获取商家剩余的套餐
+            if(intval($request->agreement_id) != 0){//根据合同ID获取商家剩余的套餐
                 $data= ContractPackage::where('contract_id',$request->agreement_id)->where('goods_package_qty','!=',0)->get();
                
                 $arr = array();
@@ -171,6 +171,7 @@ class BuildOrderController extends Controller
                 } 
                 return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$arr]);
             }
+
 
             $status = 1; 
 
@@ -186,6 +187,12 @@ class BuildOrderController extends Controller
             $page = 0;
             if($request->page){
                 $page = ($request->page -1)*$size;
+            }
+
+            $contractID= intval($request->contract_id); 
+            if($contractID != 0){
+                $data= BuildOrder::where('agreement_id',$contractID)->skip($page)->take($size)->orderBy('created_at','desc')->where('status',4)->get(['id','engineer_id','owner_phone','merchant_id','agreement_id','order_name','total_money','integral']);
+                return $this->success($data);
             }
             
             $data= Contract::where('merchant_id',$this->user->id)->where('status',$status)->skip($page)->take($size)->get();
@@ -211,7 +218,7 @@ class BuildOrderController extends Controller
             }
             $contract= Contract::withCount(['order as integral_sum' =>function($query){
                 $query->select(DB::raw("sum(integral) as integralsum"));
-            }])->where('merchant_id',$this->user->id)->skip($page)->take($size)->get()->toArray();
+            }])->where('merchant_id',$this->user->id)->orderBy('created_at')->skip($page)->take($size)->get()->toArray();
           
             $arr = array();
             $arr['cost'] = 0;
@@ -249,7 +256,12 @@ class BuildOrderController extends Controller
                 $page = ($request->page -1)*$size;
             }
 
-            $data= BuildOrder::where('merchant_id',$this->user->id)->where('status',4)->skip($page)->take($size)->get();
+            if(intval($request->contract_id) != 0){
+                $data= BuildOrder::where('merchant_id',$this->user->id)->where('agreement_id',intval($request->contract_id))->orderBy('created_at','desc')->where('status',4)->skip($page)->take($size)->get();
+                return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$data]);
+            }
+
+            $data= BuildOrder::where('merchant_id',$this->user->id)->orderBy('created_at','desc')->where('status',4)->skip($page)->take($size)->get();
             return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$data]);
         } catch (\Throwable $th) {
             $err = $th->getMessage();
