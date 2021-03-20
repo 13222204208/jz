@@ -89,9 +89,14 @@ class IntegralController extends Controller
                 $page = ($request->page -1)*$size;
             }
     
-            $data= IntegralExchange::skip($page)->take($size)->where('user_id',$this->user->id)->get();
+            $data= IntegralExchange::skip($page)->take($size)->where('user_id',$this->user->id)->orderBy('created_at','desc')->get();
     
-            return $this->success($data);  
+            $integral= auth('api')->user()->integral;
+            return response()->json([
+                'code'=>1,
+                'data'=>$data,
+                'integral'=>$integral
+            ]); 
         } catch (\Throwable $th) {
             return $this->failed($th->getMessage());
         }

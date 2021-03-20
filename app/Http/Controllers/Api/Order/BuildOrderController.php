@@ -233,9 +233,10 @@ class BuildOrderController extends Controller
                 $arr['integral_sum'] += $value['integral_sum'];
             }
      
-             
-            array_unshift($contract,$arr);
-            return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$contract]);
+             $all['statistics']= $arr;
+             $all['contract']= $contract;
+            //array_unshift($contract,$arr);
+            return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$all]);
         } catch (\Throwable $th) {
             $err = $th->getMessage();
             return response()->json([ 'code' => 0 ,'msg'=>$err]);
