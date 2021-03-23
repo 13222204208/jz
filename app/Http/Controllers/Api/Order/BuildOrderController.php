@@ -33,7 +33,7 @@ class BuildOrderController extends Controller
     }
     
     public function create(Request $request)//添加工程订单
-    {
+    {           
         DB::beginTransaction();//开启事务
 
         try {
@@ -81,6 +81,8 @@ class BuildOrderController extends Controller
             $gid= PackageBetweenGoods::where('goods_package_id',$request->goods_id)->pluck('goods_id');
             //$data['total_money'] = Good::whereIn('id',$gid)->sum('price');//计算增项商品金额
             //$data['integral'] =   '-'.intval($data['total_money']);
+           
+            
 
             $data['total_money'] = 2500;
             //$data['integral'] =   -2500;
@@ -92,12 +94,23 @@ class BuildOrderController extends Controller
             $data['merchant_id'] = $this->user->id;
             $data['order_num'] = 'G'.date("Ymd",time()).$number;
             unset($data['goods_id']);
+            unset($data['add_goods']);
             $id = BuildOrder::create($data)->id;
 
             ContractPackage::where('contract_id',$data['agreement_id'])->where('goods_package_id',$request->goods_id)->decrement('goods_package_qty');//当添加一个工程单，合同分配的套餐数量减一
             Contract::where('id',$data['agreement_id'])->increment('done_quantity');
 
-  
+            $add_goods= json_decode($request->add_goods, true);
+            if($add_goods){
+                foreach ($add_goods as $goods){
+                    BuildBetweenGoods::create([
+                        'build_order_id' => $id,
+                        'goods_id' => intval($goods['id']),
+                        'quantity' => intval($goods['num']),
+                    ]);
+                }
+            }
+           
 
             foreach ($gid as  $goods_id) {//插入工程订单和商品关联的表
                     BuildBetweenGoods::create([
