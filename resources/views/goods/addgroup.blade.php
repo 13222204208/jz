@@ -18,6 +18,13 @@
     <form class="layui-form layui-from-pane" required lay-verify="required" >
     <div class="demoTable" >
         <br>
+        <div class="layui-form-item">
+               
+            <select name="type" lay-verify="required" >
+                <option value="1">普通套餐</option>
+                <option value="2">自定义套餐</option>
+            </select>
+        </div>
 
         <div class="layui-form-item">
             <input type="text" class="layui-input" placeholder="套餐名称" name="title"  lay-verify="required"  autocomplete="off">

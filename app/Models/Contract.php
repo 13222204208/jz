@@ -31,7 +31,12 @@ class Contract extends Model
         $id = $this->attributes['merchant_id']; 
         if($id != 0){
             $user= Userinfo::find($id);
-            return $user->nickname;
+            if($user){
+                return $user->nickname;
+            }else{
+                return '无';
+            }
+           
         }
         return '无';
     }
@@ -41,7 +46,11 @@ class Contract extends Model
         $id = $this->attributes['merchant_id']; 
         if($id != 0){
             $user= Userinfo::find($id);
-            return $user->phone;
+            if($user){
+                return $user->phone;
+            }else{
+                return '无';
+            }
         }
         return '无';
     }

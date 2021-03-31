@@ -17,7 +17,7 @@ class GoodsController extends Controller
     public function index(Request $request)
     {
         $limit= $request->get('limit');
-        $data= Good::orderBy('created_at','desc')->paginate($limit);
+        $data= Good::orderBy('created_at','desc')->select('id','title','created_at','description',"number","package_price","price")->paginate($limit);
         return $data;
     }
 

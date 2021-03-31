@@ -318,7 +318,7 @@ class EngineerController extends Controller
                 }
 
                 $order->status= 4;
-                $integral= Integral::find(1);//查询后台设置的积分参数
+/*                 $integral= Integral::find(1);//查询后台设置的积分参数
                 if($integral){
                     $owner_parameter= $integral->owner_parameter /100;
                     $engineer_parameter= $integral->engineer_parameter /100;
@@ -330,8 +330,11 @@ class EngineerController extends Controller
                 if($order->order_status == 2){
                     $order->integral= intval($order->total_money)* $owner_parameter;
                 }else{
-                    $order->integral= 2500 * $engineer_parameter;
+                    $order->integral= -2500 * $engineer_parameter;
                 }
+                $state= $order->save(); */
+                $order->integral = $order->temp_integral;
+                $order->temp_integral = 0;
                 $state= $order->save();
 
                 $userinfo= Userinfo::find($order->merchant_id);//签字完成的积分累计到商家

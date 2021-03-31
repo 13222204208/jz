@@ -6,6 +6,7 @@ use App\Models\Cart;
 use App\Models\Good;
 use App\Models\Collect;
 use App\Models\CartItem;
+use App\Models\Integral;
 use App\Models\BuildOrder;
 use Illuminate\Http\Request;
 use App\Models\BuildBetweenGoods;
@@ -144,6 +145,15 @@ class CollectController extends Controller
                     $data['order_status'] = 2;//表示为客户下的订单
                     $data['owner_name'] = $this->user->nickname;
                     $data['total_money'] = Good::whereIn('id',$goods_id)->sum('price');//计算增项商品金额
+
+                    $integral= Integral::find(1);//查询后台设置的积分参数
+                    if($integral){
+                        $owner_parameter= $integral->owner_parameter /100;
+                    }else{
+                        $owner_parameter= 0.15;
+                    }
+                    $data["temp_integral"] =  intval($data['total_money'])* $owner_parameter;
+                    
                     //$data['integral'] =   intval($data['total_money'])* 0.15;
                     $order_id= BuildOrder::create($data)->id;
                     $goods= CartItem::where('cart_id',$cart->id)->whereIn('product_id',$goods_id)->get();

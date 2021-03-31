@@ -159,6 +159,17 @@
                             field: 'title',
                             title: '套餐名称',
                             width:150
+                        }, {
+                            field: 'type',
+                            title: '套餐类型',
+                            width:150,
+                            templet: function(d) {
+                                if(d.type == 1){
+                                    return "普通套餐"
+                                }else{
+                                    return "自定义套餐"
+                                }
+                            }
                         },{
                             field: 'package_price',
                             title: '套餐价格',

@@ -47,6 +47,7 @@ class GroupController extends Controller
             $goodsPackage = new GoodsPackage;
             $goodsPackage->title = $request->title;
             $goodsPackage->cover = $request->cover;
+            $goodsPackage->type = $request->type;
             $goodsPackage->package_price = $request->package_price;
             $goodsPackage->content = $request->content;
             if($goodsPackage->save()){ 

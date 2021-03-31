@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Order;
 
 use App\Models\Good;
 use App\Models\Contract;
+use App\Models\Integral;
 use App\Models\Userinfo;
 use App\Models\BuildOrder;
 use App\Models\GoodsPackage;
@@ -83,8 +84,26 @@ class BuildOrderController extends Controller
             //$data['integral'] =   '-'.intval($data['total_money']);
            
             
+            //添加订单时，提前添加临时积分到订单
+            $integral= Integral::find(1);//查询后台设置的积分参数
+            if($integral){
+                $owner_parameter= $integral->owner_parameter /100;
+                $engineer_parameter= $integral->engineer_parameter /100;
+            }else{
+                $owner_parameter= 0.15;
+                $engineer_parameter= 1;
+            }
+            $goodsPackageType = GoodsPackage::find($data["goods_id"]);
+            if($goodsPackageType->type == 2){
+                $data["temp_integral"] = $owner_parameter * $goodsPackageType->package_price;
+                $data['total_money'] = $goodsPackageType->package_price;
+            }else{
+                $data['total_money'] = 2500;
+                $data['temp_integral'] = -2500 * $engineer_parameter;
+            }
+            //保存临时积分结束
 
-            $data['total_money'] = 2500;
+           
             //$data['integral'] =   -2500;
             $today= date('Y-m-d',time());
             $num= BuildOrder::whereDate('created_at',$today)->count();
@@ -95,6 +114,10 @@ class BuildOrderController extends Controller
             $data['order_num'] = 'G'.date("Ymd",time()).$number;
             unset($data['goods_id']);
             unset($data['add_goods']);
+
+            
+
+
             $id = BuildOrder::create($data)->id;
 
             ContractPackage::where('contract_id',$data['agreement_id'])->where('goods_package_id',$request->goods_id)->decrement('goods_package_qty');//当添加一个工程单，合同分配的套餐数量减一
