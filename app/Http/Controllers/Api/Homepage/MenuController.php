@@ -12,7 +12,7 @@ class MenuController extends Controller
     public function menu(Request $request)
     {
         try {
-            $data= GoodsPackage::where('status',1)->get();
+            $data= GoodsPackage::where('status',1)->where("deleted_state",1)->get();
             if($request->type == 'zn'){
                 if($data){
                     return response()->json([ 'code' => 1 ,'msg'=>'成功','data' =>$data[0]->content]);

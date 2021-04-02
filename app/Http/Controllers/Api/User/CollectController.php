@@ -126,25 +126,39 @@ class CollectController extends Controller
                     if(!$cart){
                         return response()->json([ 'code' => 0 ,'msg'=>'错误']);
                     }
- /*                    $goods= CartItem::where('cart_id',$cart->id)->whereIn('product_id',$goods_id)->get();
-                    foreach ($goods as $good) {
-                        Collect::create([
-                            'goods_id' => $good->product_id,
-                            'userinfo_id' => $this->user->id,
-                            'quantity' => $good->quantity
-                        ]);
-                    } */
-                    $today= date('Y-m-d',time());
-                    $num= BuildOrder::whereDate('created_at',$today)->where('order_status',2)->count();
-                    $num = $num+1;
-                    $number= sprintf ( "%02d",$num);//不足两位带前导0
 
-                    $data['order_num'] = 'K'.date("Ymd",time()).$number;
+                    //查询保存文案的数量
+                    $goodsPrice = null;
+                    foreach($goods_id as $gid){ 
+                        $num= CartItem::where('cart_id',$cart->id)->where('product_id',$gid)->first();
+                        $price= Good::where('id',$gid)->first();
+            
+                        $goodsPrice += intval(intval($num->quantity) * intval($price->price));
+                    }
+                 
+
+                    
+                    $today= date('Y-m-d',time());
+
+                    $tempData= BuildOrder::where("order_status",2)->whereDate('created_at',$today)->latest()->first();
+                    if($tempData){
+                        $num = intval(substr($tempData->order_num, -2)) +1;
+                        $number= sprintf ( "%02d",$num);//不足两位带前导0
+                        $data['order_num'] = 'K'.date("Ymd",time()).$number;
+                    }else{
+                        $num= BuildOrder::where("order_status",2)->whereDate('created_at',$today)->count();
+                        $num = $num+1;
+                        $number= sprintf ( "%02d",$num);//不足两位带前导0
+                    
+                        $data['order_num'] = 'K'.date("Ymd",time()).$number;
+                    }
+
+                  
                     $data['owner_address'] = $this->user->address;//客户的地址
                     $data['owner_phone'] = $this->user->phone;//客户的手机号
                     $data['order_status'] = 2;//表示为客户下的订单
                     $data['owner_name'] = $this->user->nickname;
-                    $data['total_money'] = Good::whereIn('id',$goods_id)->sum('price');//计算增项商品金额
+                    $data['total_money'] =  $goodsPrice ;//计算增项商品金额
 
                     $integral= Integral::find(1);//查询后台设置的积分参数
                     if($integral){
@@ -155,7 +169,7 @@ class CollectController extends Controller
                     $data["temp_integral"] =  intval($data['total_money'])* $owner_parameter;
                     
                     //$data['integral'] =   intval($data['total_money'])* 0.15;
-                    $order_id= BuildOrder::create($data)->id;
+                    $order_id= BuildOrder::create($data)->id; 
                     $goods= CartItem::where('cart_id',$cart->id)->whereIn('product_id',$goods_id)->get();
 
                     foreach ($goods as $good) {

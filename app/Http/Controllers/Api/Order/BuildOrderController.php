@@ -34,7 +34,8 @@ class BuildOrderController extends Controller
     }
     
     public function create(Request $request)//添加工程订单
-    {           
+    {   
+  
         DB::beginTransaction();//开启事务
 
         try {
@@ -85,33 +86,35 @@ class BuildOrderController extends Controller
            
             
             //添加订单时，提前添加临时积分到订单
-            $integral= Integral::find(1);//查询后台设置的积分参数
-            if($integral){
-                $owner_parameter= $integral->owner_parameter /100;
-                $engineer_parameter= $integral->engineer_parameter /100;
-            }else{
-                $owner_parameter= 0.15;
-                $engineer_parameter= 1;
-            }
+ 
             $goodsPackageType = GoodsPackage::find($data["goods_id"]);
-            if($goodsPackageType->type == 2){
-                $data["temp_integral"] = $owner_parameter * $goodsPackageType->package_price;
-                $data['total_money'] = $goodsPackageType->package_price;
-            }else{
-                $data['total_money'] = 2500;
-                $data['temp_integral'] = -2500 * $engineer_parameter;
-            }
+ 
+            $data["temp_integral"] = $goodsPackageType->integral;
+            $data['total_money'] = $goodsPackageType->package_price;
+     
             //保存临时积分结束
 
            
-            //$data['integral'] =   -2500;
+   
+
             $today= date('Y-m-d',time());
-            $num= BuildOrder::whereDate('created_at',$today)->count();
-            $num = $num+1;
-            $number= sprintf ( "%02d",$num);//不足两位带前导0
-            unset($data['token']);
+
+            $tempData= BuildOrder::where("order_status",1)->whereDate('created_at',$today)->latest()->first();
+            if($tempData){
+                $num = intval(substr($tempData->order_num, -2)) +1;
+                $number= sprintf ( "%02d",$num);//不足两位带前导0
+                $data['order_num'] = 'G'.date("Ymd",time()).$number;
+            }else{
+                $num= BuildOrder::where("order_status",1)->whereDate('created_at',$today)->count();
+                $num = $num+1;
+                $number= sprintf ( "%02d",$num);//不足两位带前导0
+            
+                $data['order_num'] = 'G'.date("Ymd",time()).$number;
+            }
+          
+
             $data['merchant_id'] = $this->user->id;
-            $data['order_num'] = 'G'.date("Ymd",time()).$number;
+            unset($data['token']);
             unset($data['goods_id']);
             unset($data['add_goods']);
 
@@ -231,7 +234,7 @@ class BuildOrderController extends Controller
                 return $this->success($data);
             }
             
-            $data= Contract::where('merchant_id',$this->user->id)->where('status',$status)->skip($page)->take($size)->get();
+            $data= Contract::where('merchant_id',$this->user->id)->orderBy("updated_at","desc")->where('status',$status)->skip($page)->take($size)->get();
             return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$data]);
         } catch (\Throwable $th) {
             $err = $th->getMessage();
@@ -254,7 +257,7 @@ class BuildOrderController extends Controller
             }
             $contract= Contract::withCount(['order as integral_sum' =>function($query){
                 $query->select(DB::raw("sum(integral) as integralsum"));
-            }])->where('merchant_id',$this->user->id)->orderBy('created_at')->skip($page)->take($size)->get()->toArray();
+            }])->where('merchant_id',$this->user->id)->orderBy('updated_at',"desc")->skip($page)->take($size)->get()->toArray();
           
             $arr = array();
             $arr['cost'] = 0;
@@ -294,11 +297,11 @@ class BuildOrderController extends Controller
             }
 
             if(intval($request->contract_id) != 0){
-                $data= BuildOrder::where('merchant_id',$this->user->id)->where('agreement_id',intval($request->contract_id))->orderBy('created_at','desc')->where('status',4)->skip($page)->take($size)->get();
+                $data= BuildOrder::where('merchant_id',$this->user->id)->where('agreement_id',intval($request->contract_id))->orderBy('updated_at','desc')->where('status',4)->skip($page)->take($size)->get();
                 return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$data]);
             }
 
-            $data= BuildOrder::where('merchant_id',$this->user->id)->orderBy('created_at','desc')->where('status',4)->skip($page)->take($size)->get();
+            $data= BuildOrder::where('merchant_id',$this->user->id)->orderBy('updated_at','desc')->where('status',4)->skip($page)->take($size)->get();
             return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$data]);
         } catch (\Throwable $th) {
             $err = $th->getMessage();

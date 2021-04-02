@@ -20,7 +20,7 @@ class GroupController extends Controller
     {
         if($request->ajax()){
            $limit = $request->get('limit');
-           $data= GoodsPackage::paginate($limit);
+           $data= GoodsPackage::where("deleted_state",1)->paginate($limit);
            return $data;
         }
     }
@@ -49,6 +49,8 @@ class GroupController extends Controller
             $goodsPackage->cover = $request->cover;
             $goodsPackage->type = $request->type;
             $goodsPackage->package_price = $request->package_price;
+            $goodsPackage->change = $request->change;
+            $goodsPackage->integral = $request->package_price*($request->change/100);
             $goodsPackage->content = $request->content;
             if($goodsPackage->save()){ 
                 $goodsId= array_filter(explode(',',$request->goods_id));
@@ -133,7 +135,9 @@ class GroupController extends Controller
      */
     public function destroy($id)
     {
-        $state= GoodsPackage::destroy($id);
+        $state= GoodsPackage::where("id",$id)->update([
+            "deleted_state" => 0
+        ]);
 
         if ($state) {
             return response()->json([ 'status' => 200]);
@@ -146,8 +150,9 @@ class GroupController extends Controller
 
     public function updateGroup(Request $request,$id)
     {
-        $data = json_decode(json_encode($request->except('file')), true);
+        $data = $request->except('file');
       
+        $data["integral"] = $data["package_price"]*$data["change"]/100;
         $state= GoodsPackage::where('id',$id)->update($data);
 
         if ($state) {

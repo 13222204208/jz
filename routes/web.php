@@ -232,6 +232,8 @@ Route::prefix('user')->group(function () {
     Route::post('updateInfo/{id}','User\UserInfoController@updateInfo');//更新用户信息
     Route::get('search','User\SearchUserController@search');
 
+    Route::post('give_integral', 'User\UserInfoController@giveIntegral');//赠送积分
+
     Route::get('true-name', function () {
         return view('user.true-name');//实名认证
     })->name('truename')->middleware('adminRoute');

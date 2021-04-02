@@ -34,7 +34,14 @@
             <input type="number" name="package_price" lay-verify="required"  autocomplete="off"
                 placeholder="套餐价" value="" class="layui-input">
         </div>
+        <div class="layui-form-item">
+            <div class="layui-input-inline">
+                <input type="number"  name="change" lay-verify="pass" placeholder="转化率 0.15 输入 15" autocomplete="off" value=""  class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">%</div>
+        </div>
 
+  
      <input type="hidden" name="goods_id" lay-verify="required" value="" id="goodsId">
       </div>
 

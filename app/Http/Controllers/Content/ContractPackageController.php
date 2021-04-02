@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Content;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Models\Contract;
+use App\Models\GoodsPackage;
+use Illuminate\Http\Request;
 use App\Models\ContractPackage;
+use App\Http\Controllers\Controller;
 use App\Repositories\GoodsPackageRepository;
 
 class ContractPackageController extends Controller
@@ -19,7 +20,7 @@ class ContractPackageController extends Controller
 
     public function getGoodsPackage()
     {
-        $data= $this->goodsPackageRepository->all();
+        $data= GoodsPackage::where("deleted_state",1)->get();
 
         return response()->json(['status' => 200,'data'=>$data]);
     }

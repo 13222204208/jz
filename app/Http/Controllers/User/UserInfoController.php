@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Models\Userinfo;
 use App\Models\AfterSale;
+use App\Models\GiftPoint;
 use App\Models\BuildOrder;
 use App\Models\UserDynamic;
 use Illuminate\Http\Request;
@@ -20,7 +21,7 @@ class UserInfoController extends Controller
     {
         if($request->ajax()){
             $limit = $request->get('limit');
-            $data= Userinfo::orderBy('created_at','desc')->paginate($limit);
+            $data= Userinfo::orderBy('created_at','desc')->with("give")->paginate($limit);
             return $data;
          }
     }
@@ -156,6 +157,21 @@ class UserInfoController extends Controller
 
         } else {
 
+            return response()->json([ 'status' => 403]);
+        }  
+    }
+
+    public function giveIntegral(Request $request)
+    {
+        $state= GiftPoint::create($request->all());
+
+        if ($state) {
+            $user= Userinfo::find($request->user_id);
+            $user->increment('integral',$request->integral);
+            $user->save();
+            return response()->json([ 'status' => 200]);
+
+        } else {
             return response()->json([ 'status' => 403]);
         }  
     }

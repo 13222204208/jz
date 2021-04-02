@@ -120,9 +120,32 @@
         </form>
     </div>
 
+    <div class="layui-row" id="giveIntegral" style="display:none;">
+        <form class="layui-form" action="">
+            <br>
+            <div class="layui-form-item">
+                <label class="layui-form-label">赠送积分</label>
+                <div class="layui-input-inline">
+                    <input type="number"  name="integral" lay-verify="pass" placeholder="积分值" autocomplete="off" value=""  class="layui-input">
+                  </div>
+              </div>
+         
+        
+        
+            <div class="layui-form-item ">
+              <div class="layui-input-block">
+                  <div class="layui-footer" style="left: 0;">
+                      <button class="layui-btn" lay-submit="" lay-filter="createIntegral">赠送</button>
+                  </div>
+              </div>
+          </div>
+        </form>
+    </div>
+
     <table class="layui-hide" id="LAY_table_user" lay-filter="user"></table>
      <script type="text/html" id="barDemo">
         <a class="layui-btn layui-btn-xs" lay-event="edit">分配角色</a>
+        <a class="layui-btn layui-btn-xs" lay-event="give">赠送积分</a>
         <a class="layui-btn layui-btn-xs" lay-event="update">编辑</a>
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
     </script>  
@@ -193,6 +216,21 @@
                             title: '角色',
                                           
                         },{
+                            field: 'give',
+                            title: '赠送积分',
+                            templet: function(d) {
+                                console.log(d.give)
+                                arr = d.give
+                                str = ""
+                                for (var k = 0, length = arr.length; k < length; k++) {
+    
+                                   console.log(arr[k])
+                                      str += arr[k].integral+"，"
+                                      } 
+                                      return str;
+                            }
+                                          
+                        },{
                             field: 'company',
                             title: '公司名称',
                                           
@@ -214,7 +252,7 @@
                         },{
                             fixed: 'right',
                             title: "操作",
-                            width: 200,
+                            width: 260,
                             align: 'center',
                             toolbar: '#barDemo'
                         }
@@ -329,6 +367,21 @@
                                 }
                             
                             },{
+                                field: 'give',
+                                title: '赠送积分',
+                                templet: function(d) {
+                          
+                                    arr = d.give
+                                    str = ""
+                                    for (var k = 0, length = arr.length; k < length; k++) {
+        
+                                       console.log(arr[k])
+                                          str += arr[k].integral+"，"
+                                          } 
+                                          return str;
+                                }
+                                              
+                            },{
                                 field: 'role_name',
                                 title: '角色',
                                               
@@ -337,22 +390,40 @@
                                 title: '公司名称',
                                               
                             },{
+                                field: 'give',
+                                title: '赠送积分',
+                                templet: function(d) {
+                                    console.log(d.give)
+                            /**        var arr = d.give;
+                                        var sum =0;
+                                        arr.forEach(function(value,index,array){
+
+                                        array[index] == value; //结果为true
+
+                                        return value;
+
+                                        }); */
+                                }
+                                              
+                            },{
                                 field: 'status',
                                 title: '状态',
                                 //width:150,
                                 templet: function(d) {
                                     if (d.status == 1) {
-                                      return '<input type="checkbox" class="switch_checked" lay-filter="switchGoodsID"'+ 'switch_goods_id="'+ d.id+
-                                         '" lay-skin="switch" lay-text="正常|已禁用">';
+                                         return '<input type="checkbox" class="switch_checked" lay-filter="switchGoodsID"'+ 'switch_goods_id="'+ d.id+
+                                         '" lay-skin="switch" checked '+ 'lay-text="正常|已禁用">';
+                                      
                                     }else{
                                         return '<input type="checkbox" class="switch_checked" lay-filter="switchGoodsID"'+ 'switch_goods_id="'+ d.id+
-                                             '" lay-skin="switch" checked '+ 'lay-text="正常|已禁用">';
-                                    }
+                                        '" lay-skin="switch" lay-text="正常|已禁用">';
                                   }
+                                                                 
+                                }
                             },{
                                 fixed: 'right',
                                 title: "操作",
-                                width: 200,
+                                width: 260,
                                 align: 'center',
                                 toolbar: '#barDemo'
                             }
@@ -467,6 +538,52 @@
                     
                       form.val("formUpdate", data);
                       setFormValue(obj, data);
+                }else if(obj.event === 'give'){
+                    layer.open({
+                        //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                        type: 1,
+                        title: "赠送积分",
+                        area: ['620px', '370px'],
+                        content: $("#giveIntegral") //引用的弹出层的页面层的方式加载修改界面表单
+                      });
+                    
+                      form.on('submit(createIntegral)', function(data){
+                        message = data.field;
+                        message.user_id = obj.data.id;
+                       
+                        $.ajax({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            url: "give_integral",
+                            method: 'post',
+                            data: message,
+                            success: function (msg) {
+                                console.log(msg);
+                                if (msg.status == 200) {
+                                    layer.closeAll('loading');
+                                    layer.load(2);
+                                    layer.msg("成功", {
+                                        icon: 6
+                                    });
+                                    setTimeout(function () {
+     
+                                  
+     
+                                        layer.closeAll(); //关闭所有的弹出层
+                                        //window.location.href = "/edit/horse-info";
+     
+                                    }, 1000);
+     
+                                } else {
+                                    layer.msg("修改失败", {
+                                        icon: 5
+                                    });
+                                }
+                            }
+                        });
+                        return false;
+                      });
                 }else if (obj.event === 'del') {
 
                     layer.confirm('真的删除此用户么', function (index) {

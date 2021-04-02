@@ -22,12 +22,13 @@
     <div class="layui-row" id="popUpdateTest" style="display:none;">
         <form class="layui-form layui-from-pane" required lay-verify="required" lay-filter="formUpdate"
             style="margin:20px">
-
+            
             <div class="layui-form-item">
-               
+                <label class="layui-form-label">套餐名称</label>
+                <div class="layui-input-inline">
                 <input type="text" name="title" lay-verify="required"  autocomplete="off"
                     placeholder="产品名称" value="" class="layui-input">
-           
+                </div>
         </div>
  
         <div class="layui-form-item">
@@ -42,8 +43,17 @@
 
        
         <div class="layui-form-item">
+            <label class="layui-form-label">套餐价格</label>
+            <div class="layui-input-inline">
             <input type="number" name="package_price"  autocomplete="off"
                 placeholder="套餐单价" value="" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">转化率</label>
+            <div class="layui-input-inline">
+                <input type="number"  name="change" lay-verify="pass" placeholder="转化率 0.15 输入 15" autocomplete="off" value=""  class="layui-input">
+            </div>
         </div>
 
         <div class="layui-form-item">   
@@ -72,7 +82,7 @@
     <script type="text/html" id="barDemo">
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
         <a class="layui-btn layui-btn-xs" lay-event="show">查看套内详情</a>
-      <!--  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a> -->
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a> 
 
     </script>
 
@@ -174,7 +184,15 @@
                             field: 'package_price',
                             title: '套餐价格',
                             width:150
+                        },{
+                            field: 'change',
+                            title: '转化率(%)',
+                            width:150
                         }, {
+                            field: 'integral',
+                            title: '积分值',
+                            width:150
+                        },  {
                             field: 'created_at',
                             title: '创建时间',
                         },{
@@ -410,7 +428,7 @@
                     content= $('#LAY_demo1').val();
                     massage['content'] = content;
 
-
+console.log(massage)
                     $.ajax({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -430,7 +448,9 @@
 
                                     obj.update({
                                         title: massage.title,
-                                        package_price: massage.package_price
+                                        package_price: massage.package_price,
+                                        change: massage.change,
+                                        integral: massage.package_price*massage.change/100
                                     }); //修改成功修改表格数据不进行跳转 
 
 

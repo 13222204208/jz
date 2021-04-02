@@ -34,6 +34,12 @@ class Userinfo extends Authenticatable implements JWTSubject {
         return [];
     }
 
+    
+    public function give()
+    {
+        return $this->hasMany("App\Models\GiftPoint","user_id","id");
+    }
+
     public function getRoleNameAttribute()
     {
         $owner = $this->attributes['is_owner'];
