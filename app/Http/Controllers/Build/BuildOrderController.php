@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers\Build;
 
+use App\Models\Contract;
 use App\Models\Userinfo;
 use App\Models\BuildOrder;
 use Illuminate\Http\Request;
+use App\Models\ContractPackage;
 use App\Models\DoneConstruction;
 use App\Models\UnderConstruction;
 use App\Models\BeforeConstruction;
 use App\Models\FinishConstruction;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 
 class BuildOrderController extends Controller
@@ -114,7 +117,22 @@ class BuildOrderController extends Controller
      */
     public function destroy($id)
     {
-        $state = BuildOrder::destroy($id);
+        $order = BuildOrder::find($id);
+        
+        $contractID = $order->contract_id;
+        if($contractID != 0){
+/*             $contractPackage= ContractPackage::where("contract_id",$contractID)->where("goods_package_qty",'!=',0)->first();
+            Log::info($contractPackage);
+            $contractPackage->decrement("goods_package_qty");
+            $contractPackage->save(); */
+
+            $contract= Contract::where("id",$contractID)->where("done_quantity","!=",0)->first();
+            $contract->decrement("quantity");
+            $contract->decrement("done_quantity");
+            $contract->save();
+        }
+    
+        $state= $order->delete();
 
         if($state){
             return response()->json([ 'status' => 200 ,'msg'=>'成功']);
