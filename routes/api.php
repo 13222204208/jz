@@ -56,6 +56,8 @@ Route::prefix('integral')->group(function (){
     Route::group(['middleware' => 'auth.jwt'], function () {     
         Route::post('exchanges','Api\Integral\IntegralController@integralExchanges');//兑换积分
         Route::get('record','Api\Integral\IntegralController@integralRecord');//兑换积分记录
+
+        Route::get('give_integral','Api\Integral\IntegralController@giveIntegral');//获取赠送的积分记录
     });
 
 });

@@ -6,6 +6,7 @@ use App\Models\BuildOrder;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
+use App\Models\GiftPoint;
 use App\Models\Integral;
 use App\Models\IntegralExchange;
 use App\Traits\OrderNum;
@@ -97,6 +98,31 @@ class IntegralController extends Controller
                 'data'=>$data,
                 'integral'=>$integral
             ]); 
+        } catch (\Throwable $th) {
+            return $this->failed($th->getMessage());
+        }
+    }
+
+    public function giveIntegral(Request $request)
+    {
+        try {
+            $size = 10;
+            if($request->size){
+                $size = $request->size;
+            }
+    
+            $page = 0;
+            if($request->page){
+                $page = ($request->page -1)*$size;
+            }
+    
+            $data= GiftPoint::skip($page)->take($size)->where('user_id',$this->user->id)->orderBy('created_at','desc')->get();
+    
+            $data2= BuildOrder::where('merchant_id',$this->user->id)->orderBy('updated_at','desc')->where('status',4)->skip($page)->take($size)->get();
+
+            $all["give"] = $data;
+            $all["order"] = $data2;
+            return $this->success($all); 
         } catch (\Throwable $th) {
             return $this->failed($th->getMessage());
         }
