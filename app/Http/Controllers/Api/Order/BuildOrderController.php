@@ -17,6 +17,7 @@ use App\Models\PackageBetweenGoods;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use SebastianBergmann\Environment\Console;
+use App\Models\GiftPoint;
 
 class BuildOrderController extends Controller
 {
@@ -299,6 +300,11 @@ class BuildOrderController extends Controller
             if(intval($request->contract_id) != 0){
                 $data= BuildOrder::where('merchant_id',$this->user->id)->where('agreement_id',intval($request->contract_id))->orderBy('updated_at','desc')->where('status',4)->skip($page)->take($size)->get();
                 return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$data]);
+            }
+
+            if ($request->type == 1) {
+                $data= GiftPoint::skip($page)->take($size)->where('user_id',$this->user->id)->orderBy('created_at','desc')->get();//赠送的积分
+                return $this->success($data);
             }
 
             $data= BuildOrder::where('merchant_id',$this->user->id)->orderBy('updated_at','desc')->where('status',4)->skip($page)->take($size)->get();

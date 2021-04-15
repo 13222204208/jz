@@ -116,7 +116,7 @@ class IntegralController extends Controller
                 $page = ($request->page -1)*$size;
             }
     
-            $data= GiftPoint::skip($page)->take($size)->where('user_id',$this->user->id)->orderBy('created_at','desc')->get();
+            $data= GiftPoint::skip($page)->take($size)->where('user_id',$this->user->id)->orderBy('created_at','desc')->get();//赠送的积分
     
             $data2= BuildOrder::where('merchant_id',$this->user->id)->orderBy('updated_at','desc')->where('status',4)->skip($page)->take($size)->get();
 

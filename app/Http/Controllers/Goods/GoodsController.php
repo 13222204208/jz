@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Goods;
 
 use App\Models\Good;
 use Illuminate\Http\Request;
+use App\Traits\ImgUrl;
 use App\Http\Controllers\Controller;
 use App\Models\GoodsType;
 
 class GoodsController extends Controller
 {
+    use ImgUrl;
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +19,7 @@ class GoodsController extends Controller
     public function index(Request $request)
     {
         $limit= $request->get('limit');
-        $data= Good::orderBy('created_at','desc')->select('id','title','created_at','description',"number","package_price","price")->paginate($limit);
+        $data= Good::orderBy('created_at','desc')->select(["id","title","description","number","price","package_price","created_at"])->paginate($limit);
         return $data;
     }
 
@@ -110,6 +112,7 @@ class GoodsController extends Controller
     {
         $data = json_decode(json_encode($request->except('file')), true);
         
+        $data["content"] = $this->delImgUrl($data["content"]);
         $state= Good::where('id',$id)->update($data);
 
         if ($state) {
@@ -138,5 +141,13 @@ class GoodsController extends Controller
 
             return response()->json([ 'status' => 403]);
         }   
+    }
+
+    public function checkID(Request $request)
+    {
+        //$limit= $request->get('limit');
+        $data= Good::orderBy('created_at','desc')->get(["id","title","description","number","price","package_price","created_at"]);
+    
+        return response()->json(['code'=>0,'status' =>200,"data"=>$data]);
     }
 }

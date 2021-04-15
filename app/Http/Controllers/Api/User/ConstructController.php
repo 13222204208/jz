@@ -71,7 +71,7 @@ class ConstructController extends Controller
                 return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$data]);
             }
 
-            $data = BuildOrder::where('owner_phone',$this->user->phone)->skip($page)->take($size)->get();
+            $data = BuildOrder::where('owner_phone',$this->user->phone)->orderBy("updated_at","desc")->skip($page)->take($size)->get();
 
             return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$data]);
 

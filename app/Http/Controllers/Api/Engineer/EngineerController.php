@@ -88,7 +88,7 @@ class EngineerController extends Controller
                 if($request->status != ''){
                     $status = $request->get('status');
                     $status = explode(',',$status);
-                    $data= BuildOrder::skip($page)->take($size)->where('engineer_id',$this->user->id)->whereIn('status',$status)->get();
+                    $data= BuildOrder::skip($page)->take($size)->where('engineer_id',$this->user->id)->orderBy("updated_at","desc")->whereIn('status',$status)->get();
                     $arr = array();
                     foreach($data as $d){ 
                         $done= DoneConstruction::where('order_num',$d->order_num)->first();
@@ -107,7 +107,7 @@ class EngineerController extends Controller
                     return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$arr]);
                 }
         
-                $data= BuildOrder::skip($page)->take($size)->where('engineer_id',$this->user->id)->orderByRaw(DB::raw('FIELD(status, 1,2) desc'))->get();
+                $data= BuildOrder::skip($page)->take($size)->where('engineer_id',$this->user->id)->orderBy("updated_at","desc")->orderByRaw(DB::raw('FIELD(status, 1,2) desc'))->get();
              
                 $arr = array();
                 foreach($data as $d){ 
@@ -158,7 +158,7 @@ class EngineerController extends Controller
             if($request->status != ''){
                 $status = $request->get('status');
                 $status = explode(',',$status);
-                $data= BuildOrder::skip($page)->take($size)->where('engineer_id',$this->user->id)->whereIn('status',$status)->get();
+                $data= BuildOrder::skip($page)->take($size)->where('engineer_id',$this->user->id)->orderBy("updated_at","desc")->whereIn('status',$status)->get();
 
                 $arr = array();
                 foreach($data as $d){ 
@@ -177,7 +177,7 @@ class EngineerController extends Controller
                 return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$arr]);
             }
     
-            $data= BuildOrder::skip($page)->take($size)->where('engineer_id',$this->user->id)->orderByRaw(DB::raw('FIELD(status, 1,2) desc'))->get();
+            $data= BuildOrder::skip($page)->take($size)->where('engineer_id',$this->user->id)->orderBy("updated_at","desc")->orderByRaw(DB::raw('FIELD(status, 1,2) desc'))->get();
 
             $arr = array();
             foreach($data as $d){ 

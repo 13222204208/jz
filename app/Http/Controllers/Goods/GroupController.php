@@ -6,11 +6,13 @@ use App\Models\GoodsPackage;
 use Illuminate\Http\Request;
 use App\Models\PackageBetweenGoods;
 use App\Http\Controllers\Controller;
+use App\Traits\ImgUrl;
 use Facade\Ignition\Support\Packagist\Package;
 use PHPUnit\TextUI\XmlConfiguration\Group;
 
 class GroupController extends Controller
 {
+    use ImgUrl;
     /**
      * Display a listing of the resource.
      *
@@ -151,7 +153,7 @@ class GroupController extends Controller
     public function updateGroup(Request $request,$id)
     {
         $data = $request->except('file');
-      
+        $data["content"] = $this->delImgUrl($data["content"]);
         $data["integral"] = $data["package_price"]*$data["change"]/100;
         $state= GoodsPackage::where('id',$id)->update($data);
 
@@ -162,5 +164,44 @@ class GroupController extends Controller
 
             return response()->json([ 'status' => 403]);
         }   
+    }
+
+    public function delGroupGoods(Request $request)
+    {
+        $groupID = $request->group_id;
+        $goodsID = $request->goods_id;
+  
+        $state= PackageBetweenGoods::where("goods_package_id",$groupID)->where("goods_id",$goodsID)->delete();
+
+        if ($state) {
+            return response()->json([ 'status' => 200]);
+
+        } else {
+
+            return response()->json([ 'status' => 403]);
+        }  
+    }
+
+    public function addGroupGoods(Request $request)
+    {
+        $groupID = $request->group_id;
+        $goodsID = $request->goods_id;
+        $goodsID = array_filter(explode(',',$goodsID));
+     
+        foreach ($goodsID as $gid){   
+            $state= PackageBetweenGoods::create([
+                "goods_package_id" => $groupID,
+                "goods_id" => $gid
+            ]
+            );
+        }
+
+        if ($state) {
+            return response()->json([ 'status' => 200]);
+
+        } else {
+
+            return response()->json([ 'status' => 403]);
+        }  
     }
 }

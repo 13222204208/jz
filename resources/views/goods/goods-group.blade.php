@@ -78,6 +78,7 @@
 
 
 
+
     <table class="layui-hide" id="LAY_table_user" lay-filter="myuser"></table>
     <script type="text/html" id="barDemo">
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
@@ -87,8 +88,33 @@
     </script>
 
     <div class="layui-row" id="showTest" style="display:none;">
+        <button class="layui-btn" id="admin-management-goods" style="margin-left:10px" data-type="reload">添加产品</button>
         <table class="layui-hide" id="LAY_tables" lay-filter="groupuser"></table>
+        <script type="text/html" id="addBarDemo">
+       
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a> 
+    
+        </script>
 
+    </div>
+    <div class="layui-row" id="addPopUpdate" style="display:none;">
+        
+        <script type="text/html" id="toolbarGoods">
+            <div  style="text-align: center">  <button class="layui-btn layui-btn-sm" lay-event="getCheckGoods">确定添加</button></div>
+          </script>
+        <table class="layui-hide" id="LAY_table_goods" lay-filter="checkDoods"></table>
+
+     
+    </div>
+
+    <div class="layui-row" id="popUpdateTest" style="display:none;">
+        
+        <script type="text/html" id="toolbarDemo">
+            <div  style="text-align: center">  <button class="layui-btn layui-btn-sm" lay-event="getCheckData">提交选择</button></div>
+          </script>
+        <table class="layui-hide" id="LAY_table_user" lay-filter="user"></table>
+
+     
     </div>
 
     <script src="/layuiadmin/layui/layui.js"></script>
@@ -151,6 +177,90 @@
                   });
                 }
               });
+
+
+
+              
+            $(document).on('click', '#admin-management-goods', function () {
+                layer.open({
+                    //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                    type: 1,
+                    title: "选择产品",
+                    area: ['800px', '450px'],
+                    content: $("#addPopUpdate") //引用的弹出层的页面层的方式加载修改界面表单
+                  });
+
+                  $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: "check_id",
+                    method: 'get',
+                 
+                    dataType: 'json',
+                    success: function (res) {
+                        console.log(res); 
+                        if (res.status == 200) {
+                            table.render({
+                                toolbar: '#toolbarGoods',
+                                page: true, //开启分页
+                                limit:10,
+                                elem: '#LAY_table_goods',
+                                cols: [
+                                    [
+                                        {type:'checkbox'},
+                                        {
+                                            field: 'id',
+                                            title: 'ID',
+                                            width: 80,
+                                            sort: true
+                                        }, {
+                                            field: 'title',
+                                            title: '产品名称',
+                                            width:150
+                                        },{
+                                            field: 'description',
+                                            title: '产品描述',
+                                            width:150
+                                        }, {
+                                            field: 'content',
+                                            title: '产品详情',
+                                      
+                                        },{
+                                            field: 'number',
+                                            title: '库存',
+                                            width:150
+                                      
+                                        },{
+                                            field: 'price',
+                                            title: '单价',
+                                            width:150
+                                      
+                                        }
+                                    ]
+                                ],
+                               data:res.data,
+                                id: 'testReload',
+                                title: '后台用户',
+                                totalRow: true
+                
+                            });
+                        } else if (res.status == 403) {
+                            layer.msg('填写错误或重复', {
+                                offset: '15px',
+                                icon: 2,
+                                time: 3000
+                            }, function () {
+                                location.href = 'created';
+                            })
+                        }
+                    }
+                });
+
+
+    
+            });
+            
 
             table.render({
                 url: "group" //数据接口
@@ -317,10 +427,6 @@
                                             title: '产品描述',
                                             width:150
                                         }, {
-                                            field: 'content',
-                                            title: '产品详情',
-                                      
-                                        },{
                                             field: 'number',
                                             title: '库存',
                                             width:150
@@ -330,6 +436,11 @@
                                             title: '单价',
                                             width:150
                                       
+                                        },{
+                                            fixed: 'right',
+                                            title: "操作",
+                                            align: 'center',
+                                            toolbar: '#addBarDemo'
                                         }
                                     ]
                                 ]
@@ -353,6 +464,125 @@
                         content: $("#showTest") //引用的弹出层的页面层的方式加载修改界面表单
                     });
          
+
+                    
+                table.on('tool(groupuser)', function (obj) {
+              
+                    $.ajax({
+                        url: "del_group_goods",
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                                'content')
+                        },
+                        data:{
+                            goods_id:obj.data.id,
+                            group_id:data.id
+                        },
+                        type: "post",
+                        success: function (msg) {
+                      
+                            if (msg.status == 200) {
+                                //删除这一行
+                                obj.del();
+                                //关闭弹框
+                                localStorage.removeItem("myCheckID")
+                                layer.msg("删除成功", {
+                                    icon: 6
+                                });
+                            } else {
+                                layer.msg("删除失败", {
+                                    icon: 5
+                                });
+                            }
+                        }
+                    });
+                });
+
+                
+                table.on('checkbox(checkDoods)', function(obj){
+                    console.log(obj.checked); //当前是否选中状      
+                    yangCheckID = obj.data.id;
+                    console.log(yangCheckID)
+                    if(localStorage.getItem("myCheckID") == null){
+                        checkID = "";
+                    }else{
+                        checkID= localStorage.getItem("myCheckID");
+                    }
+           
+                    if(obj.checked == true){
+                        checkID += ","+ yangCheckID;
+                        localStorage.setItem("myCheckID",checkID);
+                     
+                    }
+                    if(obj.checked == false){
+                        Array.prototype.removeByValue = function(val) {
+                            for(var i = 0; i < this.length; i++) {
+                              if(this[i] == val) {
+                                this.splice(i, 1);
+                                break;
+                              }
+                            }
+                          }
+
+                        var stringResult = checkID.split(',');
+                        stringResult.removeByValue(yangCheckID);
+                        console.log(stringResult)
+                 
+                        localStorage.setItem("myCheckID",stringResult);
+                    } 
+                   console.log( localStorage.getItem("myCheckID"));
+                   });
+                
+
+                table.on('toolbar(checkDoods)', function(obj){
+                   /** localStorage.removeItem("myCheckID")
+                    var checkStatus = table.checkStatus(obj.config.id);
+                   
+                    switch(obj.event){
+                    case 'getCheckGoods':
+                        var mydata = checkStatus.data;
+                  
+                    break;
+                    };
+                    console.log(mydata);
+                    var gid ="";
+                    for (let i=0; i<mydata.length; i++){
+                        gid += mydata[i]['id']+",";
+                    }
+                    console.log(gid)
+                  return false; */
+                    gid = localStorage.getItem("myCheckID");
+                    console.log(gid)
+                    localStorage.removeItem("myCheckID")
+                    $.ajax({
+                        url: "add_group_goods",
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                                'content')
+                        },
+                        data:{
+                            goods_id:gid,
+                            group_id:data.id
+                        },
+                        type: "post",
+                        success: function (msg) {
+                   
+                            if (msg.status == 200) {
+                                layer.closeAll(); 
+                                layer.msg("成功", {
+                                    icon: 6
+                                });
+                            } else {
+                                layer.msg("失败", {
+                                    icon: 5
+                                });
+                            }
+                           location.href = 'grouplist'; 
+                        }
+                    });
+        
+                });
+            
 
                   } 
         
@@ -456,7 +686,7 @@ console.log(massage)
 
                                     layer.closeAll(); //关闭所有的弹出层
                                     //window.location.href = "/edit/horse-info";
-
+                                    window.location.reload();
                                 }, 1000);
 
                             } else {

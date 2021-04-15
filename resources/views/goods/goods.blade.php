@@ -457,7 +457,7 @@
                                     //window.location.href = "/edit/horse-info";
 
                                 }, 1000);
-
+                                window.location.reload();
                             } else {
                                 layer.msg("修改失败", {
                                     icon: 5

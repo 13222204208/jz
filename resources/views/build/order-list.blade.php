@@ -42,12 +42,12 @@
               <input type="number" name="total_money" required lay-verify="required" autocomplete="off" placeholder="" class="layui-input">
             </div>
           </div>
-{{--            <div class="layui-form-item">
+            <div class="layui-form-item">
             <label class="layui-form-label">积分值</label>
             <div class="layui-input-block">
               <input type="number" name="integral" required lay-verify="required" autocomplete="off" placeholder="" class="layui-input">
             </div>
-          </div>  --}}
+          </div>  
           <div class="layui-form-item">
             <label class="layui-form-label">业主名称</label>
             <div class="layui-input-block">

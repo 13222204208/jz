@@ -161,6 +161,8 @@ Route::prefix('goods')->group(function () {
 
     Route::resource('goods', 'Goods\GoodsController');//产品
 
+    Route::get('check_id', 'Goods\GoodsController@checkID');//产品
+
     Route::post('upload/imgs','UploadController@uploadImgs');//上传图片
     Route::post('content/img','UploadController@contentImg');//上传商品详情图片
 
@@ -174,6 +176,9 @@ Route::prefix('goods')->group(function () {
 
     Route::resource('group', 'Goods\GroupController');//套餐
     Route::patch('updateGroup/{id}', 'Goods\GroupController@updateGroup');//套餐
+
+    Route::post('del_group_goods', 'Goods\GroupController@delGroupGoods');//删除套餐下商品
+    Route::post('add_group_goods', 'Goods\GroupController@addGroupGoods');//添加套餐下商品
 });
 
 Route::prefix('build')->group(function () {
