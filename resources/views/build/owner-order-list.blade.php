@@ -61,7 +61,13 @@
           <div class="layui-form-item">
             <label class="layui-form-label">订单金额</label>
             <div class="layui-input-block">
-              <input type="number" name="total_money" required lay-verify="required" autocomplete="off" placeholder="" class="layui-input">
+              <input type="number" name="total_money" required  disabled readonly lay-verify="required" autocomplete="off" placeholder="" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">成交金额</label>
+            <div class="layui-input-block">
+              <input type="number" name="final_money" required lay-verify="required" autocomplete="off" placeholder="" class="layui-input">
             </div>
           </div>
             <div class="layui-form-item">
@@ -165,12 +171,12 @@
                             {
                                 field: 'id',
                                 title: 'ID',
-                                width: 80,
+                                width: 60,
                                 sort: true
                             },{
                                 field: 'order_num',
                                 title: '订单号',
-                                width:170
+                                width:120
                           
                             },{
                                 field: 'order_name',
@@ -180,6 +186,11 @@
                             },{
                                 field: 'total_money',
                                 title: '订单金额',
+                                width:100
+                          
+                            },{
+                                field: 'final_money',
+                                title: '成交金额',
                                 width:100
                           
                             },{
@@ -300,12 +311,12 @@
                         {
                             field: 'id',
                             title: 'ID',
-                            width: 80,
+                            width: 60,
                             sort: true
                         }, {
                             field: 'order_num',
                             title: '订单号',
-                            width:170
+                            width:120
                       
                         },{
                             field: 'order_name',
@@ -320,6 +331,11 @@
                         },{
                             field: 'total_money',
                             title: '订单金额',
+                            width:100
+                      
+                        },{
+                            field: 'final_money',
+                            title: '成交金额',
                             width:100
                       
                         },{
@@ -453,7 +469,8 @@
                                             functionary_phone: message.functionary_phone,
                                             owner_demand: message.owner_demand,
                                             order_name: message.order_name,
-                                            total_money: message.total_money,
+                                           // total_money: message.total_money,
+                                            final_money: message.final_money,
                                             integral: message.integral
                                         });  
     

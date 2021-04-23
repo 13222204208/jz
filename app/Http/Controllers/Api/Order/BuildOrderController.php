@@ -231,7 +231,7 @@ class BuildOrderController extends Controller
 
             $contractID= intval($request->contract_id); 
             if($contractID != 0){
-                $data= BuildOrder::where('agreement_id',$contractID)->skip($page)->take($size)->orderBy('created_at','desc')->where('status',4)->get(['id','engineer_id','owner_phone','merchant_id','agreement_id','order_name','total_money','integral']);
+                $data= BuildOrder::where('agreement_id',$contractID)->skip($page)->take($size)->orderBy('created_at','desc')->where('status',4)->get(['id','engineer_id','owner_phone','merchant_id','agreement_id','order_name','total_money','final_money','integral']);
                 return $this->success($data);
             }
             
