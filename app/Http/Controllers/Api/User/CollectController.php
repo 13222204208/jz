@@ -106,7 +106,7 @@ class CollectController extends Controller
             }
 
             $goods_id = explode(',',$request->id);
-
+         
             if($request->type != ''){
                 $type = $request->type;
                 if($type == 'del'){
@@ -122,22 +122,23 @@ class CollectController extends Controller
                     if($this->user->phone == 0){
                         return response()->json([ 'code' => 0 ,'msg'=>'请先完善资料']);
                     }
+                   
                     $cart = Cart::where('userinfo_id',$this->user->id)->first();
                     if(!$cart){
                         return response()->json([ 'code' => 0 ,'msg'=>'错误']);
                     }
-
+               
                     //查询保存文案的数量
                     $goodsPrice = null;
                     foreach($goods_id as $gid){ 
-                        $num= CartItem::where('cart_id',$cart->id)->where('product_id',$gid)->first();
-                        $price= Good::where('id',$gid)->first();
+                        $num= CartItem::where('cart_id',$cart->id)->where('product_id',intval($gid))->first();
+                        $price= Good::where('id',intval($gid))->first();
             
                         $goodsPrice += intval(intval($num->quantity) * intval($price->price));
                     }
                  
 
-                    
+             
                     $today= date('Y-m-d',time());
 
                     $tempData= BuildOrder::where("order_status",2)->whereDate('created_at',$today)->latest()->first();

@@ -311,10 +311,12 @@ class EngineerController extends Controller
                 DoneConstruction::create($data);
                 $order = BuildOrder::where('order_num',$data['order_num'])->first();
 
-                $contract= Contract::find($order->contract_id); 
-                if($contract->quantity == $contract->done_quantity){//判断合同内订单是否都完成
-                    $contract->status= 2;
-                    $contract->save();
+                if($order->agreement_id != 0){
+                    $contract= Contract::find($order->contract_id); 
+                    if($contract->quantity == $contract->done_quantity){//判断合同内订单是否都完成
+                        $contract->status= 2;
+                        $contract->save();
+                    }
                 }
 
                 $order->status= 4;
@@ -337,9 +339,12 @@ class EngineerController extends Controller
                 $order->temp_integral = 0;
                 $state= $order->save();
 
-                $userinfo= Userinfo::find($order->merchant_id);//签字完成的积分累计到商家
-                $userinfo->increment('integral',$order->integral);
-                $userinfo->save();
+                if($order->merchant_id != 0){
+                    $userinfo= Userinfo::find($order->merchant_id);//签字完成的积分累计到商家
+                    $userinfo->increment('integral',$order->integral);
+                    $userinfo->save();
+                }
+
 
                 if($state){
                     News::create([

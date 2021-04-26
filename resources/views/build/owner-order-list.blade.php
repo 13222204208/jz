@@ -784,7 +784,7 @@
                         area: ['700px', '450px'],
                         content: $("#orderGoods") //引用的弹出层的页面层的方式加载修改界面表单
                     });
-
+                    console.log(data)
                     $.ajax({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

@@ -136,6 +136,16 @@ class OwnerOrderController extends Controller
     {
         $data = $request->all();
         $data = array_filter($data);
+
+        $order = BuildOrder::find($id);
+        if($order->status != 4){
+            $data["temp_integral"] = $data["integral"];
+        }
+        if($order->merchant_id != 0){
+                $integral = $order->integral - $data["integral"];
+                Userinfo::where("id",$order->merchant_id)->decrement('integral', $integral);
+        }
+     
         $state=  BuildOrder::where('id',$id)->update($data);
         if($state){
             return response()->json([ 'status' => 200 ,'msg'=>'成功']);

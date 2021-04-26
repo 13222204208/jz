@@ -187,7 +187,7 @@ class BuildOrderController extends Controller
                 $page = ($request->page -1)*$size;
             }
     
-            $data= BuildOrder::skip($page)->take($size)->where('merchant_id',$this->user->id)->where('status',$status)->get(); 
+            $data= BuildOrder::skip($page)->take($size)->where('merchant_id',$this->user->id)->where('status',$status)->orderBy("updated_at","desc")->get(); 
             return response()->json([ 'code' => 1 ,'msg'=>'成功','data'=>$data]);
         } catch (\Throwable $th) {
             $err = $th->getMessage();
